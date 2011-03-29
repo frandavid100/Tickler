@@ -12,3 +12,20 @@ This app's goals are to:
 *Show the user the relevant information don’t distract him with the irrelevant. Do not focus on "what he must do", but on "what he can do"; that is more useful.
 
 Labels: Android, GTD, Tasks
+
+Code license : GNU GPL v3 http://www.gnu.org/licenses/gpl.html
+
+	This file is part of Tickler.
+
+    Tickler is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Tickler is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Tickler.  If not, see <http://www.gnu.org/licenses/>.
