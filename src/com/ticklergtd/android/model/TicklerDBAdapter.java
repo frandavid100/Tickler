@@ -1,5 +1,7 @@
 package com.ticklergtd.android.model;
 
+import java.util.ArrayList;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -312,20 +314,29 @@ public class TicklerDBAdapter {
 				KEY_TASKS_DATE_START + " ASC"
 		);
 	}
+	
+	public long addTask(Task task) {
+		long rowId = addTask(task.getName(), task.getPriority(), task.getCreationDate().getTime(), task.isSomeday(), task.getStartDate().getTime(), task.getDeadline().getTime(),
+				task.getCompleted().getTime(), task.getAbandoned().getTime(), task.getRepeat(), task.getRepeatUnits(), task.isRepeatFrom(), task.isSimultaneous());
+		task.setId(rowId); //TODO: Check if addTask's returned rowId is the correct table's row id
+		
+		//Check if this task is children of some other task
+		Task parent = task.getParent();
+		if(parent != null) {
+			//Add it to the family
+			addTaskChild(parent, task);
+		}
+		
+		//When creating a new task, it will probably have no children at all... but just in case, we check it
+		ArrayList<Task> children = task.getChildren();
+		for(Task child : children) {
+			addTaskChild(task, child);
+		}
+		
+		return rowId;
+	}
 
-	/*
-		dt_deadline	date	deadline date, can be NULL
-		dt_completed	date	when it was completed, can be NULL
-		dt_abandoned	date	when it was abandoned, can be NULL
-		repeat	integer	amount of units before repeating
-		rp_units	integer	1 = days, 2 = weeks, 3 = months, 4 = years
-		rp_from	boolean	if T, the new task’s dt_start is taken from the old one’s dt_start; if it doesn’t have one, it’s taken from its dt_creation.
-		if F, the new task’s dt_start is taken from the old one’s dt_completed.
-		simultaneous	boolean	if T, children can be done simultaneously
-		contexts	integer	foreign key back to Taskcontexts union table (may create new values, a task may have several contexts)
-		family	integer	foreign key back to Family union table (may create new values, a task may have several children but only one parent)
-	*/
-	public long addTask(String name, int priority, long date_creation, boolean someday, long date_start, long date_deadline, long date_completed,
+	private long addTask(String name, int priority, long date_creation, boolean someday, long date_start, long date_deadline, long date_completed,
 			long date_abandoned, int repeat, int repeat_units, boolean repeat_from, boolean simultaneous) {
 		int int_someday = 0;
 		if(someday) int_someday = 1;
@@ -350,6 +361,35 @@ public class TicklerDBAdapter {
 			return mDb.insert(DATABASE_TABLE_TASKS, null, initialValues);
 		}catch (Exception ex) {
 			return -1;
+		}
+	}
+	
+	public void addTaskChild(Task parent, Task child) {
+		//Check if the task is already on the database. If not, add it.
+		if(child.getId() == Task.NEW_TASK) {
+			long rowId = addTask(child);
+			child.setId(rowId);
+		}
+
+		//Check if the task is already on the database. If not, add it.
+		if(parent.getId() == Task.NEW_TASK) {
+			long rowId = addTask(parent);
+			parent.setId(rowId);
+		}
+		
+		//Both tasks should already be on the database, link them.
+		addTaskChild(parent.getId(), child.getId(), child.getOrder());
+	}
+	
+	private void addTaskChild(long parentId, long childId, int order) {
+		ContentValues cv = new ContentValues();
+		cv.put(KEY_FAMILIES_PARENTID, parentId);
+		cv.put(KEY_FAMILIES_CHILDID, childId);
+		cv.put(KEY_FAMILIES_ORDER, order);
+		try{
+			mDb.insert(DATABASE_TABLE_FAMILIES, null, cv);
+		}catch (Exception ex) {
+			
 		}
 	}
 	
