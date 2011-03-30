@@ -1,13 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    >
-<TextView  
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    android:text="@string/app_name_description"
-    />
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+        >
+    <LinearLayout style="@style/TitleBar">
+        <ImageView style="@style/TitleBarLogo"
+                   android:src="@drawable/ic_launcher"/>
+        <TextView style="@style/TitleBarText" android:text="@string/app_name"/>
+        <View style="@style/TitleBarSpring"/>
+        <ImageView style="@style/TitleBarSeparator"/>
+
+
+        <ImageButton style="@style/TitleBarAction"
+                     android:id="@+id/btn_title_add"
+                     android:src="@drawable/ic_tab_add"
+                />
+
+    </LinearLayout>
+
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name_description"
+            />
 </LinearLayout>
 

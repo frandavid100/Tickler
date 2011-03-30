@@ -2,5 +2,18 @@
 <resources>
     <color name="title_background">#ff33cc00</color>
     <color name="title_text">#ff000000</color>
+    <color name="title_separator">#ff66cc00</color>
+
     <color name="body_background">#ffffcccc</color>
+
+    <color name="foreground1">#ff666666</color>
+    <color name="foreground2">#ffccccff</color>
+    <color name="background1">#ffffffff</color>
+    <color name="background2">#ffd5ddeb</color>
+    <color name="background3">#ffffcccc</color>
+
+    <color name="pressed">#ffff9966</color>
+    <color name="selected">#ffff6600</color>
+
+
 </resources>
