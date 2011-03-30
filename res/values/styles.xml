@@ -26,7 +26,8 @@
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">@dimen/title_height</item>
         <item name="android:orientation">horizontal</item>
-        <item name="android:background">@color/title_background</item>
+        <!--<item name="android:background">@color/title_background</item>-->
+        <item name="android:background">@drawable/title_gradient</item>
     </style>
 
     <style name="TitleBarAction">
