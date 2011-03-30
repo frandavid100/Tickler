@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Tickler</string>
+    <string name="app_name_description">An open-source, no-nonsense, straight-to-the-point GTD application for Android.</string>
 </resources>
