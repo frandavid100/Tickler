@@ -15,15 +15,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="61a0a3fd-87c4-430b-8eec-f6f509c274d5" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/ticklergtd/android/model/table/ActiveRegions.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/ticklergtd/android/model/table/ActiveTimes.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/ticklergtd/android/model/table/ContextRegions.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/ticklergtd/android/model/table/ContextTimes.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/ticklergtd/android/model/table/Contexts.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/ticklergtd/android/model/table/Families.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/ticklergtd/android/model/table/TasksContexts.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/ticklergtd/android/model/TicklerDBAdapter.java" afterPath="$PROJECT_DIR$/src/com/ticklergtd/android/model/TicklerDBAdapter.java" />
     </list>
     <ignored path="Tickler.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -608,7 +600,7 @@
     <option name="SHOW_ONLY_CHANGED_IN_SELECTION_DIFF" value="true" />
     <option name="CHECK_COMMIT_MESSAGE_SPELLING" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Moved Tasks scripts to its own Class, i think this better for all table scripts, any better idea?" />
+    <option name="LAST_COMMIT_MESSAGE" value="Tables definitions are have now its own classes" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -626,6 +618,7 @@
     <MESSAGE value="IDEA workspace.xml" />
     <MESSAGE value="Moved logo to img folder" />
     <MESSAGE value="Moved Tasks scripts to its own Class, i think this better for all table scripts, any better idea?" />
+    <MESSAGE value="Tables definitions are have now its own classes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
