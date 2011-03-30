@@ -16,7 +16,6 @@
   <component name="ChangeListManager">
     <list default="true" id="61a0a3fd-87c4-430b-8eec-f6f509c274d5" name="Default" comment="">
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MOVED" beforePath="D:\Stuff\Android\Projects\Tickler\Tickler\logo.png" afterPath="$PROJECT_DIR$/img/logo.png" />
     </list>
     <ignored path="Tickler.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -513,7 +512,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-4" y="-4" width="1288" height="1004" extended-state="6" />
+    <frame x="-4" y="-4" width="1288" height="1004" extended-state="7" />
     <editor active="false" />
     <layout>
       <window_info id="IntelliGuard" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -566,7 +565,7 @@
     <option name="SHOW_ONLY_CHANGED_IN_SELECTION_DIFF" value="true" />
     <option name="CHECK_COMMIT_MESSAGE_SPELLING" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="IDEA workspace.xml" />
+    <option name="LAST_COMMIT_MESSAGE" value="Moved logo to img folder" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -582,6 +581,7 @@
     <MESSAGE value="First Project Commit, using JetBrains JIDEA" />
     <MESSAGE value="Added a short description to main.xml : An open-source, no-nonsense, straight-to-the-point GTD application for Android." />
     <MESSAGE value="IDEA workspace.xml" />
+    <MESSAGE value="Moved logo to img folder" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
