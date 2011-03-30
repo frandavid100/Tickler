@@ -9,172 +9,18 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-import com.ticklergtd.android.model.table.Tasks;
+import com.ticklergtd.android.model.table.*;
 
 public class TicklerDBAdapter {
-/*
-	Table: Contexts
-
-	_id	integer primary key	first field in every tab
-	name	text	name of the context
-	icon	integer	icon of the context
-	activetime	integer	foreign key back to Contextimes union table (may create new values)
-	activeregion	integer	foreign key back to Contextregions union table (may create new values)
-*/
-	public static final String KEY_CONTEXTS_ID = "_id";
-	public static final String KEY_CONTEXTS_NAME = "name";
-	public static final String KEY_CONTEXTS_ICON = "icon";
-//	public static final String KEY_CONTEXTS_ACTIVE_TIME = "activetime"; //Unneded?
-//	public static final String KEY_CONTEXTS_ACTIVE_REGION = "activeregion"; //Unneeded?
-	public static final String DATABASE_TABLE_CONTEXTS = "contexts"; 
-	private static final String DATABASE_CREATE_CONTEXTS = String.format(	"create table %s (" +
-																			"%s integer primary key autoincrement, " +
-																			"%s text, " +
-																			"%s integer)",
-																			new Object[] {
-																				DATABASE_TABLE_CONTEXTS,
-																				KEY_CONTEXTS_ID,
-																				KEY_CONTEXTS_NAME,
-																				KEY_CONTEXTS_ICON
-																			});
 
 	
 
 	
-/*
-	Table: Activetimes
-	
-	_id	integer primary key	first field in every tab
-	name	text	schedule name
-	start	date	start time
-	end	date	end date
-	day	integer	day of the week
- */
-	public static final String KEY_ACTIVETIMES_ID = "_id";
-	public static final String KEY_ACTIVETIMES_NAME = "name";
-	public static final String KEY_ACTIVETIMES_START = "start";
-	public static final String KEY_ACTIVETIMES_END = "end";
-	public static final String KEY_ACTIVETIMES_DAY = "day";
-	public static final String DATABASE_TABLE_ACTIVETIMES = "activetimes";
-	public static final String DATABASE_CREATE_ACTIVETIMES = String.format(	"create table %s (" +
-																			"%s integer primary key autoincrement, " +
-																			"%s text, " +
-																			"%s integer, " +
-																			"%s integer, " +
-																			"%s integer)",
-																			new Object[] {
-																				DATABASE_TABLE_ACTIVETIMES, KEY_ACTIVETIMES_ID,
-																				KEY_ACTIVETIMES_NAME, KEY_ACTIVETIMES_START,
-																				KEY_ACTIVETIMES_END, KEY_ACTIVETIMES_DAY
-																			});
-	
-/*
-	Table: Activeregions
 
-	_id	integer primary key	first field in every tab
-	name	text	region name
-	location	float	geographical position
-	radius	float	radius around location (in km)
- */
-	public static final String KEY_ACTIVEREGIONS_ID = "_id";
-	public static final String KEY_ACTIVEREGIONS_NAME = "name";
-	public static final String KEY_ACTIVEREGIONS_LOCATION = "location";
-	public static final String KEY_ACTIVEREGIONS_RADIUS = "radius";
-	public static final String DATABASE_TABLE_ACTIVEREGIONS = "activeregions";
-	public static final String DATABASE_CREATE_ACTIVEREGIONS = String.format(	"create table %s (" +
-																				"%s integer primary key autoincrement, " +
-																				"%s text, " +
-																				"%s integer, " +
-																				"%s integer)",
-																				new Object[] {
-																					DATABASE_TABLE_ACTIVEREGIONS, KEY_ACTIVEREGIONS_ID,
-																					KEY_ACTIVEREGIONS_NAME, KEY_ACTIVEREGIONS_LOCATION,
-																					KEY_ACTIVEREGIONS_RADIUS
-																				});
-	
-/*
-	Union table: Taskcontexts
 
-	taskid	integer	foreign key back to Tasks table (may create new values)
-	contextid	integer	foreign key back to Contexts table (may create new values)
- */
-	public static final String KEY_TASKCONTEXTS_TASKID = "taskid";
-	public static final String KEY_TASKCONTEXTS_CONTEXTID = "contextid";
-	public static final String DATABASE_TABLE_TASKCONTEXTS = "taskcontexts";
-	public static final String DATABASE_CREATE_TASKCONTEXTS = String.format(	"create table %s (" +
-																				"%s integer," +
-																				"%s integer)",
-																				new Object[] {
-																					DATABASE_TABLE_TASKCONTEXTS,
-																					KEY_TASKCONTEXTS_TASKID,
-																					KEY_TASKCONTEXTS_CONTEXTID
-																				});
-	
-/*
-	Union table: Families
 
-	parentid	integer	foreign key back to Tasks table
-	childid	integer	foreign key back to Tasks table (may create new values)
-	order	integer	order inside the group
- */
-	public static final String KEY_FAMILIES_PARENTID = "parentid";
-	public static final String KEY_FAMILIES_CHILDID = "childid";
-	public static final String KEY_FAMILIES_ORDER = "order";
-	public static final String DATABASE_TABLE_FAMILIES = "families";
-	public static final String DATABASE_CREATE_FAMILIES = String.format(	"create table %s (" +
-																			"%s integer," +
-																			"%s integer," +
-																			"%s integer)",
-																			new Object[] {
-																				DATABASE_TABLE_FAMILIES,
-																				KEY_FAMILIES_PARENTID,
-																				KEY_FAMILIES_CHILDID,
-																				KEY_FAMILIES_ORDER
-																			});
-	
-/*
-	Union table: Contexttimes
 
-	contextid	integer	foreign key back to Context table
-	timeid	integer	foreign key back to Activetimes table (may create new values, a context may have several activetimes)
-	active	boolean	whether the Activetime must be taken into account
- */
-	public static final String KEY_CONTEXTTIMES_CONTEXTID = "contextid";
-	public static final String KEY_CONTEXTTIMES_TIMEID = "timeid";
-	public static final String KEY_CONTEXTTIMES_ACTIVE = "active";
-	public static final String DATABASE_TABLE_CONTEXTTIMES = "contexttimes";
-	public static final String DATABASE_CREATE_CONTEXTTIMES = String.format(	"create table %s (" +
-																				"%s integer," +
-																				"%s integer," +
-																				"%s integer)",
-																				new Object[] {
-																					DATABASE_TABLE_CONTEXTTIMES,
-																					KEY_CONTEXTTIMES_CONTEXTID,
-																					KEY_CONTEXTTIMES_TIMEID,
-																					KEY_CONTEXTTIMES_ACTIVE
-																				});
-	
-/*
-	Union table: Contextregions
 
-	contextid	integer	foreign key back to Context table
-	regionid	integer	foreign key back to Activeregions table (may create new values, a context may have several activeregions)
-	active	boolean	whether the Activeregion must be taken into account
- */
-	public static final String KEY_CONTEXTREGIONS_CONTEXTID = "contextid";
-	public static final String KEY_CONTEXTREGIONS_REGIONID = "regionid";
-	public static final String KEY_CONTEXTREGIONS_ACTIVE = "active";
-	public static final String DATABASE_TABLE_CONTEXTREGIONS = "contextregions";
-	public static final String DATABASE_CREATE_CONTEXTREGIONS = String.format(	"create table %s (" +
-																				"%s integer," +
-																				"%s integer," +
-																				"%s integer)",
-																				new Object[] {
-																					DATABASE_TABLE_CONTEXTREGIONS,
-																					KEY_CONTEXTREGIONS_CONTEXTID,
-																					KEY_CONTEXTREGIONS_REGIONID,
-																					KEY_CONTEXTREGIONS_ACTIVE
-																				});
 
 	
 
@@ -197,13 +43,13 @@ public class TicklerDBAdapter {
 
 		@Override
 		public void onCreate(SQLiteDatabase db) {
-			db.execSQL(DATABASE_CREATE_ACTIVEREGIONS);
-			db.execSQL(DATABASE_CREATE_ACTIVETIMES);
-			db.execSQL(DATABASE_CREATE_CONTEXTREGIONS);
-			db.execSQL(DATABASE_CREATE_CONTEXTS);
-			db.execSQL(DATABASE_CREATE_CONTEXTTIMES);
-			db.execSQL(DATABASE_CREATE_FAMILIES);
-			db.execSQL(DATABASE_CREATE_TASKCONTEXTS);
+			db.execSQL(ActiveRegions.DATABASE_CREATE_ACTIVEREGIONS);
+			db.execSQL(ActiveTimes.DATABASE_CREATE_ACTIVETIMES);
+			db.execSQL(ContextRegions.DATABASE_CREATE_CONTEXTREGIONS);
+			db.execSQL(Contexts.DATABASE_CREATE_CONTEXTS);
+			db.execSQL(ContextTimes.DATABASE_CREATE_CONTEXTTIMES);
+			db.execSQL(Families.DATABASE_CREATE_FAMILIES);
+			db.execSQL(TasksContexts.DATABASE_CREATE_TASKCONTEXTS);
 			db.execSQL(Tasks.DATABASE_CREATE_TASKS);
 			//TODO: Create needed indexes
 		}
@@ -325,11 +171,11 @@ public class TicklerDBAdapter {
 	
 	private void addTaskChild(long parentId, long childId, int order) {
 		ContentValues cv = new ContentValues();
-		cv.put(KEY_FAMILIES_PARENTID, parentId);
-		cv.put(KEY_FAMILIES_CHILDID, childId);
-		cv.put(KEY_FAMILIES_ORDER, order);
+		cv.put(Families.KEY_FAMILIES_PARENTID, parentId);
+		cv.put(Families.KEY_FAMILIES_CHILDID, childId);
+		cv.put(Families.KEY_FAMILIES_ORDER, order);
 		try{
-			mDb.insert(DATABASE_TABLE_FAMILIES, null, cv);
+			mDb.insert(Families.DATABASE_TABLE_FAMILIES, null, cv);
 		}catch (Exception ex) {
 			
 		}

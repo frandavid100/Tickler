@@ -15,7 +15,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="61a0a3fd-87c4-430b-8eec-f6f509c274d5" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/ticklergtd/android/model/table/ActiveRegions.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/ticklergtd/android/model/table/ActiveTimes.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/ticklergtd/android/model/table/ContextRegions.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/ticklergtd/android/model/table/ContextTimes.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/ticklergtd/android/model/table/Contexts.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/ticklergtd/android/model/table/Families.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/ticklergtd/android/model/table/TasksContexts.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/ticklergtd/android/model/TicklerDBAdapter.java" afterPath="$PROJECT_DIR$/src/com/ticklergtd/android/model/TicklerDBAdapter.java" />
     </list>
     <ignored path="Tickler.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -105,85 +113,77 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="default.properties" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/default.properties">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="local.properties" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/local.properties">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Tickler.iml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Tickler.iml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name=".classpath" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.classpath">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name=".gitignore" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.gitignore">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name=".project" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.project">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="80" selection-start="239" selection-end="239" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Task.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/ticklergtd/android/model/Task.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="13" selection-start="104" selection-end="104" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TicklerDBAdapter.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="TicklerDBAdapter.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/ticklergtd/android/model/TicklerDBAdapter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="302" column="36" selection-start="11682" selection-end="11682" vertical-scroll-proportion="0.0">
+            <state line="47" column="38" selection-start="1070" selection-end="1070" vertical-scroll-proportion="-3.5634615">
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="class#DatabaseHelper#0;class#TicklerDBAdapter#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Tasks.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="ContextTimes.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/ticklergtd/android/model/table/ContextTimes.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="8" column="13" selection-start="145" selection-end="145" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Families.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/ticklergtd/android/model/table/Families.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="31" column="4" selection-start="1030" selection-end="1030" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TasksContexts.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/ticklergtd/android/model/table/TasksContexts.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="25" column="15" selection-start="902" selection-end="902" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="docComment;class#TasksContexts#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Contexts.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/ticklergtd/android/model/table/Contexts.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="24" column="10" selection-start="952" selection-end="952" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ActiveRegions.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/ticklergtd/android/model/table/ActiveRegions.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="33" column="0" selection-start="1196" selection-end="1196" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ActiveTimes.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/ticklergtd/android/model/table/ActiveTimes.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="18" column="86" selection-start="434" selection-end="434" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Tasks.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/ticklergtd/android/model/table/Tasks.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="70" column="0" selection-start="3334" selection-end="3334" vertical-scroll-proportion="0.8038462">
+            <state line="8" column="13" selection-start="145" selection-end="145" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -217,8 +217,15 @@
         <option value="$PROJECT_DIR$/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/res/layout/main.xml" />
         <option value="$PROJECT_DIR$/.project" />
-        <option value="$PROJECT_DIR$/src/com/ticklergtd/android/model/TicklerDBAdapter.java" />
         <option value="$PROJECT_DIR$/src/com/ticklergtd/android/model/table/Tasks.java" />
+        <option value="$PROJECT_DIR$/src/com/ticklergtd/android/model/table/ActiveTimes.java" />
+        <option value="$PROJECT_DIR$/src/com/ticklergtd/android/model/table/ActiveRegions.java" />
+        <option value="$PROJECT_DIR$/src/com/ticklergtd/android/model/table/Contexts.java" />
+        <option value="$PROJECT_DIR$/src/com/ticklergtd/android/model/table/TasksContexts.java" />
+        <option value="$PROJECT_DIR$/src/com/ticklergtd/android/model/table/Families.java" />
+        <option value="$PROJECT_DIR$/src/com/ticklergtd/android/model/table/ContextTimes.java" />
+        <option value="$PROJECT_DIR$/src/com/ticklergtd/android/model/table/ContextRegions.java" />
+        <option value="$PROJECT_DIR$/src/com/ticklergtd/android/model/TicklerDBAdapter.java" />
       </list>
     </option>
   </component>
@@ -549,7 +556,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-4" y="-4" width="1288" height="1004" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="IntelliGuard" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -561,7 +568,7 @@
       <window_info id="Maven" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="ConsoleMavenPlugin" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24979724" sideWeight="0.67053366" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24979724" sideWeight="0.67053366" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32946634" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Archetypes" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -628,59 +635,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/.idea/vcs.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/uiDesigner.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="65.96154">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/modules.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/misc.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="0" selection-start="175" selection-end="175" vertical-scroll-proportion="86.30769">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gen/com/ticklergtd/android/R.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="0" selection-start="472" selection-end="472" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="class#attr#0;class#R#0" expanded="true" />
-            <element signature="class#drawable#0;class#R#0" expanded="true" />
-            <element signature="class#string#0;class#R#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/ticklergtd/android/HomeActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="13" selection-start="102" selection-end="102" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="119" selection-start="215" selection-end="215" vertical-scroll-proportion="-1.9615384">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/res/layout/main.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="13" column="0" selection-start="398" selection-end="398" vertical-scroll-proportion="-8.5">
@@ -765,20 +719,70 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/ticklergtd/android/model/TicklerDBAdapter.java">
+    <entry file="file://$PROJECT_DIR$/src/com/ticklergtd/android/model/table/Tasks.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="302" column="36" selection-start="11682" selection-end="11682" vertical-scroll-proportion="0.0">
+        <state line="8" column="13" selection-start="145" selection-end="145" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/ticklergtd/android/model/table/ActiveTimes.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="86" selection-start="434" selection-end="434" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/ticklergtd/android/model/table/ActiveRegions.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="33" column="0" selection-start="1196" selection-end="1196" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/ticklergtd/android/model/table/Contexts.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="10" selection-start="952" selection-end="952" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/ticklergtd/android/model/table/TasksContexts.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="15" selection-start="902" selection-end="902" vertical-scroll-proportion="0.0">
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="class#DatabaseHelper#0;class#TicklerDBAdapter#0" expanded="true" />
+            <element signature="docComment;class#TasksContexts#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/ticklergtd/android/model/table/Tasks.java">
+    <entry file="file://$PROJECT_DIR$/src/com/ticklergtd/android/model/table/Families.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="70" column="0" selection-start="3334" selection-end="3334" vertical-scroll-proportion="0.8038462">
+        <state line="31" column="4" selection-start="1030" selection-end="1030" vertical-scroll-proportion="0.0">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/ticklergtd/android/model/table/ContextTimes.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="13" selection-start="145" selection-end="145" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/ticklergtd/android/model/table/ContextRegions.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="29" column="15" selection-start="1166" selection-end="1166" vertical-scroll-proportion="0.7846154">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/ticklergtd/android/model/TicklerDBAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="47" column="38" selection-start="1070" selection-end="1070" vertical-scroll-proportion="-3.5634615">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
