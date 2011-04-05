@@ -27,7 +27,7 @@
         <item name="android:layout_height">@dimen/title_height</item>
         <item name="android:orientation">horizontal</item>
         <!--<item name="android:background">@color/title_background</item>-->
-        <item name="android:background">@drawable/title_gradient</item>
+        <item name="android:background">@drawable/titlebar_background</item>
     </style>
 
     <style name="TitleBarAction">
@@ -39,16 +39,14 @@
     <style name="TitleBarSeparator">
         <item name="android:layout_width">1px</item>
         <item name="android:layout_height">fill_parent</item>
-        <item name="android:background">@color/title_separator</item>
+        <item name="android:background">@drawable/actionbar_separator</item>
     </style>
 
     <style name="TitleBarLogo">
         <item name="android:id">@id/title_logo</item>
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:clickable">true</item>
-        <item name="android:scaleType">fitXY</item>
-
     </style>
 
     <style name="TitleBarSpring">
@@ -63,13 +61,16 @@
         <item name="android:layout_height">fill_parent</item>
         <item name="android:layout_weight">1</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:textSize">@dimen/text_size_medium</item>
-        <item name="android:paddingLeft">12dip</item>
+        <item name="android:textSize">@dimen/text_size_large</item>
         <item name="android:paddingRight">12dip</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/title_text</item>
         <item name="android:singleLine">true</item>
         <item name="android:ellipsize">end</item>
+        <item name="android:shadowColor">@color/title_text_shadow</item>
+        <item name="android:shadowDx">1.0</item>
+        <item name="android:shadowDy">1.0</item>
+        <item name="android:shadowRadius">1.0</item>
     </style>
 
 </resources>
