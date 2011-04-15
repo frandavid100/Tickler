@@ -13,24 +13,13 @@ import com.ticklergtd.android.model.table.*;
 
 public class TicklerDBAdapter {
 
-	
-
-	
-
-
-
-
-
-
-	
-
 	private static final String TAG = "TicklerDBAdapter";
 	private DatabaseHelper mDbHelper;
 	private SQLiteDatabase mDb;
 
 	private boolean isOpen = false;
 
-	private static final String DATABASE_NAME = "tickler";
+	private static final String DATABASE_NAME = "ticklerDB";
 	private static final int DATABASE_VERSION = 1;
 
 	private Context mCtx;
@@ -43,13 +32,13 @@ public class TicklerDBAdapter {
 
 		@Override
 		public void onCreate(SQLiteDatabase db) {
-			db.execSQL(ActiveRegions.DATABASE_CREATE_ACTIVEREGIONS);
+			/*db.execSQL(ActiveRegions.DATABASE_CREATE_ACTIVEREGIONS);
 			db.execSQL(ActiveTimes.DATABASE_CREATE_ACTIVETIMES);
-			db.execSQL(ContextRegions.DATABASE_CREATE_CONTEXTREGIONS);
+			/*db.execSQL(ContextRegions.DATABASE_CREATE_CONTEXTREGIONS); */
 			db.execSQL(Contexts.DATABASE_CREATE_CONTEXTS);
-			db.execSQL(ContextTimes.DATABASE_CREATE_CONTEXTTIMES);
+			/*db.execSQL(ContextTimes.DATABASE_CREATE_CONTEXTTIMES);
 			db.execSQL(Families.DATABASE_CREATE_FAMILIES);
-			db.execSQL(TasksContexts.DATABASE_CREATE_TASKCONTEXTS);
+			db.execSQL(TasksContexts.DATABASE_CREATE_TASKCONTEXTS);*/
 			db.execSQL(Tasks.DATABASE_CREATE_TASKS);
 			//TODO: Create needed indexes
 		}

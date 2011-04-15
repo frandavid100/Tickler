@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS Tickler_Tasks
 	dt_abandoned,
 	dt_begin_work,
 	dt_end_work,
-	dt_mins_working int,
+	mins_working INT(5),
 	someday INT(1) NOT NULL DEFAULT 0,
 	repeat INT(1) DEFAULT 0,
 	rp_unit_id INT(2) DEFAULT 2,

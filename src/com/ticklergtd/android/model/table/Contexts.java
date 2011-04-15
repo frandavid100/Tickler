@@ -5,32 +5,34 @@ package com.ticklergtd.android.model.table;
  * User: yeradis
  * Date: 30/03/11
  * Time: 13:33
+ * 
+ * Modifications by ERL:
+ * Date: 14/04/2011
  */
 public class Contexts {
     /*
-        Table: Contexts
+        Table: Tickler_Contexts
 
-        _id	integer primary key	first field in every tab
-        name	text	name of the context
-        icon	integer	icon of the context
-        activetime	integer	foreign key back to Contextimes union table (may create new values)
-        activeregion	integer	foreign key back to Contextregions union table (may create new values)
+        ID				integer primary key	first field in every tab
+        name			text	name of the context
+        icon			integer	icon of the context
+        notifications	integer	show notifications?    ERL 14/04/2011
     */
-    public static final String KEY_CONTEXTS_ID = "_id";
-    public static final String KEY_CONTEXTS_NAME = "name";
-    public static final String KEY_CONTEXTS_ICON = "icon";
-    //	public static final String KEY_CONTEXTS_ACTIVE_TIME = "activetime"; //Unneded?
-//	public static final String KEY_CONTEXTS_ACTIVE_REGION = "activeregion"; //Unneeded?
-    public static final String DATABASE_TABLE_CONTEXTS = "contexts";
-    public static final String DATABASE_CREATE_CONTEXTS = String.format("create table %s (" +
-            "%s integer primary key autoincrement, " +
-            "%s text, " +
-            "%s integer)",
+    public static final String KEY_CONTEXTS_ID 				= "ID";
+    public static final String KEY_CONTEXTS_NAME 			= "name";
+    public static final String KEY_CONTEXTS_ICON 			= "icon";
+    public static final String KEY_CONTEXTS_NOTIFICATIONS 	= "notifications";
+    public static final String DATABASE_TABLE_CONTEXTS 		= "Tickler_Contexts";
+    public static final String DATABASE_CREATE_CONTEXTS 	= String.format("CREATE TABLE IF NOT EXISTS %s (" +
+            "%s INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            "%s VARCHAR, " +
+            "%s INT(3) NOT NULL DEFAULT 1, " + 
+            "%s INT(1) NOT NULL DEFAULT 0)",
             new Object[]{
                     DATABASE_TABLE_CONTEXTS,
                     KEY_CONTEXTS_ID,
                     KEY_CONTEXTS_NAME,
-                    KEY_CONTEXTS_ICON
+                    KEY_CONTEXTS_ICON,
+                    KEY_CONTEXTS_NOTIFICATIONS
             });
-
 }
