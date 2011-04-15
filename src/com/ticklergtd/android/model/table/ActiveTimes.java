@@ -5,6 +5,9 @@ package com.ticklergtd.android.model.table;
  * User: yeradis
  * Date: 30/03/11
  * Time: 13:30
+ * 
+ * Modifications by ERL:
+ * Date: 14/04/2011
  */
 public class ActiveTimes {
     /*
