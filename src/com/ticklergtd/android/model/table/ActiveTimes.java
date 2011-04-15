@@ -16,18 +16,18 @@ public class ActiveTimes {
        end	date	end date
        day	integer	day of the week
     */
-    public static final String KEY_ACTIVETIMES_ID = "_id";
+    public static final String KEY_ACTIVETIMES_ID = "ID";
     public static final String KEY_ACTIVETIMES_NAME = "name";
     public static final String KEY_ACTIVETIMES_START = "start";
     public static final String KEY_ACTIVETIMES_END = "end";
     public static final String KEY_ACTIVETIMES_DAY = "day";
-    public static final String DATABASE_TABLE_ACTIVETIMES = "activetimes";
+    public static final String DATABASE_TABLE_ACTIVETIMES = "Tickler_Activetimes";
     public static final String DATABASE_CREATE_ACTIVETIMES = String.format("create table %s (" +
-            "%s integer primary key autoincrement, " +
-            "%s text, " +
-            "%s integer, " +
-            "%s integer, " +
-            "%s integer)",
+            "%s INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            "%s VARCHAR NOT NULL, " +
+            "%s NOT NULL, " +
+            "%s NOT NULL, " +
+            "%s VARCHAR NOT NULL DEFAULT '1234567')",
             new Object[]{
                     DATABASE_TABLE_ACTIVETIMES, KEY_ACTIVETIMES_ID,
                     KEY_ACTIVETIMES_NAME, KEY_ACTIVETIMES_START,
