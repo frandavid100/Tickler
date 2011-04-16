@@ -25,8 +25,8 @@ public class ContextRegions {
     public static final String DATABASE_TABLE_CONTEXTREGIONS	= "Tickler_ContextsActiveregions";
     public static final String DATABASE_CREATE_CONTEXTREGIONS 	= String.format("CREATE TABLE IF NOT EXISTS %s (" +
             "%s INTEGER PRIMARY KEY AUTOINCREMENT," +
-            "%s NOT NULL INT(5)," +
-            "%s NOT NULL INT(5)," +
+            "%s INT(5) NOT NULL," +
+            "%s INT(5) NOT NULL," +
             "%s INT(1) DEFAULT 1)",
             new Object[]{
                     DATABASE_TABLE_CONTEXTREGIONS,

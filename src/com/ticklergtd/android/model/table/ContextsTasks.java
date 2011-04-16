@@ -23,8 +23,8 @@ public class ContextsTasks {
     public static final String DATABASE_TABLE_TASKCONTEXTS 	= "Tickler_ContextsTasks";
     public static final String DATABASE_CREATE_TASKCONTEXTS = String.format("CREATE TABLE IF NOT EXISTS %s (" +
     		"%s INTEGER PRIMARY KEY AUTOINCREMENT," +
-    		"%s NOT NULL INT(5)," +
-            "%s NOT NULL INT(5))",
+    		"%s INT(5) NOT NULL," +
+            "%s INT(5) NOT NULL)",
             new Object[]{
                     DATABASE_TABLE_TASKCONTEXTS,
                     KEY_TASKCONTEXTS_ID,

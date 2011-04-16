@@ -50,25 +50,25 @@ CREATE TABLE Tickler_Activeregions
  
 CREATE TABLE IF NOT EXISTS Tickler_ContextsTasks
 	(ID INTEGER PRIMARY KEY AUTOINCREMENT, 
-	context_id NOT NULL INT(5), 
-	task_id NOT NULL INT(5));
+	context_id INT(5) NOT NULL, 
+	task_id INT(5) NOT NULL);
 	
 CREATE TABLE IF NOT EXISTS Tickler_ContextsActivetimes
 	(ID INTEGER PRIMARY KEY AUTOINCREMENT, 
-	context_id NOT NULL INT(5), 
-	activetime_id NOT NULL INT(5),
+	context_id INT(5) NOT NULL, 
+	activetime_id INT(5) NOT NULL,
 	enabled INT(1) DEFAULT 1);
 
 CREATE TABLE IF NOT EXISTS Tickler_ContextsActiveregions
 	(ID INTEGER PRIMARY KEY AUTOINCREMENT, 
-	context_id NOT NULL INT(5), 
-	activeregion_id NOT NULL INT(5),
+	context_id INT(5) NOT NULL, 
+	activeregion_id INT(5) NOT NULL,
 	enabled INT(1) DEFAULT 1);	
 	
 CREATE TABLE IF NOT EXISTS Tickler_Families
 	(ID INTEGER PRIMARY KEY AUTOINCREMENT, 
-	parent_id NOT NULL INT(5), 
-	child_id NOT NULL INT(5),
+	parent_id INT(5) NOT NULL, 
+	child_id INT(5) NOT NULL,
 	no_order INT(3) DEFAULT 1);	
 
 CREATE TABLE IF NOT EXISTS Tickler_Aux_Units
