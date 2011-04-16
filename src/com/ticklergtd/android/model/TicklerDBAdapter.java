@@ -34,10 +34,10 @@ public class TicklerDBAdapter {
 		public void onCreate(SQLiteDatabase db) {
 			db.execSQL(ActiveRegions.DATABASE_CREATE_ACTIVEREGIONS);
 			db.execSQL(ActiveTimes.DATABASE_CREATE_ACTIVETIMES);
-			//db.execSQL(ContextRegions.DATABASE_CREATE_CONTEXTREGIONS);
+			db.execSQL(ContextRegions.DATABASE_CREATE_CONTEXTREGIONS);
 			db.execSQL(Contexts.DATABASE_CREATE_CONTEXTS);
 			db.execSQL(ContextTimes.DATABASE_CREATE_CONTEXTTIMES);
-			/*db.execSQL(Families.DATABASE_CREATE_FAMILIES); */
+			db.execSQL(Families.DATABASE_CREATE_FAMILIES); 
 			db.execSQL(ContextsTasks.DATABASE_CREATE_TASKCONTEXTS);
 			db.execSQL(Tasks.DATABASE_CREATE_TASKS);
 			//TODO: Create needed indexes
