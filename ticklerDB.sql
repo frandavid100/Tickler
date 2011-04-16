@@ -6,6 +6,7 @@ DROP TABLE Tickler_ContextsTasks;
 DROP TABLE Tickler_ContextsActivetimes;
 DROP TABLE Tickler_ContextsActiveregions;
 DROP TABLE Tickler_Aux_Units;
+DROP TABLE Tickler_Families;
 
 CREATE TABLE IF NOT EXISTS Tickler_Contexts
 	(ID INTEGER PRIMARY KEY AUTOINCREMENT, 
@@ -49,21 +50,27 @@ CREATE TABLE Tickler_Activeregions
  
 CREATE TABLE IF NOT EXISTS Tickler_ContextsTasks
 	(ID INTEGER PRIMARY KEY AUTOINCREMENT, 
-	context_id INT(5), 
-	task_id INT(5));
+	context_id NOT NULL INT(5), 
+	task_id NOT NULL INT(5));
 	
 CREATE TABLE IF NOT EXISTS Tickler_ContextsActivetimes
 	(ID INTEGER PRIMARY KEY AUTOINCREMENT, 
-	context_id INT(5), 
-	activetime_id INT(5),
+	context_id NOT NULL INT(5), 
+	activetime_id NOT NULL INT(5),
 	enabled INT(1) DEFAULT 1);
 
 CREATE TABLE IF NOT EXISTS Tickler_ContextsActiveregions
 	(ID INTEGER PRIMARY KEY AUTOINCREMENT, 
-	context_id INT(5), 
-	activeregion_id INT(5),
+	context_id NOT NULL INT(5), 
+	activeregion_id NOT NULL INT(5),
 	enabled INT(1) DEFAULT 1);	
 	
+CREATE TABLE IF NOT EXISTS Tickler_Families
+	(ID INTEGER PRIMARY KEY AUTOINCREMENT, 
+	parent_id NOT NULL INT(5), 
+	child_id NOT NULL INT(5),
+	no_order INT(3) DEFAULT 1);	
+
 CREATE TABLE IF NOT EXISTS Tickler_Aux_Units
 	(ID INTEGER PRIMARY KEY AUTOINCREMENT,
 	description VARCHAR NOT NULL);

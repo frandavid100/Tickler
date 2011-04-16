@@ -21,10 +21,10 @@ public class ContextsTasks {
     public static final String KEY_TASKCONTEXTS_TASKID 		= "task_id";
     public static final String KEY_TASKCONTEXTS_CONTEXTID 	= "context_id";
     public static final String DATABASE_TABLE_TASKCONTEXTS 	= "Tickler_ContextsTasks";
-    public static final String DATABASE_CREATE_TASKCONTEXTS = String.format("create table %s (" +
-    		"%s integer," +
-    		"%s integer," +
-            "%s integer)",
+    public static final String DATABASE_CREATE_TASKCONTEXTS = String.format("CREATE TABLE IF NOT EXISTS %s (" +
+    		"%s INTEGER PRIMARY KEY AUTOINCREMENT," +
+    		"%s NOT NULL INT(5)," +
+            "%s NOT NULL INT(5))",
             new Object[]{
                     DATABASE_TABLE_TASKCONTEXTS,
                     KEY_TASKCONTEXTS_ID,

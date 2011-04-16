@@ -23,11 +23,11 @@ public class ContextTimes {
     public static final String KEY_CONTEXTTIMES_TIMEID 		= "activetime_id";
     public static final String KEY_CONTEXTTIMES_ACTIVE 		= "enabled";
     public static final String DATABASE_TABLE_CONTEXTTIMES	= "Tickler_ContextActivetimes";
-    public static final String DATABASE_CREATE_CONTEXTTIMES = String.format("create table %s (" +
-    		"%s integer," +
-    		"%s integer," +
-            "%s integer," +
-            "%s integer)",
+    public static final String DATABASE_CREATE_CONTEXTTIMES = String.format("CREATE TABLE IF NOT EXISTS %s (" +
+    		"%s INTEGER PRIMARY KEY AUTOINCREMENT," +
+    		"%s NOT NULL INT(5)," +
+            "%s NOT NULL INT(5)," +
+            "%s INT(1) DEFAULT 1)",
             new Object[]{
                     DATABASE_TABLE_CONTEXTTIMES,
                     KEY_CONTEXTTIMES_ID,

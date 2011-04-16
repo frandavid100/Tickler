@@ -25,7 +25,7 @@ public class ActiveTimes {
     public static final String KEY_ACTIVETIMES_END 			= "end";
     public static final String KEY_ACTIVETIMES_DAY 			= "day";
     public static final String DATABASE_TABLE_ACTIVETIMES 	= "Tickler_Activetimes";
-    public static final String DATABASE_CREATE_ACTIVETIMES 	= String.format("create table %s (" +
+    public static final String DATABASE_CREATE_ACTIVETIMES 	= String.format("CREATE TABLE IF NOT EXISTS %s (" +
             "%s INTEGER PRIMARY KEY AUTOINCREMENT, " +
             "%s VARCHAR NOT NULL, " +
             "%s NOT NULL, " +

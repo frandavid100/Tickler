@@ -26,7 +26,7 @@ public class ActiveRegions {
     public static final String KEY_ACTIVEREGIONS_LOCATION_LONG	= "location_long";
     public static final String KEY_ACTIVEREGIONS_RADIUS 		= "radius_km";
     public static final String DATABASE_TABLE_ACTIVEREGIONS 	= "Tickler_Activeregions";
-    public static final String DATABASE_CREATE_ACTIVEREGIONS 	= String.format("create table %s (" +
+    public static final String DATABASE_CREATE_ACTIVEREGIONS 	= String.format("CREATE TABLE IF NOT EXISTS %s (" +
             "%s INTEGER PRIMARY KEY AUTOINCREMENT, " +
             "%s VARCHAR NOT NULL, " +
             "%s REAL, " +
