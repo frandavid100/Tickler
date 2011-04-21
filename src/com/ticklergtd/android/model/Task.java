@@ -1,37 +1,55 @@
 package com.ticklergtd.android.model;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 
+import android.content.Context;
+import android.database.Cursor;
+
 public class Task {
-	public static final int REPEAT_DAYS = 1;
-	public static final int REPEAT_WEEKS = 2;
-	public static final int REPEAT_MONTHS = 3;
-	public static final int REPEAT_YEARS = 4;
+	public static final int REPEAT_DAYS		= 1;
+	public static final int REPEAT_WEEKS 	= 2;
+	public static final int REPEAT_MONTHS 	= 3;
+	public static final int REPEAT_YEARS 	= 4;
+	
 	public static final long NEW_TASK = -1;
+	
 	private long mId = NEW_TASK;
 	private String mName;
+	private String mNote;
 	private int mPriority;
 	private Date mCreationDate;
-	private boolean mSomeday;
+	private int mSomeday;
 	private Date mStartDate;
 	private Date mDeadline;
 	private Date mCompleted;
 	private Date mAbandoned;
 	private int mRepeat;
 	private int mRepeatUnits;
-	private boolean mRepeatFrom;
-	private boolean mSimultaneous;
+	private int mRepeatFrom;
+	private int mSimultaneous;
 	private Task mParent;
 	private ArrayList<Task> mChildren;
+	
+	private static Context mCtx;
+	private static TicklerDBAdapter tck;
+	
 	/**
 	 * The order when this task is a child of another task
 	 */
 	private int mOrder;
 	private ArrayList<TaskContext> mContexts;
 	
-	public Task() {}
+	public Task(Context ctx) {
+		mCtx = ctx;
+	}
 
+	public Task(long task_id, Context ctx) {
+		mCtx =ctx;
+	}
+	
 	/**
 	 * @return the mId
 	 */
@@ -51,6 +69,20 @@ public class Task {
 	 */
 	public String getName() {
 		return mName;
+	}
+
+	/**
+	 * @param mNote the mNote to set
+	 */
+	public void setNote(String mNote) {
+		this.mNote = mNote;
+	}
+
+	/**
+	 * @return the mNote
+	 */
+	public String getNote() {
+		return mNote;
 	}
 
 	/**
@@ -91,14 +123,14 @@ public class Task {
 	/**
 	 * @return the mSomeday
 	 */
-	public boolean isSomeday() {
+	public int isSomeday() {
 		return mSomeday;
 	}
 
 	/**
 	 * @param mSomeday the mSomeday to set
 	 */
-	public void setSomeday(boolean mSomeday) {
+	public void setSomeday(int mSomeday) {
 		this.mSomeday = mSomeday;
 	}
 
@@ -189,28 +221,28 @@ public class Task {
 	/**
 	 * @return the mRepeatFrom
 	 */
-	public boolean isRepeatFrom() {
+	public int isRepeatFrom() {
 		return mRepeatFrom;
 	}
 
 	/**
 	 * @param mRepeatFrom the mRepeatFrom to set
 	 */
-	public void setRepeatFrom(boolean mRepeatFrom) {
+	public void setRepeatFrom(int mRepeatFrom) {
 		this.mRepeatFrom = mRepeatFrom;
 	}
 
 	/**
 	 * @return the mSimultaneous
 	 */
-	public boolean isSimultaneous() {
+	public int isSimultaneous() {
 		return mSimultaneous;
 	}
 
 	/**
 	 * @param mSimultaneous the mSimultaneous to set
 	 */
-	public void setSimultaneous(boolean mSimultaneous) {
+	public void setSimultaneous(int mSimultaneous) {
 		this.mSimultaneous = mSimultaneous;
 	}
 
@@ -283,4 +315,64 @@ public class Task {
 			return mContexts.get(position);
 		}
 	}
+	
+	public static ArrayList<Task> getTasks(Context ctx) {
+		mCtx = ctx;
+		ArrayList<Task> aux = new ArrayList<Task>();
+		
+		Task_helper();
+		Cursor c = tck.selectTasks();
+		
+		c.moveToFirst();
+		while (!c.isAfterLast()) {
+			Task t = new Task(mCtx);
+			t.setId(c.getLong(0));
+			t.setName(c.getString(1));
+			t.setPriority(c.getInt(2));
+			t.setNote(c.getString(3));
+			t.setSomeday(c.getInt(5));
+			try {
+				t.setCreationDate(DateFormat.getDateInstance().parse(c.getString(4)));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			try {
+				t.setStartDate(DateFormat.getDateInstance().parse(c.getString(6)));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			try {
+				t.setDeadline(DateFormat.getDateInstance().parse(c.getString(7)));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}	
+			try {
+				t.setCompleted(DateFormat.getDateInstance().parse(c.getString(8)));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}	
+			try {
+				t.setAbandoned(DateFormat.getDateInstance().parse(c.getString(9)));	
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			aux.add(t);
+			
+			c.moveToNext();
+		}
+		c.close();
+		return aux;
+	}
+	
+	private static void Task_helper() {
+		tck = new TicklerDBAdapter(mCtx);
+		tck.open();
+	}
+	
+
 }
