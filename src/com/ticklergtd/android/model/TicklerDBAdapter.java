@@ -19,7 +19,7 @@ public class TicklerDBAdapter {
 
 	private boolean isOpen = false;
 
-	private static final String DATABASE_NAME = "ticklerDB";
+	private static final String DATABASE_NAME = "ticklerDB.sqlite";
 	private static final int DATABASE_VERSION = 1;
 
 	private Context mCtx;
@@ -78,8 +78,8 @@ public class TicklerDBAdapter {
 		return mDb.query(
 				Tasks.DATABASE_TABLE_TASKS,
 				new String[] { Tasks.KEY_TASKS_ID, Tasks.KEY_TASKS_NAME,
-						Tasks.KEY_TASKS_PRIORITY, Tasks.KEY_TASKS_DATE_CREATION,
-						Tasks.KEY_TASKS_SOMEDAY, Tasks.KEY_TASKS_DATE_START,
+						Tasks.KEY_TASKS_PRIORITY, Tasks.KEY_TASKS_NOTE,
+						Tasks.KEY_TASKS_DATE_CREATION, Tasks.KEY_TASKS_SOMEDAY,
 						Tasks.KEY_TASKS_DATE_START, Tasks.KEY_TASKS_DATE_DEADLINE,
 						Tasks.KEY_TASKS_DATE_COMPLETED, Tasks.KEY_TASKS_DATE_ABANDONED,
 						Tasks.KEY_TASKS_REPEAT, Tasks.KEY_TASKS_REPEAT_UNITS,
@@ -113,26 +113,21 @@ public class TicklerDBAdapter {
 		return rowId;
 	}
 
-	private long addTask(String name, int priority, long date_creation, boolean someday, long date_start, long date_deadline, long date_completed,
-			long date_abandoned, int repeat, int repeat_units, boolean repeat_from, boolean simultaneous) {
-		int int_someday = 0;
-		if(someday) int_someday = 1;
-		int int_repeat_from = 0;
-		if(repeat_from) int_repeat_from = 1;
-		int int_simultaneous = 0;
-		if(simultaneous) int_simultaneous = 1;
+	private long addTask(String name, int priority, long date_creation, int someday, long date_start, long date_deadline, long date_completed,
+			long date_abandoned, int repeat, int repeat_units, int repeat_from, int simultaneous) {
+		
 		ContentValues initialValues = new ContentValues();
 		initialValues.put(Tasks.KEY_TASKS_NAME, name);
 		initialValues.put(Tasks.KEY_TASKS_PRIORITY, priority);
 		initialValues.put(Tasks.KEY_TASKS_DATE_CREATION, date_creation);
-		initialValues.put(Tasks.KEY_TASKS_SOMEDAY, int_someday);
+		initialValues.put(Tasks.KEY_TASKS_SOMEDAY, someday);
 		initialValues.put(Tasks.KEY_TASKS_DATE_START, date_start);
 		initialValues.put(Tasks.KEY_TASKS_DATE_COMPLETED, date_completed);
 		initialValues.put(Tasks.KEY_TASKS_DATE_ABANDONED, date_abandoned);
 		initialValues.put(Tasks.KEY_TASKS_REPEAT, repeat);
 		initialValues.put(Tasks.KEY_TASKS_REPEAT_UNITS, repeat_units);
-		initialValues.put(Tasks.KEY_TASKS_REPEAT_FROM, int_repeat_from);
-		initialValues.put(Tasks.KEY_TASKS_SIMULTANEOUS, int_simultaneous);
+		initialValues.put(Tasks.KEY_TASKS_REPEAT_FROM, repeat_from);
+		initialValues.put(Tasks.KEY_TASKS_SIMULTANEOUS, simultaneous);
 		initialValues.put(Tasks.KEY_TASKS_DATE_START, date_start);
 		try{
 			return mDb.insert(Tasks.DATABASE_TABLE_TASKS, null, initialValues);
