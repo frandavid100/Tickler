@@ -38,16 +38,20 @@ public class ListTest extends ListActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Recupera una lista de tareas
         ArrayList<Task> tsk = Task.getTasks(ListTest.this);
+        
+        // Y ya en una función local, compongo los strings como se necesite
         mStrings = getStringsFromTasks(tsk);
         
-        // Use an existing ListAdapter that will map an array
-        // of strings to TextViews
+        // Y esa lista de string se pasa al adaptador de la lista para que lo muestre
         setListAdapter(new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, mStrings));
         getListView().setTextFilterEnabled(true);
     }
 
+    // De una lista de tareas, genera una lista de strings con la información
+    // ... que necesitemos
     private ArrayList<String> getStringsFromTasks(ArrayList<Task> al) {
     	
     	int len = al.size();
@@ -63,6 +67,7 @@ public class ListTest extends ListActivity {
     	return res;
     }
     
+    // Esta es la función que compone los strings en la forma necesaria. 
     private String getItemList(Task tsk) {
     	String res = "";
     	
