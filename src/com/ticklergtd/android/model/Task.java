@@ -1,12 +1,12 @@
 package com.ticklergtd.android.model;
 
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 
 import android.content.Context;
 import android.database.Cursor;
+
+import com.ticklergtd.android.Utilities;
 
 public class Task {
 	public static final int REPEAT_DAYS		= 1;
@@ -16,38 +16,39 @@ public class Task {
 	
 	public static final long NEW_TASK = -1;
 	
-	private long mId = NEW_TASK;
-	private String mName;
-	private String mNote;
-	private int mPriority;
-	private Date mCreationDate;
-	private int mSomeday;
-	private Date mStartDate;
-	private Date mDeadline;
-	private Date mCompleted;
-	private Date mAbandoned;
-	private int mRepeat;
-	private int mRepeatUnits;
-	private int mRepeatFrom;
-	private int mSimultaneous;
-	private Task mParent;
+	private long 			mId = NEW_TASK;
+	private String 			mName;
+	private String 			mNote;
+	private int 			mPriority;
+	private Date 			mCreationDate;
+	private int 			mSomeday;
+	private Date 			mStartDate;
+	private Date 			mDeadline;
+	private Date 			mCompleted;
+	private Date 			mAbandoned;
+	private int 			mRepeat;
+	private int 			mRepeatUnits;
+	private int 			mRepeatFrom;
+	private int 			mSimultaneous;
+	private Task 			mParent;
 	private ArrayList<Task> mChildren;
 	
-	private static Context mCtx;
+	private static Context 			mCtx;
 	private static TicklerDBAdapter tck;
 	
 	/**
 	 * The order when this task is a child of another task
 	 */
-	private int mOrder;
-	private ArrayList<TaskContext> mContexts;
+	private int 					mOrder;
+	private ArrayList<ContextTask> 	mContexts;
 	
 	public Task(Context ctx) {
 		mCtx = ctx;
 	}
 
 	public Task(long task_id, Context ctx) {
-		mCtx =ctx;
+		mId 	= task_id;
+		mCtx	= ctx;
 	}
 	
 	/**
@@ -117,7 +118,8 @@ public class Task {
 	 * @param mCreationDate the mCreationDate to set
 	 */
 	public void setCreationDate(Date mCreationDate) {
-		this.mCreationDate = mCreationDate;
+		if (mCreationDate != null)
+			this.mCreationDate = mCreationDate;
 	}
 
 	/**
@@ -145,7 +147,8 @@ public class Task {
 	 * @param mStartDate the mStartDate to set
 	 */
 	public void setStartDate(Date mStartDate) {
-		this.mStartDate = mStartDate;
+		if (mStartDate != null)
+			this.mStartDate = mStartDate;
 	}
 
 	/**
@@ -159,7 +162,8 @@ public class Task {
 	 * @param mDeadline the mDeadline to set
 	 */
 	public void setDeadline(Date mDeadline) {
-		this.mDeadline = mDeadline;
+		if (mDeadline != null)
+			this.mDeadline = mDeadline;
 	}
 
 	/**
@@ -173,7 +177,8 @@ public class Task {
 	 * @param mCompleted the mCompleted to set
 	 */
 	public void setCompleted(Date mCompleted) {
-		this.mCompleted = mCompleted;
+		if (mCompleted != null)
+			this.mCompleted = mCompleted;
 	}
 
 	/**
@@ -187,7 +192,8 @@ public class Task {
 	 * @param mAbandoned the mAbandoned to set
 	 */
 	public void setAbandoned(Date mAbandoned) {
-		this.mAbandoned = mAbandoned;
+		if (mAbandoned != null)
+			this.mAbandoned = mAbandoned;
 	}
 
 	/**
@@ -297,18 +303,18 @@ public class Task {
 		return mOrder;
 	}
 
-	public void setContexts(ArrayList<TaskContext> mContexts) {
+	public void setContexts(ArrayList<ContextTask> mContexts) {
 		this.mContexts = mContexts;
 	}
 
-	public ArrayList<TaskContext> getContexts() {
+	public ArrayList<ContextTask> getContexts() {
 		if(mContexts == null) {
-			mContexts = new ArrayList<TaskContext>();
+			mContexts = new ArrayList<ContextTask>();
 		}
 		return mContexts;
 	}
 	
-	public TaskContext getContext(int position) {
+	public ContextTask getContext(int position) {
 		if(mContexts.size() > position) {
 			return null;
 		} else {
@@ -331,36 +337,12 @@ public class Task {
 			t.setPriority(c.getInt(2));
 			t.setNote(c.getString(3));
 			t.setSomeday(c.getInt(5));
-			try {
-				t.setCreationDate(DateFormat.getDateInstance().parse(c.getString(4)));
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			try {
-				t.setStartDate(DateFormat.getDateInstance().parse(c.getString(6)));
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			try {
-				t.setDeadline(DateFormat.getDateInstance().parse(c.getString(7)));
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}	
-			try {
-				t.setCompleted(DateFormat.getDateInstance().parse(c.getString(8)));
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}	
-			try {
-				t.setAbandoned(DateFormat.getDateInstance().parse(c.getString(9)));	
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			t.setCreationDate(Utilities.string2Date(c.getString(4)));
+			t.setStartDate(Utilities.string2Date(c.getString(6)));
+			t.setDeadline(Utilities.string2Date(c.getString(7)));
+			t.setCompleted(Utilities.string2Date(c.getString(8)));
+			t.setAbandoned(Utilities.string2Date(c.getString(9)));			
+			t.setContexts(ContextTask.getContextsTask(t.getId(),mCtx));
 			aux.add(t);
 			
 			c.moveToNext();

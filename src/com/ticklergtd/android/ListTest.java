@@ -22,6 +22,7 @@ import android.app.ListActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 
+import com.ticklergtd.android.model.ContextTask;
 import com.ticklergtd.android.model.Task;
 
 
@@ -37,16 +38,20 @@ public class ListTest extends ListActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Recupera una lista de tareas
         ArrayList<Task> tsk = Task.getTasks(ListTest.this);
+        
+        // Y ya en una función local, compongo los strings como se necesite
         mStrings = getStringsFromTasks(tsk);
         
-        // Use an existing ListAdapter that will map an array
-        // of strings to TextViews
+        // Y esa lista de string se pasa al adaptador de la lista para que lo muestre
         setListAdapter(new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, mStrings));
         getListView().setTextFilterEnabled(true);
     }
 
+    // De una lista de tareas, genera una lista de strings con la información
+    // ... que necesitemos
     private ArrayList<String> getStringsFromTasks(ArrayList<Task> al) {
     	
     	int len = al.size();
@@ -62,14 +67,29 @@ public class ListTest extends ListActivity {
     	return res;
     }
     
+    // Esta es la función que compone los strings en la forma necesaria. 
     private String getItemList(Task tsk) {
     	String res = "";
     	
     	res = tsk.getName();
     	
     	if (tsk.getStartDate() != null) {
-    		String aux = " (" + tsk.getStartDate().toString() + ")";
+    		String aux = " - " + Utilities.date2String(tsk.getStartDate(),2) + " - (" + getNameContexts(tsk) + ")";
     		res += aux;
+    	}
+    	
+    	return res;
+    }
+    
+    private String getNameContexts(Task tsk) {
+    	String res = "";
+    	ArrayList<ContextTask> al = new ArrayList<ContextTask>();
+    	
+    	al = tsk.getContexts();
+    	for (int i = 0; i < al.size(); i++) {
+    		ContextTask ct = al.get(i);
+    		
+    		res += ct.getName() + "-";
     	}
     	
     	return res;

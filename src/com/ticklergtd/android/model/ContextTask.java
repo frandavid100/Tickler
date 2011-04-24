@@ -3,15 +3,24 @@ package com.ticklergtd.android.model;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Context {
+import android.content.Context;
+import android.database.Cursor;
+
+import com.ticklergtd.android.Utilities;
+
+public class ContextTask {
 	public static final long NEW_CONTEXT = -1;
 	
 	private long mId 				= NEW_CONTEXT;
 	private String mName;
-	private int mIcon 			= 1;
-	private int mNotifications	= 0;
-	private ArrayList<Context> mContexts;
+	private int mIcon 				= 1;
+	private int mNotifications		= 0;
+	private ArrayList<ContextTask> mContexts;
+
+	private static Context 			mCtx;
+	private static TicklerDBAdapter tck;
 	
+
 	/**
 	 * @param mId
 	 * @param mName
@@ -19,19 +28,28 @@ public class Context {
 	 * @param mNotifications
 	 * @param mContexts
 	 */
-	public Context(long mId, String mName, int mIcon, int mNotifications) {
+	public ContextTask(long mId, String mName, int mIcon, int mNotifications) {
 		this.mId = mId;
 		this.mName = mName;
 		this.mIcon = mIcon;
 		this.mNotifications = mNotifications;
 	}
 	
-	public Context() {
+	public ContextTask() {
 		this.mId = 0;
 		this.mName = "";
 		this.mIcon = 0;
 		this.mNotifications = 0;
 		this.mContexts = null;
+	}
+
+	public ContextTask(Context ctx) {
+		this.mId = 0;
+		this.mName = "";
+		this.mIcon = 0;
+		this.mNotifications = 0;
+		this.mContexts = null;
+		mCtx = ctx;
 	}
 
 	/**
@@ -93,18 +111,44 @@ public class Context {
 	/**
 	 * @return the mContexts
 	 */
-	public ArrayList<Context> getContexts() {
+	public ArrayList<ContextTask> getContexts() {
 		return mContexts;
 	}
 
 	/**
 	 * @param mContexts the mContexts to set
 	 */
-	public void setContexts(ArrayList<Context> mContexts) {
+	public void setContexts(ArrayList<ContextTask> mContexts) {
 		this.mContexts = mContexts;
 	}
 	
 	public void Context(int context_id) {
 		
 	}
+	
+	public static ArrayList<ContextTask> getContextsTask(long task_id, Context ctx) {
+		mCtx = ctx;
+		ArrayList<ContextTask> aux = new ArrayList<ContextTask>();
+		
+		ContextTask_helper();
+		Cursor c = tck.selectContextTasks(task_id);
+		
+		c.moveToFirst();
+		while (!c.isAfterLast()) {
+			ContextTask t = new ContextTask(mCtx);
+			t.setId(c.getLong(1));
+			t.setName(c.getString(2));
+			aux.add(t);
+			
+			c.moveToNext();
+		}
+		c.close();
+		return aux;		
+	}
+	
+	private static void ContextTask_helper() {
+		tck = new TicklerDBAdapter(mCtx);
+		tck.open();
+	}
+		
 }
