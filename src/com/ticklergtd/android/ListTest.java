@@ -22,6 +22,7 @@ import android.app.ListActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 
+import com.ticklergtd.android.model.ContextTask;
 import com.ticklergtd.android.model.Task;
 
 
@@ -68,8 +69,22 @@ public class ListTest extends ListActivity {
     	res = tsk.getName();
     	
     	if (tsk.getStartDate() != null) {
-    		String aux = " (" + tsk.getStartDate().toString() + ")";
+    		String aux = " - " + Utilities.date2String(tsk.getStartDate(),2) + " - (" + getNameContexts(tsk) + ")";
     		res += aux;
+    	}
+    	
+    	return res;
+    }
+    
+    private String getNameContexts(Task tsk) {
+    	String res = "";
+    	ArrayList<ContextTask> al = new ArrayList<ContextTask>();
+    	
+    	al = tsk.getContexts();
+    	for (int i = 0; i < al.size(); i++) {
+    		ContextTask ct = al.get(i);
+    		
+    		res += ct.getName() + "-";
     	}
     	
     	return res;

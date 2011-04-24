@@ -172,4 +172,16 @@ public class TicklerDBAdapter {
 	public void commit() {
 		mDb.execSQL("COMMIT");
 	}
+	
+	//***********************************************
+	public Cursor selectContextTasks(long task_id){
+		String sSql = "";
+		
+		sSql = "select ContextsTasks.task_id, ContextsTasks.context_id, Contexts.name " + 
+				" from Tickler_ContextsTasks as ContextsTasks inner join Tickler_Contexts as Contexts on ContextsTasks.context_id = Contexts.id " +
+				" where ContextsTasks.task_id=" + task_id;
+		return mDb.rawQuery(sSql, null);
+	}
+	
+
 }
