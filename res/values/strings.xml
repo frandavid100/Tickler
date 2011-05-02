@@ -3,4 +3,8 @@
     <string name="app_name">Tickler</string>
     <string name="app_title">Tickler GTD</string>
     <string name="app_description">An open-source, no-nonsense, straight-to-the-point GTD application for Android.</string>
+    <string name="app_buttons_done">Done</string>
+    <string name="app_buttons_revert">Revert</string>
+    <string name="app_buttons_cancel">Cancel</string>
+    <string name="app_buttons_set">Set</string>
 </resources>

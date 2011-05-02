@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="vertical" 
+  android:layout_height="wrap_content" 
+  android:layout_width="match_parent">
+    <LinearLayout 	android:layout_height="wrap_content" 
+    				android:layout_width="match_parent" 
+    				android:id="@+id/linearLayout">
+        <ImageView 	android:layout_width="wrap_content" 
+        			android:layout_height="wrap_content" 
+        			android:id="@+id/dialogIcon" 
+        			android:src="@drawable/ic_dialog_time">
+        </ImageView>
+        <TextView 	android:layout_width="wrap_content" 
+        			android:layout_height="match_parent" 
+        			android:gravity="center_vertical" 
+        			android:id="@+id/dialogTitle" 
+        			android:text="@string/task_editor_deadline_dialog_title">
+        </TextView>
+    </LinearLayout>
+    <ImageView 	android:id="@+id/imageView_horizontal_separator" 
+    			android:background="@android:color/white" 
+    			android:layout_width="match_parent" 
+    			android:layout_height="1px">
+    </ImageView>
+    <RadioGroup android:layout_height="wrap_content" 
+    			android:layout_width="wrap_content" 
+    			android:layout_gravity="center" 
+    			android:id="@+id/radioGroup_deadline_options">
+        <RadioButton 	android:layout_width="wrap_content" 
+        				android:layout_height="wrap_content" 
+        				android:text="@string/task_editor_deadline_dialog_option_no_deadline" 
+        				android:id="@+id/radio_no_deadline">
+        </RadioButton>
+        <RadioButton 	android:layout_width="wrap_content" 
+        				android:layout_height="wrap_content" 
+        				android:id="@+id/radio_specific" 
+        				android:text="@string/task_editor_deadline_dialog_option_specific">
+        </RadioButton>
+    </RadioGroup>
+    <DatePicker android:layout_height="wrap_content" 
+    			android:id="@+id/datePicker_specific" 
+    			android:layout_width="wrap_content" 
+    			android:layout_gravity="center"></DatePicker>
+    <LinearLayout 	android:layout_width="match_parent" 
+    				android:layout_height="wrap_content" 
+    				android:id="@+id/linearLayout" 
+    				android:layout_gravity="bottom">
+        <Button android:text="@string/app_buttons_set" 
+        		android:id="@+id/button_set" 
+        		android:layout_height="wrap_content" 
+        		android:layout_width="match_parent" 
+        		android:layout_weight="1">
+        </Button>
+        <Button android:text="@string/app_buttons_cancel" 
+        		android:id="@+id/button_cancel" 
+        		android:layout_height="wrap_content" 
+        		android:layout_width="match_parent" 
+        		android:layout_weight="1">
+        </Button>
+    </LinearLayout>
+</LinearLayout>

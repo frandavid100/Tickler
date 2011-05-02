@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="task_editor_task_default_text">What to do?</string>
+    <string name="task_editor_task_context_default_text">In which context? (One or more)</string>
+    <string name="task_editor_optional_settings_label">Optional settings</string>
+    <string name="task_editor_task_notes_default_text">Notes</string>
+    <string name="task_editor_startdate_dialog_title">I can start this ...</string>
+	<string name="task_editor_startdate_dialog_option_anytime">Anytime</string>
+    <string name="task_editor_startdate_dialog_option_sometime">Someday, hopefully</string>
+    <string name="task_editor_startdate_dialog_option_specific">This specific day:</string>
+    <string name="task_editor_deadline_dialog_title">This must be done by ...</string>
+    <string name="task_editor_deadline_dialog_option_no_deadline">There\'s no deadline</string>
+    <string name="task_editor_deadline_dialog_option_specific">Must be finished by:</string>
+    <string name="task_editor_recurrence_dialog_title">It will repeat every ...</string>
+    <string name="task_editor_recurrence_dialog_editText_period">Enter a number</string>
+    <string-array name="task_editor_recurrence_dialog_spinner_period_values">
+        <item>Day\%1$s</item>
+        <item>Week\%1$s</item>
+        <item>Month\%1$s</item>
+        <item>Year\%1$s</item>
+    </string-array>
+    <string name="task_editor_recurrence_dialog_option_since_start">Since I start it</string>
+    <string name="task_editor_recurrence_dialog_option_after_complete">After I complete it</string>
+    <string-array name="task_editor_deadline_button_texts">
+        <item>There\'s no deadline</item>
+        <item>Must be finished by %1$s</item>
+    </string-array>
+    <string-array name="task_editor_repetition_button_texts">
+        <item>It\'s a one time thing</item>
+        <item>Every %1$d %2$s after I %3$s</item>
+    </string-array>
+    <string-array name="task_editor_startdate_button_texts">
+        <item>I can start anytime</item>
+        <item>I hope i can do this someday</item>
+        <item>I can\'t work on this until  %1$s</item>
+    </string-array>
+</resources>
