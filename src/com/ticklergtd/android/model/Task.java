@@ -69,28 +69,36 @@ public class Task {
 	 * @return the mName
 	 */
 	public String getName() {
-		return mName;
+		if (mName == null)
+			return "";
+		else
+			return mName;
 	}
 
 	/**
 	 * @param mNote the mNote to set
 	 */
 	public void setNote(String mNote) {
-		this.mNote = mNote;
+		if (mNote != null)
+			this.mNote = mNote;
 	}
 
 	/**
 	 * @return the mNote
 	 */
 	public String getNote() {
-		return mNote;
+		if (mNote != null)
+			return mNote;
+		else
+			return "";
 	}
 
 	/**
 	 * @param mName the mName to set
 	 */
 	public void setName(String mName) {
-		this.mName = mName;
+		if (mName != null)
+			this.mName = mName;
 	}
 
 	/**
@@ -227,7 +235,7 @@ public class Task {
 	/**
 	 * @return the mRepeatFrom
 	 */
-	public int isRepeatFrom() {
+	public int getRepeatFrom() {
 		return mRepeatFrom;
 	}
 
@@ -348,7 +356,19 @@ public class Task {
 			c.moveToNext();
 		}
 		c.close();
+		Task_helper_close();
+		
 		return aux;
+	}
+	
+	public long save() {
+		long lRes = 0;
+		
+		Task_helper();
+		lRes = tck.addTask(this);
+		Task_helper_close();
+		
+		return lRes;
 	}
 	
 	private static void Task_helper() {
@@ -356,5 +376,12 @@ public class Task {
 		tck.open();
 	}
 	
-
+	private static void Task_helper_close() {
+		try {
+			tck.close();
+		}
+		catch (Exception e) {
+			
+		}
+	}
 }

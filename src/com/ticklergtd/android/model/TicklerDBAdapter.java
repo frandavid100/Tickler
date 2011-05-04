@@ -1,6 +1,7 @@
 package com.ticklergtd.android.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -9,7 +10,16 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-import com.ticklergtd.android.model.table.*;
+
+import com.ticklergtd.android.Utilities;
+import com.ticklergtd.android.model.table.ActiveRegions;
+import com.ticklergtd.android.model.table.ActiveTimes;
+import com.ticklergtd.android.model.table.ContextRegions;
+import com.ticklergtd.android.model.table.ContextTimes;
+import com.ticklergtd.android.model.table.Contexts;
+import com.ticklergtd.android.model.table.ContextsTasks;
+import com.ticklergtd.android.model.table.Families;
+import com.ticklergtd.android.model.table.Tasks;
 
 public class TicklerDBAdapter {
 
@@ -93,8 +103,8 @@ public class TicklerDBAdapter {
 	}
 	
 	public long addTask(Task task) {
-		long rowId = addTask(task.getName(), task.getPriority(), task.getCreationDate().getTime(), task.isSomeday(), task.getStartDate().getTime(), task.getDeadline().getTime(),
-				task.getCompleted().getTime(), task.getAbandoned().getTime(), task.getRepeat(), task.getRepeatUnits(), task.isRepeatFrom(), task.isSimultaneous());
+		long rowId = addTask(task.getName(), task.getPriority(), task.getNote(), task.getCreationDate(), task.isSomeday(), task.getStartDate(), task.getDeadline(),
+				task.getCompleted(), task.getAbandoned(), task.getRepeat(), task.getRepeatUnits(), task.getRepeatFrom(), task.isSimultaneous());
 		task.setId(rowId); //TODO: Check if addTask's returned rowId is the correct table's row id
 		
 		//Check if this task is children of some other task
@@ -113,22 +123,22 @@ public class TicklerDBAdapter {
 		return rowId;
 	}
 
-	private long addTask(String name, int priority, long date_creation, int someday, long date_start, long date_deadline, long date_completed,
-			long date_abandoned, int repeat, int repeat_units, int repeat_from, int simultaneous) {
+	private long addTask(String name, int priority, String note, Date date_creation, int someday, Date date_start, Date date_deadline, Date date_completed,
+			Date date_abandoned, int repeat, int repeat_units, int repeat_from, int simultaneous) {
 		
 		ContentValues initialValues = new ContentValues();
 		initialValues.put(Tasks.KEY_TASKS_NAME, name);
 		initialValues.put(Tasks.KEY_TASKS_PRIORITY, priority);
-		initialValues.put(Tasks.KEY_TASKS_DATE_CREATION, date_creation);
+		initialValues.put(Tasks.KEY_TASKS_DATE_CREATION, Utilities.date2String(date_creation,1));
 		initialValues.put(Tasks.KEY_TASKS_SOMEDAY, someday);
-		initialValues.put(Tasks.KEY_TASKS_DATE_START, date_start);
-		initialValues.put(Tasks.KEY_TASKS_DATE_COMPLETED, date_completed);
-		initialValues.put(Tasks.KEY_TASKS_DATE_ABANDONED, date_abandoned);
+		initialValues.put(Tasks.KEY_TASKS_DATE_START, Utilities.date2String(date_start,1));
+		initialValues.put(Tasks.KEY_TASKS_DATE_COMPLETED, Utilities.date2String(date_completed,1));
+		initialValues.put(Tasks.KEY_TASKS_DATE_ABANDONED, Utilities.date2String(date_abandoned,1));
 		initialValues.put(Tasks.KEY_TASKS_REPEAT, repeat);
 		initialValues.put(Tasks.KEY_TASKS_REPEAT_UNITS, repeat_units);
 		initialValues.put(Tasks.KEY_TASKS_REPEAT_FROM, repeat_from);
 		initialValues.put(Tasks.KEY_TASKS_SIMULTANEOUS, simultaneous);
-		initialValues.put(Tasks.KEY_TASKS_DATE_START, date_start);
+		initialValues.put(Tasks.KEY_TASKS_DATE_START, Utilities.date2String(date_start,1));
 		try{
 			return mDb.insert(Tasks.DATABASE_TABLE_TASKS, null, initialValues);
 		}catch (Exception ex) {
@@ -147,6 +157,7 @@ public class TicklerDBAdapter {
 		if(parent.getId() == Task.NEW_TASK) {
 			long rowId = addTask(parent);
 			parent.setId(rowId);
+			
 		}
 		
 		//Both tasks should already be on the database, link them.
