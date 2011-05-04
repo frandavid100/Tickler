@@ -7,6 +7,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.animation.AnimationUtils;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewAnimator;
 import android.widget.ViewFlipper;
@@ -21,9 +22,9 @@ public class ListsActivity extends Activity implements OnTouchListener {
 		setContentView(R.layout.task_lists);
 		// Set a touch listener on viewflipper
         ViewFlipper listsViewFlipper = (ViewFlipper) findViewById(R.id.viewFlipper_Lists_Container);
-        listsViewFlipper.setOnTouchListener((OnTouchListener) this); 
-
+        listsViewFlipper.setOnTouchListener((OnTouchListener) this);        
 	}
+	
 	
 	// Event handler for buttons OnClick method, defined in task_lists.xml
 	public void addNewTaskListener(View v){
@@ -75,11 +76,10 @@ public class ListsActivity extends Activity implements OnTouchListener {
                      v.setAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_in_right));
                       // Flip!
                      ((ViewAnimator) v).showNext();
-                }
+                }         	
                 break;
             }
         }
-
         // if you return false, these actions will not be recorded
         return true;
     }

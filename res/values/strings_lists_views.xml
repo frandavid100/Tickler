@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="smart_list_view_title">Smart List</string>
+    <string name="full_list_view_title">Full List</string>
 </resources>
