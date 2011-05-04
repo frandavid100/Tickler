@@ -3,17 +3,19 @@
     package="com.ticklergtd.android" xmlns:android="http://schemas.android.com/apk/res/android">
     <application android:icon="@drawable/ic_launcher"
         android:label="@string/app_name" android:theme="@style/Theme.Tickler">
-        <activity android:label="@string/app_name" android:name=".HomeActivity">
-        </activity>
+        <activity android:label="@string/app_name" android:name=".HomeActivity"/>
         <activity android:label="Test View" android:name=".ListTest"/>
         <activity android:name=".TaskEditorStartDateDialog" android:theme="@android:style/Theme.Dialog"/>
         <activity android:name=".TaskEditorDeadlineDialog" android:theme="@android:style/Theme.Dialog"/>
-        <activity android:name=".TaskEditorRecurrenceDialog" android:theme="@android:style/Theme.Dialog"/>
+        <activity android:name=".TaskEditorRecurrenceDialog" android:theme="@android:style/Theme.Dialog"></activity>
         <activity android:name=".TaskEditorActivity">
+        </activity>
+        
+        <activity android:name="ListsActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"></action><category android:name="android.intent.category.LAUNCHER"></category>
-                
+                <action android:name="android.intent.action.MAIN"></action>
+                <category android:name="android.intent.category.LAUNCHER"></category>
             </intent-filter>
         </activity>
-    </application>
+    </application><activity android:name=".ListsActivity" />
 </manifest>
