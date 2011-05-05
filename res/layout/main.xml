@@ -13,7 +13,7 @@
         <ImageView style="@style/TitleBarSeparator"/>
         <ImageButton style="@style/TitleBarAction"
                      android:id="@+id/btn_title_add"
-                     android:src="@drawable/ic_tab_add"/>
+                     android:src="@drawable/ic_tab_add" android:onClick="addNewTaskListener"/>
     </LinearLayout>
     <TextView
             android:layout_width="fill_parent"
