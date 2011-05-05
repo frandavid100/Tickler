@@ -102,6 +102,24 @@ public class TicklerDBAdapter {
 		);
 	}
 	
+	public Cursor selectTask(long task_id) {
+		return mDb.query(
+				Tasks.DATABASE_TABLE_TASKS,
+				new String[] { Tasks.KEY_TASKS_ID, Tasks.KEY_TASKS_NAME,
+						Tasks.KEY_TASKS_PRIORITY, Tasks.KEY_TASKS_NOTE,
+						Tasks.KEY_TASKS_DATE_CREATION, Tasks.KEY_TASKS_SOMEDAY,
+						Tasks.KEY_TASKS_DATE_START, Tasks.KEY_TASKS_DATE_DEADLINE,
+						Tasks.KEY_TASKS_DATE_COMPLETED, Tasks.KEY_TASKS_DATE_ABANDONED,
+						Tasks.KEY_TASKS_REPEAT, Tasks.KEY_TASKS_REPEAT_UNITS,
+						Tasks.KEY_TASKS_REPEAT_FROM, Tasks.KEY_TASKS_SIMULTANEOUS},
+				Tasks.KEY_TASKS_ID + "=" + task_id,
+				null,
+				null,
+				null,
+				Tasks.KEY_TASKS_DATE_START + " ASC"
+		);
+	}
+	
 	public long addTask(Task task) {
 		long rowId = addTask(task.getName(), task.getPriority(), task.getNote(), task.getCreationDate(), task.isSomeday(), task.getStartDate(), task.getDeadline(),
 				task.getCompleted(), task.getAbandoned(), task.getRepeat(), task.getRepeatUnits(), task.getRepeatFrom(), task.isSimultaneous());

@@ -11,11 +11,11 @@
         <activity android:name=".TaskEditorActivity">
         </activity>
         
-        <activity android:name="ListsActivity">
+        <activity android:name="ViewFlipTest">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"></action>
                 <category android:name="android.intent.category.LAUNCHER"></category>
             </intent-filter>
         </activity>
-    </application><activity android:name=".ListsActivity" />
+    </application><activity android:name=".ViewFlipTest" />
 </manifest>

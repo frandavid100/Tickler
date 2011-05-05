@@ -49,6 +49,26 @@ public class Task {
 	public Task(long task_id, Context ctx) {
 		mId 	= task_id;
 		mCtx	= ctx;
+		
+		Task_helper();
+		Cursor c = tck.selectTask(task_id);
+
+		c.moveToFirst();
+		if (!c.isAfterLast()) {
+			this.setId(c.getLong(0));
+			this.setName(c.getString(1));
+			this.setPriority(c.getInt(2));
+			this.setNote(c.getString(3));
+			this.setSomeday(c.getInt(5));
+			this.setCreationDate(Utilities.string2Date(c.getString(4)));
+			this.setStartDate(Utilities.string2Date(c.getString(6)));
+			this.setDeadline(Utilities.string2Date(c.getString(7)));
+			this.setCompleted(Utilities.string2Date(c.getString(8)));
+			this.setAbandoned(Utilities.string2Date(c.getString(9)));			
+			this.setContexts(ContextTask.getContextsTask(this.getId(),mCtx));
+		}
+		c.close();
+		Task_helper_close();
 	}
 	
 	/**

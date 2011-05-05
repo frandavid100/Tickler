@@ -11,11 +11,21 @@
     </LinearLayout>
     <ViewFlipper android:layout_width="match_parent" android:layout_height="match_parent" android:id="@+id/viewFlipper_Lists_Container">
         <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:id="@+id/linearLayout_Smart_List_View" android:background="@color/background2">
-            <TextView android:id="@+id/textView_Smart_List_Placeholder" android:layout_width="match_parent" android:layout_height="match_parent" android:gravity="center_vertical|center_horizontal" android:textSize="40dip" android:text="Smart List"></TextView>
-        </LinearLayout>
+           <!-- <TextView android:id="@+id/textView_Smart_List_Placeholder" android:layout_width="match_parent" android:layout_height="match_parent" android:gravity="center_vertical|center_horizontal" android:textSize="40dip" android:text="Smart List"></TextView> -->
+            <ListView
+				android:id="@+id/list_smart"
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+				android:drawSelectorOnTop="false"/>
+	        </LinearLayout>
         <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:id="@+id/LinearLayout_Full_List_View" android:background="@color/background3">
-            <TextView android:id="@+id/TextView01" android:textSize="40dip" android:gravity="center_vertical|center_horizontal" android:layout_height="match_parent" android:layout_width="match_parent" android:text="Full List"></TextView>
-        </LinearLayout>
+            <!-- <TextView android:id="@+id/TextView01" android:textSize="40dip" android:gravity="center_vertical|center_horizontal" android:layout_height="match_parent" android:layout_width="match_parent" android:text="Full List"></TextView> -->
+            <ListView
+				android:id="@+id/list_full"
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+				android:drawSelectorOnTop="false"/>
+	        </LinearLayout>
     </ViewFlipper>
 </LinearLayout>
 
