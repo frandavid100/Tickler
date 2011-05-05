@@ -350,12 +350,16 @@ public class Task {
 		}
 	}
 	
-	public static ArrayList<Task> getTasks(Context ctx) {
+	public static ArrayList<Task> getTasks(Context ctx, int flipView) {
 		mCtx = ctx;
 		ArrayList<Task> aux = new ArrayList<Task>();
 		
 		Task_helper();
-		Cursor c = tck.selectTasks();
+		Cursor c = null;
+		if (flipView == 1)
+			c = tck.selectTasks_Smart();
+		if (flipView == 2)
+			c = tck.selectTasks_Full();
 		
 		c.moveToFirst();
 		while (!c.isAfterLast()) {

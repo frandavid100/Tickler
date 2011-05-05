@@ -43,7 +43,7 @@ public class ListTest extends ListActivity  implements OnClickListener {
         super.onCreate(savedInstanceState);
 
         // Recupera una lista de tareas
-        tsk = Task.getTasks(ListTest.this);
+        tsk = Task.getTasks(ListTest.this,1);
         
         // Y ya en una función local, compongo los strings como se necesite
         mStrings = getStringsFromTasks(tsk);

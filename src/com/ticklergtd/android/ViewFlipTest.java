@@ -2,9 +2,6 @@ package com.ticklergtd.android;
 
 import java.util.ArrayList;
 
-import com.ticklergtd.android.model.ContextTask;
-import com.ticklergtd.android.model.Task;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,15 +11,22 @@ import android.view.View.OnTouchListener;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.ViewAnimator;
 import android.widget.ViewFlipper;
+
+import com.ticklergtd.android.model.ContextTask;
+import com.ticklergtd.android.model.Task;
 
 public class ViewFlipTest extends Activity implements OnTouchListener {
 	
 	float downXvalue;
-	private ArrayList<String> mStrings;
-	private ArrayList<Task> tsk = new ArrayList<Task>();
+	private ArrayList<String> mStrings_full;
+	private ArrayList<String> mStrings_smart;
+	private ArrayList<Task> tsk_full = new ArrayList<Task>();
+	private ArrayList<Task> tsk_smart = new ArrayList<Task>();
 	private ViewFlipper listsViewFlipper = null;
+	static int flipView = 1;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -34,20 +38,22 @@ public class ViewFlipTest extends Activity implements OnTouchListener {
         //listsViewFlipper.setOnTouchListener((OnTouchListener) this);
 
         // Recupera una lista de tareas
-        tsk = Task.getTasks(ViewFlipTest.this);
+        tsk_full = Task.getTasks(ViewFlipTest.this,1);
+        tsk_smart = Task.getTasks(ViewFlipTest.this,2);
 
         // Y ya en una función local, compongo los strings como se necesite
-        mStrings = getStringsFromTasks(tsk);
+        mStrings_full = getStringsFromTasks(tsk_full);
+        mStrings_smart = getStringsFromTasks(tsk_smart);
 
         ListView lvSmart = (ListView) findViewById(R.id.list_smart);
         lvSmart.setAdapter(new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, mStrings));
+                android.R.layout.simple_list_item_1, mStrings_smart));
         lvSmart.setTextFilterEnabled(true);
         lvSmart.setOnTouchListener((OnTouchListener) this);
         
         ListView lvFull = (ListView) findViewById(R.id.list_full);
         lvFull.setAdapter(new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, mStrings));
+                android.R.layout.simple_list_item_1, mStrings_full));
         lvFull.setTextFilterEnabled(true);
         lvFull.setOnTouchListener((OnTouchListener) this);
 	}
@@ -103,7 +109,16 @@ public class ViewFlipTest extends Activity implements OnTouchListener {
                 	listsViewFlipper.setAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_in_right));
                       // Flip!
                      ((ViewAnimator) listsViewFlipper).showNext();
-                }         	
+                }    
+                
+                if (flipView == 1) 
+                	flipView = 2;
+                else 
+                	flipView = 1;
+                
+                TextView txtView = (TextView)findViewById(R.id.textView_View_Title);
+                if (flipView == 1) txtView.setText("Smart List");
+                if (flipView == 2) txtView.setText("Full List");
                 break;
             }
         }

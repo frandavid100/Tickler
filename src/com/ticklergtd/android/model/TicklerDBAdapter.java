@@ -58,6 +58,39 @@ public class TicklerDBAdapter {
 			Log.i(TAG, "Upgrading from " + oldVersion + " to " + newVersion);
 			//TODO: Add updgrade script
 		}
+		
+		public void loadTest(SQLiteDatabase db) {
+			String sSql = "";
+			
+			sSql = "DELETE FROM Tickler_ContextsTasks";
+			db.execSQL(sSql);
+			
+			sSql = "DELETE FROM Tickler_Contexts";
+			db.execSQL(sSql);
+			
+			sSql = "DELETE FROM Tickler_Tasks";
+			db.execSQL(sSql);
+			
+			sSql = "INSERT INTO Tickler_Contexts (id,name,icon) values (1,'Casa',1)";
+			db.execSQL(sSql);
+			sSql = "INSERT INTO Tickler_Contexts (id,name,icon) values (2,'Oficina',1)";
+			db.execSQL(sSql);
+			
+			sSql = "INSERT INTO Tickler_Tasks (id,name,dt_start) values (1,'TASK 1','2011-04-24 14:00')";
+			db.execSQL(sSql);
+			sSql = "INSERT INTO Tickler_Tasks (id,name,dt_start) values (2,'TASK 2','2011-04-25 15:00')";
+			db.execSQL(sSql);
+			sSql = "INSERT INTO Tickler_Tasks (id,name,dt_start) values (3,'TASK 3','2011-04-26 16:00')";
+			db.execSQL(sSql);
+			
+			sSql = "INSERT INTO Tickler_ContextsTasks (task_id,context_id) values (1,1)";
+			db.execSQL(sSql);
+			sSql = "INSERT INTO Tickler_ContextsTasks (task_id,context_id) values (1,2)";
+			db.execSQL(sSql);
+			sSql = "INSERT INTO Tickler_ContextsTasks (task_id,context_id) values (2,2)";
+			db.execSQL(sSql);
+		}
+
 	}
 
 	/**
@@ -74,8 +107,10 @@ public class TicklerDBAdapter {
 		if(!isOpen) {
 			mDbHelper = new DatabaseHelper(mCtx);
 			mDb = mDbHelper.getWritableDatabase();
+			mDbHelper.loadTest(mDb);
 		}
 		isOpen = true;
+		
 		return this;
 	}
 
@@ -84,7 +119,26 @@ public class TicklerDBAdapter {
 		isOpen = false;
 	}
 
-	public Cursor selectTasks(){
+	// TAREAS
+	public Cursor selectTasks_Full(){
+		return mDb.query(
+				Tasks.DATABASE_TABLE_TASKS,
+				new String[] { Tasks.KEY_TASKS_ID, Tasks.KEY_TASKS_NAME,
+						Tasks.KEY_TASKS_PRIORITY, Tasks.KEY_TASKS_NOTE,
+						Tasks.KEY_TASKS_DATE_CREATION, Tasks.KEY_TASKS_SOMEDAY,
+						Tasks.KEY_TASKS_DATE_START, Tasks.KEY_TASKS_DATE_DEADLINE,
+						Tasks.KEY_TASKS_DATE_COMPLETED, Tasks.KEY_TASKS_DATE_ABANDONED,
+						Tasks.KEY_TASKS_REPEAT, Tasks.KEY_TASKS_REPEAT_UNITS,
+						Tasks.KEY_TASKS_REPEAT_FROM, Tasks.KEY_TASKS_SIMULTANEOUS},
+				Tasks.KEY_TASKS_ID + " IN (1,2)",
+				null,
+				null,
+				null,
+				Tasks.KEY_TASKS_DATE_START + " ASC"
+		);
+	}
+	
+	public Cursor selectTasks_Smart(){
 		return mDb.query(
 				Tasks.DATABASE_TABLE_TASKS,
 				new String[] { Tasks.KEY_TASKS_ID, Tasks.KEY_TASKS_NAME,
@@ -212,5 +266,4 @@ public class TicklerDBAdapter {
 		return mDb.rawQuery(sSql, null);
 	}
 	
-
 }
