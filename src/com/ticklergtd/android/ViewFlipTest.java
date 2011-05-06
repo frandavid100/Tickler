@@ -8,9 +8,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewAnimator;
 import android.widget.ViewFlipper;
 
@@ -69,11 +71,28 @@ public class ViewFlipTest extends Activity implements OnClickListener {
             }
             case R.id.button_Title_Bar_Add_New_Task:
             {
-            	callTaskEditorActivity();
+            	callTaskEditorActivity(0);
             	break;
             }
         }
     }
+	
+	public void onListItemClick(View v, int position) {
+		//
+		long lTaskId = 0;
+		
+		switch (v.getId()) {
+			case R.id.list_full:
+				lTaskId = getTaskIdFromList(tsk_full, position);
+				break;
+			case R.id.list_smart:
+				lTaskId = getTaskIdFromList(tsk_smart, position);
+				break;
+		}
+		
+		callTaskEditorActivity(lTaskId);
+	}
+
 
 	/* **************************************
 	 * PRIVATE FUNCTIONS 
@@ -110,11 +129,43 @@ public class ViewFlipTest extends Activity implements OnClickListener {
 	private void setListeners() {
 		txtView.setOnClickListener(this);
 		addNewTask.setOnClickListener(this);
+		/*lvSmart.setOnClickListener(this);
+		lvFull.setOnClickListener(this);*/
+		lvSmart.setOnItemClickListener(new ListView.OnItemClickListener() {
+	        @Override
+	        public void onItemClick(AdapterView<?> a, View v, int i, long l) {
+	            try {
+	                // Remembers the selected Index
+	            	onListItemClick(lvSmart,i);
+	            }
+	            catch(Exception e) {
+	                System.out.println("Nay, cannot get the selected index");
+	            }
+	        }
+		});
+
+		lvFull.setOnItemClickListener(new ListView.OnItemClickListener() {
+	        @Override
+	        public void onItemClick(AdapterView<?> a, View v, int i, long l) {
+	            try {
+	                // Remembers the selected Index
+	            	onListItemClick(lvFull,i);
+	            }
+	            catch(Exception e) {
+	                System.out.println("Nay, cannot get the selected index");
+	            }
+	        }
+		});
+
 	}
 	
 	// Calls to each optional settings dialog.
-	private void callTaskEditorActivity() {
+	private void callTaskEditorActivity(long task_id) {
 		Intent taskEditorIntent = new Intent(this,TaskEditorActivity.class);
+		
+		if (task_id > 0) {
+			taskEditorIntent.putExtra("task_id",task_id);
+		}
 		startActivity(taskEditorIntent);	
 	}
 	
@@ -175,5 +226,18 @@ public class ViewFlipTest extends Activity implements OnClickListener {
     	}
     	
     	return res;
+    }
+    
+    private long getTaskIdFromList(ArrayList<Task> tsk, int position) {
+    	Task auxTask;
+    	long lRes = 0;
+    	
+    	auxTask = tsk.get(position);
+    	
+    	if (auxTask != null) {
+    		lRes = auxTask.getId();
+    	}
+    	
+    	return lRes;
     }
 }

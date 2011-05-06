@@ -21,7 +21,7 @@ public class TaskEditorActivity extends Activity {
 		
 		// Testing intent extras.
 		// TODO: REMOVE THIS!
-		Toast toast = Toast.makeText(getApplicationContext(), Integer.toString(getIntent().getIntExtra("TASK_EDITOR_EXTRA", 66)), Toast.LENGTH_SHORT);
+		Toast toast = Toast.makeText(getApplicationContext(), Long.toString(getIntent().getLongExtra("task_id", -1)), Toast.LENGTH_SHORT);
 		toast.show();
 	}
 	
