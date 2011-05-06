@@ -5,9 +5,8 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
+import android.view.View.OnClickListener;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -18,7 +17,7 @@ import android.widget.ViewFlipper;
 import com.ticklergtd.android.model.ContextTask;
 import com.ticklergtd.android.model.Task;
 
-public class ViewFlipTest extends Activity implements OnTouchListener {
+public class ViewFlipTest extends Activity implements OnClickListener {
 	
 	float downXvalue;
 	private ArrayList<String> mStrings_full;
@@ -26,17 +25,69 @@ public class ViewFlipTest extends Activity implements OnTouchListener {
 	private ArrayList<Task> tsk_full = new ArrayList<Task>();
 	private ArrayList<Task> tsk_smart = new ArrayList<Task>();
 	private ViewFlipper listsViewFlipper = null;
-	static int flipView = 1;
+	private ListView lvSmart;
+	private ListView lvFull;
+	private TextView txtView;
+	private View addNewTask;
+	
+	static final String SMART_LIST 	= "SMART LIST";
+	static final String FULL_LIST 	= "FULL LIST";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.task_lists);
 		
-		// Set a touch listener on viewflipper
-        listsViewFlipper = (ViewFlipper) findViewById(R.id.viewFlipper_Lists_Container);
-        //listsViewFlipper.setOnTouchListener((OnTouchListener) this);
+        findViews();
+		initViews();
+		setListeners();
+		
+	}
+	
+	// Some tests with viewFlipper in order to switch between Smart List and Full List
+	// TODO: Remove this code and upgrade to something similar to Launcher. Drag and slide views by using gestures.
+	@Override
+	public void onClick(View v) {
+        switch (v.getId())
+        {
+            case R.id.textView_View_Title:
+            {
+            	if (isFullList()) {
+            		listsViewFlipper.setAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_in_left));
+                    ((ViewAnimator) listsViewFlipper).showPrevious();
+                    
+                    txtView.setText(SMART_LIST);
+                }
+            	else if (isSmartList()) {
+            		listsViewFlipper.setAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_in_right));
+                    ((ViewAnimator) listsViewFlipper).showNext();
+                    
+                    txtView.setText(FULL_LIST);
+                }
 
+                break;
+            }
+            case R.id.button_Title_Bar_Add_New_Task:
+            {
+            	callTaskEditorActivity();
+            	break;
+            }
+        }
+    }
+
+	/* **************************************
+	 * PRIVATE FUNCTIONS 
+	 * **************************************/
+	
+	private void findViews() {
+		lvSmart = (ListView) findViewById(R.id.list_smart);
+		lvFull 	= (ListView) findViewById(R.id.list_full);
+		listsViewFlipper = (ViewFlipper) findViewById(R.id.viewFlipper_Lists_Container);
+		txtView = (TextView)findViewById(R.id.textView_View_Title);
+		addNewTask = findViewById(R.id.button_Title_Bar_Add_New_Task);
+	}
+	
+	private void initViews() {
         // Recupera una lista de tareas
         tsk_full = Task.getTasks(ViewFlipTest.this,1);
         tsk_smart = Task.getTasks(ViewFlipTest.this,2);
@@ -44,24 +95,21 @@ public class ViewFlipTest extends Activity implements OnTouchListener {
         // Y ya en una función local, compongo los strings como se necesite
         mStrings_full = getStringsFromTasks(tsk_full);
         mStrings_smart = getStringsFromTasks(tsk_smart);
-
-        ListView lvSmart = (ListView) findViewById(R.id.list_smart);
+        
         lvSmart.setAdapter(new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, mStrings_smart));
         lvSmart.setTextFilterEnabled(true);
-        lvSmart.setOnTouchListener((OnTouchListener) this);
         
-        ListView lvFull = (ListView) findViewById(R.id.list_full);
         lvFull.setAdapter(new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, mStrings_full));
         lvFull.setTextFilterEnabled(true);
-        lvFull.setOnTouchListener((OnTouchListener) this);
+        
+        txtView.setText(SMART_LIST);
 	}
 	
-	
-	// Event handler for buttons OnClick method, defined in task_lists.xml
-	public void addNewTaskListener(View v){
-		callTaskEditorActivity();
+	private void setListeners() {
+		txtView.setOnClickListener(this);
+		addNewTask.setOnClickListener(this);
 	}
 	
 	// Calls to each optional settings dialog.
@@ -70,62 +118,20 @@ public class ViewFlipTest extends Activity implements OnTouchListener {
 		startActivity(taskEditorIntent);	
 	}
 	
-	// Some tests with viewFlipper in order to switch between Smart List and Full List
-	// TODO: Remove this code and upgrade to something similar to Launcher. Drag and slide views by using gestures.
-	@Override
-	public boolean onTouch(View v, MotionEvent event) {
-		// Get the action that was done on this touch event
-        switch (event.getAction())
-        {
-            case MotionEvent.ACTION_DOWN:
-            {
-                // store the X value when the user's finger was pressed down
-                downXvalue = event.getX();
-                break;
-            }
-
-            case MotionEvent.ACTION_UP:
-            {
-                // Get the X value when the user released his/her finger
-                float currentX = event.getX();            
-
-                // going backwards: pushing stuff to the right
-                if (downXvalue < currentX)
-                {
-                    // Get a reference to the ViewFlipper
-                    // ViewFlipper vf = (ViewFlipper) findViewById(R.id.viewFlipper_Lists_Container);
-                     // Set the animation
-                	listsViewFlipper.setAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_in_left));
-                      // Flip!
-                      ((ViewAnimator) listsViewFlipper).showPrevious();
-                }
-
-                // going forwards: pushing stuff to the left
-                if (downXvalue > currentX)
-                {
-                    // Get a reference to the ViewFlipper
-                    //ViewFlipper vf = (ViewFlipper) findViewById(R.id.viewFlipper_Lists_Container);
-                     // Set the animation
-                	listsViewFlipper.setAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_in_right));
-                      // Flip!
-                     ((ViewAnimator) listsViewFlipper).showNext();
-                }    
-                
-                if (flipView == 1) 
-                	flipView = 2;
-                else 
-                	flipView = 1;
-                
-                TextView txtView = (TextView)findViewById(R.id.textView_View_Title);
-                if (flipView == 1) txtView.setText("Smart List");
-                if (flipView == 2) txtView.setText("Full List");
-                break;
-            }
-        }
-        // if you return false, these actions will not be recorded
-        return true;
-    }
-
+	private boolean isSmartList () {
+		boolean bRes = false;
+		
+		bRes = (txtView.getText().toString().toUpperCase().equals(SMART_LIST));
+		return bRes;
+	}
+	
+	private boolean isFullList () {
+		boolean bRes = false;
+		
+		bRes = (txtView.getText().toString().toUpperCase().equals(FULL_LIST));
+		return bRes;
+	}
+	
     // De una lista de tareas, genera una lista de strings con la información
     // ... que necesitemos
     private ArrayList<String> getStringsFromTasks(ArrayList<Task> al) {
@@ -170,6 +176,4 @@ public class ViewFlipTest extends Activity implements OnTouchListener {
     	
     	return res;
     }
-
-	
 }
