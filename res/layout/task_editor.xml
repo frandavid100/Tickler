@@ -7,6 +7,7 @@
 		<AutoCompleteTextView 	android:layout_weight="1" 
 								android:layout_height="wrap_content" 
 								android:layout_width="wrap_content" 
+								android:textColor="@color/text_edit"
 								android:text="@string/task_editor_task_default_text" 
 								android:id="@+id/autoCompleteTextView_task_name">
 		</AutoCompleteTextView>
@@ -43,12 +44,14 @@
 		</RadioGroup>
     </LinearLayout>
 	<MultiAutoCompleteTextView 	android:layout_height="wrap_content" 
-								android:layout_width="match_parent" 
+								android:layout_width="match_parent"
+								android:textColor="@color/text_edit"
 								android:text="@string/task_editor_task_context_default_text" 
 								android:id="@+id/multiAutoCompleteTextView_contexts">
 	</MultiAutoCompleteTextView>
 	<TextView 	android:layout_height="wrap_content" 
 				android:layout_width="wrap_content" 
+				android:textColor="@color/text_edit"
 				android:text="@string/task_editor_optional_settings_label" 
 				android:id="@+id/textView_label_optional_settings">
 	</TextView>
@@ -73,6 +76,7 @@
 	<EditText 	android:layout_height="wrap_content" 
 				android:layout_width="match_parent" 
 				android:lines="5" 
+				android:textColor="@color/text_edit"
 				android:text="@string/task_editor_task_notes_default_text" 
 				android:id="@+id/editText_task_notes">
 	</EditText>

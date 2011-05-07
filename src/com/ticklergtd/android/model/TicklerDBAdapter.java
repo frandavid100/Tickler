@@ -76,11 +76,13 @@ public class TicklerDBAdapter {
 			sSql = "INSERT INTO Tickler_Contexts (id,name,icon) values (2,'Oficina',1)";
 			db.execSQL(sSql);
 			
-			sSql = "INSERT INTO Tickler_Tasks (id,name,dt_start) values (1,'TASK 1','2011-04-24 14:00')";
+			sSql = "INSERT INTO Tickler_Tasks (id,name,dt_start,dt_deadline,priority,someday) values (1,'TASK 1','2011-04-24 14:00','2011-04-26 14:00',1,0)";
 			db.execSQL(sSql);
-			sSql = "INSERT INTO Tickler_Tasks (id,name,dt_start) values (2,'TASK 2','2011-04-25 15:00')";
+			sSql = "INSERT INTO Tickler_Tasks (id,name,dt_start,dt_deadline,priority,someday) values (2,'TASK 2','2011-04-25 15:00',null,2,0)";
 			db.execSQL(sSql);
-			sSql = "INSERT INTO Tickler_Tasks (id,name,dt_start) values (3,'TASK 3','2011-04-26 16:00')";
+			sSql = "INSERT INTO Tickler_Tasks (id,name,dt_start,dt_deadline,priority,someday) values (3,'TASK 3',null,null,3,1)";
+			db.execSQL(sSql);
+			sSql = "INSERT INTO Tickler_Tasks (id,name,dt_start,dt_deadline,priority,someday) values (4,'TASK 4','2011-04-01 09:00','2011-05-07 09:00',3,0)";
 			db.execSQL(sSql);
 			
 			sSql = "INSERT INTO Tickler_ContextsTasks (task_id,context_id) values (1,1)";
@@ -88,6 +90,10 @@ public class TicklerDBAdapter {
 			sSql = "INSERT INTO Tickler_ContextsTasks (task_id,context_id) values (1,2)";
 			db.execSQL(sSql);
 			sSql = "INSERT INTO Tickler_ContextsTasks (task_id,context_id) values (2,2)";
+			db.execSQL(sSql);
+			sSql = "INSERT INTO Tickler_ContextsTasks (task_id,context_id) values (3,2)";
+			db.execSQL(sSql);
+			sSql = "INSERT INTO Tickler_ContextsTasks (task_id,context_id) values (4,1)";
 			db.execSQL(sSql);
 		}
 
@@ -175,7 +181,7 @@ public class TicklerDBAdapter {
 	}
 	
 	public long addTask(Task task) {
-		long rowId = addTask(task.getName(), task.getPriority(), task.getNote(), task.getCreationDate(), task.isSomeday(), task.getStartDate(), task.getDeadline(),
+		long rowId = addTask(task.getName(), task.getPriority(), task.getNote(), task.getCreationDate(), task.getSomeday(), task.getStartDate(), task.getDeadline(),
 				task.getCompleted(), task.getAbandoned(), task.getRepeat(), task.getRepeatUnits(), task.getRepeatFrom(), task.isSimultaneous());
 		task.setId(rowId); //TODO: Check if addTask's returned rowId is the correct table's row id
 		

@@ -32,9 +32,6 @@ public class ViewFlipTest extends Activity implements OnClickListener {
 	private TextView txtView;
 	private View addNewTask;
 	
-	static final String SMART_LIST 	= "SMART LIST";
-	static final String FULL_LIST 	= "FULL LIST";
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -58,13 +55,13 @@ public class ViewFlipTest extends Activity implements OnClickListener {
             		listsViewFlipper.setAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_in_left));
                     ((ViewAnimator) listsViewFlipper).showPrevious();
                     
-                    txtView.setText(SMART_LIST);
+                    txtView.setText(R.string.smart_list_view_title);
                 }
             	else if (isSmartList()) {
             		listsViewFlipper.setAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_in_right));
                     ((ViewAnimator) listsViewFlipper).showNext();
                     
-                    txtView.setText(FULL_LIST);
+                    txtView.setText(R.string.full_list_view_title);
                 }
 
                 break;
@@ -123,7 +120,7 @@ public class ViewFlipTest extends Activity implements OnClickListener {
                 android.R.layout.simple_list_item_1, mStrings_full));
         lvFull.setTextFilterEnabled(true);
         
-        txtView.setText(SMART_LIST);
+        txtView.setText(R.string.smart_list_view_title);
 	}
 	
 	private void setListeners() {
@@ -172,14 +169,14 @@ public class ViewFlipTest extends Activity implements OnClickListener {
 	private boolean isSmartList () {
 		boolean bRes = false;
 		
-		bRes = (txtView.getText().toString().toUpperCase().equals(SMART_LIST));
+		bRes = (txtView.getText().toString().toUpperCase().equals(R.string.smart_list_view_title));
 		return bRes;
 	}
 	
 	private boolean isFullList () {
 		boolean bRes = false;
 		
-		bRes = (txtView.getText().toString().toUpperCase().equals(FULL_LIST));
+		bRes = (txtView.getText().toString().toUpperCase().equals(R.string.full_list_view_title));
 		return bRes;
 	}
 	

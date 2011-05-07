@@ -4,19 +4,26 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Window;
 import android.widget.DatePicker;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 public class TaskEditorStartDateDialog extends Activity implements RadioGroup.OnCheckedChangeListener {
 	RadioGroup startDateOptions;
 	DatePicker specificDate;
+	String startDate;
+	int someday;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.task_editor_startdate_dialog);
-		specificDate = (DatePicker) findViewById(R.id.datePicker_specific);
-		startDateOptions = (RadioGroup) findViewById(R.id.radioGroup_startDate_options);
-		startDateOptions.setOnCheckedChangeListener(this);
+		
+		startDate 	= getIntent().getStringExtra("dateStart");
+		someday		= getIntent().getIntExtra("Someday",0);
+
+		findViews();
+		initViews();
 	}
 	@Override
 	public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -30,5 +37,28 @@ public class TaskEditorStartDateDialog extends Activity implements RadioGroup.On
 			break;
 		}
 		
+	}
+	
+	private void findViews() {
+		specificDate 		= (DatePicker) findViewById(R.id.datePicker_specific);
+		startDateOptions 	= (RadioGroup) findViewById(R.id.radioGroup_startDate_options);
+		startDateOptions.setOnCheckedChangeListener(this);
+	}
+	
+	private void initViews() {
+		if (someday == 1) {
+			RadioButton rb = (RadioButton)specificDate.getChildAt(1);
+			rb.setSelected(true);
+		}
+		else if (startDate.equals("")) {
+				RadioButton rb = (RadioButton)specificDate.getChildAt(0);
+				rb.setSelected(true);
+		}
+		else{
+			RadioButton rb = (RadioButton)specificDate.getChildAt(2);
+			rb.setSelected(true);
+			
+			specificDate.updateDate(2010, 5, 7);
+		}
 	}
 }

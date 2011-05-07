@@ -153,7 +153,7 @@ public class Task {
 	/**
 	 * @return the mSomeday
 	 */
-	public int isSomeday() {
+	public int getSomeday() {
 		return mSomeday;
 	}
 
