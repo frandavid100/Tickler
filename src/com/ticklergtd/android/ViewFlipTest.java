@@ -169,14 +169,14 @@ public class ViewFlipTest extends Activity implements OnClickListener {
 	private boolean isSmartList () {
 		boolean bRes = false;
 		
-		bRes = (txtView.getText().toString().equals(getResources().getString(R.string.smart_list_view_title)));
+		bRes = (txtView.getText().toString().toUpperCase().equals(R.string.smart_list_view_title));
 		return bRes;
 	}
 	
 	private boolean isFullList () {
 		boolean bRes = false;
 		
-		bRes = (txtView.getText().toString().equals(getResources().getString(R.string.full_list_view_title)));
+		bRes = (txtView.getText().toString().toUpperCase().equals(R.string.full_list_view_title));
 		return bRes;
 	}
 	
