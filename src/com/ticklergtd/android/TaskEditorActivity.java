@@ -108,7 +108,7 @@ public class TaskEditorActivity extends Activity {
 		if (tsk.getPriority() == 3)
 			rbPriority3.setBackgroundDrawable(getResources().getDrawable(R.drawable.titlebar_item_pressed));
 		
-		rbPriority1.setChecked(tsk.getPriority() == 1);
+		//Set priority checkbox
 		rbPriority2.setChecked(tsk.getPriority() == 2);
 		rbPriority3.setChecked(tsk.getPriority() == 2);
 		

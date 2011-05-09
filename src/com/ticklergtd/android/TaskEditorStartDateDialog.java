@@ -44,7 +44,7 @@ public class TaskEditorStartDateDialog extends Activity {
 	private void findViews() {
 		specificDate 		= (DatePicker) findViewById(R.id.datePicker_specific);
 		startDateOptions 	= (RadioGroup) findViewById(R.id.radioGroup_startDate_options);
-		//startDateOptions.setOnCheckedChangeListener(this);
+		//dejarstartDateOptions.setOnCheckedChangeListener(this);
 	}
 	
 	private void initViews() {
