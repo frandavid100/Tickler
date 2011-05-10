@@ -257,13 +257,8 @@ public class ListTest extends Activity implements OnClickListener {
         	ImageView icon=(ImageView)row.findViewById(R.id.imageView_lists_row_edit_task);
         	TextView txtTaskName 		= (TextView)row.findViewById(R.id.textView_lists_row_task_name);
         	TextView txtTaskContexts 	= (TextView)row.findViewById(R.id.textView_lists_row_task_contexts);
-
-        	if (localArray.get(position).length()>4) {
-        		icon.setImageResource(R.drawable.delete);
-        	}
-        	else {
-        		icon.setImageResource(R.drawable.exit2);
-        	}
+        	
+        	
 
         	name 		= getItemParts(localArray.get(position), 1);
         	contexts 	= getItemParts(localArray.get(position), 2);

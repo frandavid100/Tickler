@@ -10,5 +10,6 @@
     <color name="background1">#ffffffff</color>
     <color name="background2">#ffd5ddeb</color>
     <color name="background3">#ffffcccc</color>
+    <color name="lists_row_contexts_text">#FFBABABA</color>
 
 </resources>
