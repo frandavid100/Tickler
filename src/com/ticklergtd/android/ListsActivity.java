@@ -27,13 +27,17 @@ public class ListsActivity extends Activity implements OnClickListener {
 	
 	private ArrayList<String> mStrings_full;
 	private ArrayList<String> mStrings_smart;
-	private ArrayList<Task> tsk_full = new ArrayList<Task>();
-	private ArrayList<Task> tsk_smart = new ArrayList<Task>();
-	private ViewFlipper listsViewFlipper = null;
+	private ArrayList<Task> tsk_full 		= new ArrayList<Task>();
+	private ArrayList<Task> tsk_smart 		= new ArrayList<Task>();
+	private ArrayList<Task> tsk_current 	= new ArrayList<Task>();
+	private ViewFlipper listsViewFlipper 	= null;
 	private ListView lvSmart;
 	private ListView lvFull;
 	private TextView txtView;
 	private View addNewTask;
+
+	static final int SMART 	= 1;
+	static final int FULL 	= 2;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -58,11 +62,15 @@ public class ListsActivity extends Activity implements OnClickListener {
             		listsViewFlipper.setAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_in_left));
                     ((ViewAnimator) listsViewFlipper).showPrevious();
                     
+                    tsk_current = tsk_smart;
+                    
                     txtView.setText(R.string.smart_list_view_title);
                 }
             	else if (isSmartList()) {
             		listsViewFlipper.setAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_in_right));
                     ((ViewAnimator) listsViewFlipper).showNext();
+                    
+                    tsk_current = tsk_full;
                     
                     txtView.setText(R.string.full_list_view_title);
                 }
@@ -109,8 +117,10 @@ public class ListsActivity extends Activity implements OnClickListener {
 	
 	private void initViews() {
         // Recupera una lista de tareas
-        tsk_full = Task.getTasks(ListsActivity.this,1);
-        tsk_smart = Task.getTasks(ListsActivity.this,2);
+        tsk_full = Task.getTasks(ListsActivity.this,FULL);
+        tsk_smart = Task.getTasks(ListsActivity.this,SMART);
+        
+        tsk_current = tsk_smart;
 
         // Y ya en una función local, compongo los strings como se necesite
         mStrings_full = getStringsFromTasks(tsk_full);
@@ -253,23 +263,31 @@ public class ListsActivity extends Activity implements OnClickListener {
         
         public View getView(int position, View convertView, ViewGroup parent) {
         	
-        	String name		= "";
-        	String contexts	= "";
+        	String sName		= "";
+        	String sContexts	= "";
+        	int iPriority		= 2;
+        	
         	int currentListID;
         	View row=super.getView(position, convertView, parent);
         	currentListID=parent.getId();
+        	
         	// TODO: Set "imageView_lists_row_priority_level" background color depending on task priority;
-        	ImageView priorityLevel =(ImageView)row.findViewById(R.id.imageView_lists_row_priority_level);
-        	CheckBox chkTaskCompleted = (CheckBox)row.findViewById(R.id.checkBox_lists_row_task_completed);
+        	ImageView priorityLevel 	= (ImageView)row.findViewById(R.id.imageView_lists_row_priority_level);
+        	CheckBox chkTaskCompleted 	= (CheckBox)row.findViewById(R.id.checkBox_lists_row_task_completed);
         	TextView txtTaskName 		= (TextView)row.findViewById(R.id.textView_lists_row_task_name);
         	TextView txtTaskContexts 	= (TextView)row.findViewById(R.id.textView_lists_row_task_contexts);
-        	ImageView icon=(ImageView)row.findViewById(R.id.imageView_lists_row_edit_task);
-        	name 		= getItemParts(localArray.get(position), 1);
-        	contexts 	= getItemParts(localArray.get(position), 2);
-        	txtTaskName.setText(name);
-        	txtTaskContexts.setText(contexts);
+        	ImageView icon				= (ImageView)row.findViewById(R.id.imageView_lists_row_edit_task);
+        	
+        	sName 		= tsk_current.get(position).getName();
+        	sContexts 	= getNameContexts(tsk_current.get(position));
+        	iPriority	= tsk_current.get(position).getPriority();
+        	
+        	txtTaskName.setText(sName);
+        	txtTaskContexts.setText(sContexts);
+        	
         	//Checkbox listener. Strikestrough this task name when checked.
         	chkTaskCompleted.setOnCheckedChangeListener(new chkCompletedListener(txtTaskName));
+        	
         	//ImageView listener. Calls task editor passing this task ID through extras. 
         	icon.setOnClickListener(new iconClickListener(currentListID,position));
         	return(row);       	

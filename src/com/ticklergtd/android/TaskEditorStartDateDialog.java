@@ -50,15 +50,16 @@ public class TaskEditorStartDateDialog extends Activity {
 	private void initViews() {
 		if (someday == 1) {
 			RadioButton rb = (RadioButton)startDateOptions.getChildAt(1);
-			rb.setSelected(true);
+			rb.setChecked(true);
 		}
 		else if (startDate.equals("")) {
 				RadioButton rb = (RadioButton)startDateOptions.getChildAt(0);
-				rb.setSelected(true);
+				rb.setChecked(true);
 		}
 		else{
 			RadioButton rb = (RadioButton)startDateOptions.getChildAt(2);
-			rb.setSelected(true);
+			rb.setChecked(true);
+			
 			
 			specificDate.updateDate(c.get(Calendar.YEAR),c.get(Calendar.MONTH),c.get(Calendar.DAY_OF_MONTH));
 		}
