@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.inputmethodservice.Keyboard.Row;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -14,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewAnimator;
 import android.widget.ViewFlipper;
 
@@ -22,7 +24,6 @@ import com.ticklergtd.android.model.Task;
 
 public class ListsActivity extends Activity implements OnClickListener {
 	
-	float downXvalue;
 	private ArrayList<String> mStrings_full;
 	private ArrayList<String> mStrings_smart;
 	private ArrayList<Task> tsk_full = new ArrayList<Task>();
@@ -75,8 +76,9 @@ public class ListsActivity extends Activity implements OnClickListener {
         }
     }
 	
+	/* 
 	public void onListItemClick(View v, int position) {
-		//
+		
 		long lTaskId = 0;
 		
 		switch (v.getId()) {
@@ -90,7 +92,7 @@ public class ListsActivity extends Activity implements OnClickListener {
 		
 		callTaskEditorActivity(lTaskId);
 	}
-
+	*/
 
 	/* **************************************
 	 * PRIVATE FUNCTIONS 
@@ -126,7 +128,8 @@ public class ListsActivity extends Activity implements OnClickListener {
 		txtView.setOnClickListener(this);
 		addNewTask.setOnClickListener(this);
 		/*lvSmart.setOnClickListener(this);
-		lvFull.setOnClickListener(this);*/
+		lvFull.setOnClickListener(this);
+		
 		lvSmart.setOnItemClickListener(new ListView.OnItemClickListener() {
 	        @Override
 	        public void onItemClick(AdapterView<?> a, View v, int i, long l) {
@@ -152,7 +155,7 @@ public class ListsActivity extends Activity implements OnClickListener {
 	            }
 	        }
 		});
-
+	*/
 	}
 	
 	// Calls to each optional settings dialog.
@@ -241,34 +244,55 @@ public class ListsActivity extends Activity implements OnClickListener {
     
     class IconicAdapter extends ArrayAdapter<String> {
     	private ArrayList<String> localArray;
-        
+    	private int rowpos;
     	IconicAdapter(ArrayList<String> mStrings) {
         	super(ListsActivity.this, R.layout.task_lists_row, R.id.textView_lists_row_task_name, mStrings);
         	localArray = mStrings;
         }
         
-        public View getView(int position, View convertView,
-                            ViewGroup parent) {
+        public View getView(int position, View convertView, ViewGroup parent) {
         	
         	String name		= "";
         	String contexts	= "";
-        	
+        	rowpos=position;
+        	int currentListID;
         	View row=super.getView(position, convertView, parent);
+        	currentListID=parent.getId();
         	ImageView icon=(ImageView)row.findViewById(R.id.imageView_lists_row_edit_task);
         	TextView txtTaskName 		= (TextView)row.findViewById(R.id.textView_lists_row_task_name);
         	TextView txtTaskContexts 	= (TextView)row.findViewById(R.id.textView_lists_row_task_contexts);
-        	
-        	
-
         	name 		= getItemParts(localArray.get(position), 1);
         	contexts 	= getItemParts(localArray.get(position), 2);
         	txtTaskName.setText(name);
         	txtTaskContexts.setText(contexts);
-
-        	return(row);
+        	icon.setOnClickListener(new iconClickListener(currentListID,rowpos));
+        	return(row);       	
         }
         
-        private String getItemParts(String pOriginal, int i) {
+    	class iconClickListener implements OnClickListener {
+    		private int currentlist;
+    		private int position;
+    		private long taskID;
+    		public iconClickListener(int listID, int pos) {
+    			this.currentlist = listID;
+    			this.position = pos;
+    			this.taskID = 0;
+    		}
+			@Override
+			public void onClick(View v) { 					
+				switch (currentlist) {
+					case R.id.list_full:
+						taskID = getTaskIdFromList(tsk_full, position);
+						break;
+					case R.id.list_smart:
+						taskID = getTaskIdFromList(tsk_smart, position);
+						break;
+				}	
+				callTaskEditorActivity((int)taskID);
+			}
+    	}
+
+		private String getItemParts(String pOriginal, int i) {
         	int iPos = 0;
         	String name = "";
         	String contexts = "";
