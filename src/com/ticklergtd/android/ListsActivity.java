@@ -4,18 +4,19 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.inputmethodservice.Keyboard.Row;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ViewAnimator;
 import android.widget.ViewFlipper;
 
@@ -254,19 +255,43 @@ public class ListsActivity extends Activity implements OnClickListener {
         	
         	String name		= "";
         	String contexts	= "";
-        	rowpos=position;
         	int currentListID;
         	View row=super.getView(position, convertView, parent);
         	currentListID=parent.getId();
-        	ImageView icon=(ImageView)row.findViewById(R.id.imageView_lists_row_edit_task);
+        	// TODO: Set "imageView_lists_row_priority_level" background color depending on task priority;
+        	ImageView priorityLevel =(ImageView)row.findViewById(R.id.imageView_lists_row_priority_level);
+        	CheckBox chkTaskCompleted = (CheckBox)row.findViewById(R.id.checkBox_lists_row_task_completed);
         	TextView txtTaskName 		= (TextView)row.findViewById(R.id.textView_lists_row_task_name);
         	TextView txtTaskContexts 	= (TextView)row.findViewById(R.id.textView_lists_row_task_contexts);
+        	ImageView icon=(ImageView)row.findViewById(R.id.imageView_lists_row_edit_task);
         	name 		= getItemParts(localArray.get(position), 1);
         	contexts 	= getItemParts(localArray.get(position), 2);
         	txtTaskName.setText(name);
         	txtTaskContexts.setText(contexts);
-        	icon.setOnClickListener(new iconClickListener(currentListID,rowpos));
+        	//Checkbox listener. Strikestrough this task name when checked.
+        	chkTaskCompleted.setOnCheckedChangeListener(new chkCompletedListener(txtTaskName));
+        	//ImageView listener. Calls task editor passing this task ID through extras. 
+        	icon.setOnClickListener(new iconClickListener(currentListID,position));
         	return(row);       	
+        }
+        
+        class chkCompletedListener implements OnCheckedChangeListener{
+        	private TextView txtTask;
+			public chkCompletedListener(TextView txtTaskName) {
+				this.txtTask = txtTaskName;
+			}
+
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView,
+					boolean isChecked) {
+				if(isChecked){
+					txtTask.setPaintFlags(txtTask.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+				}
+				else{
+					txtTask.setPaintFlags(0);
+				}
+			}
+        	
         }
         
     	class iconClickListener implements OnClickListener {
