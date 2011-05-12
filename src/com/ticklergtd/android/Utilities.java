@@ -23,6 +23,20 @@ public class Utilities {
 			return null;
 		}
 	}
+	
+	public static Date string2Date(String pString, String format) {
+		if (pString != null) {
+			SimpleDateFormat ft = new SimpleDateFormat(format);
+			try {
+				return ft.parse(pString);	
+			} catch (ParseException e) {
+				return null;					
+			}
+		}
+		else {
+			return null;
+		}
+	}
 
 	public static String date2String(Date pDate, int pFormat) {
 		String res = null;

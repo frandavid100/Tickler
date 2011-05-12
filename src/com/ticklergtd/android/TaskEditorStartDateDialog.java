@@ -1,6 +1,7 @@
 package com.ticklergtd.android;
 
-import java.util.Calendar;
+import java.util.Date;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Window;
@@ -13,7 +14,7 @@ public class TaskEditorStartDateDialog extends Activity {
 	DatePicker specificDate;
 	String startDate;
 	int someday;
-	final Calendar c = Calendar.getInstance();
+	Date formatDate;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +23,7 @@ public class TaskEditorStartDateDialog extends Activity {
 		setContentView(R.layout.task_editor_startdate_dialog);
 		
 		startDate 	= getIntent().getStringExtra("dateStart");
+		formatDate	= Utilities.string2Date(startDate,"dd/MM/yyyy");
 		someday		= getIntent().getIntExtra("Someday",0);
 
 		findViews();
@@ -60,8 +62,7 @@ public class TaskEditorStartDateDialog extends Activity {
 			RadioButton rb = (RadioButton)startDateOptions.getChildAt(2);
 			rb.setChecked(true);
 			
-			
-			specificDate.updateDate(c.get(Calendar.YEAR),c.get(Calendar.MONTH),c.get(Calendar.DAY_OF_MONTH));
+			specificDate.updateDate(formatDate.getYear() + 1900,formatDate.getMonth() + 1,formatDate.getDate());
 		}
 	}
 }
