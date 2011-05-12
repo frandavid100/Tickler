@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewAnimator;
 import android.widget.ViewFlipper;
 
@@ -32,7 +33,10 @@ public class ListTest extends Activity implements OnClickListener {
 	private ListView lvFull;
 	private TextView txtView;
 	private View addNewTask;
-	
+		
+	static final int SMART 	= 1;
+	static final int FULL 	= 2;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -106,8 +110,8 @@ public class ListTest extends Activity implements OnClickListener {
 	
 	private void initViews() {
         // Recupera una lista de tareas
-        tsk_full = Task.getTasks(ListTest.this,1);
-        tsk_smart = Task.getTasks(ListTest.this,2);
+        tsk_full = Task.getTasks(ListTest.this,FULL);
+        tsk_smart = Task.getTasks(ListTest.this,SMART);
 
         // Y ya en una función local, compongo los strings como se necesite
         mStrings_full = getStringsFromTasks(tsk_full);
@@ -200,10 +204,10 @@ public class ListTest extends Activity implements OnClickListener {
     private String getItemList(Task tsk) {
     	String res = "";
     	
-    	res = tsk.getName();
+    	res = tsk.getId() + "##" + tsk.getName();
     	
     	if (tsk.getStartDate() != null) {
-    		String aux = " - " + Utilities.date2String(tsk.getStartDate(),2) + "##" + getNameContexts(tsk);
+    		String aux = "##" + Utilities.date2String(tsk.getStartDate(),2) + "##" + getNameContexts(tsk);
     		res += aux;
     	}
     	
@@ -241,7 +245,11 @@ public class ListTest extends Activity implements OnClickListener {
     
     class IconicAdapter extends ArrayAdapter<String> {
     	private ArrayList<String> localArray;
-        
+    	private String name		= "";
+    	private String contexts	= "";
+    	private String id		= "";
+    	private int gPos		= 0;
+    	
     	IconicAdapter(ArrayList<String> mStrings) {
         	super(ListTest.this, R.layout.task_lists_row, R.id.textView_lists_row_task_name, mStrings);
         	localArray = mStrings;
@@ -249,45 +257,43 @@ public class ListTest extends Activity implements OnClickListener {
         
         public View getView(int position, View convertView,
                             ViewGroup parent) {
-        	
-        	String name		= "";
-        	String contexts	= "";
-        	
-        	View row=super.getView(position, convertView, parent);
-        	ImageView icon=(ImageView)row.findViewById(R.id.imageView_lists_row_edit_task);
+
+        	View row					= super.getView(position, convertView, parent);
+        	ImageView icon				= (ImageView)row.findViewById(R.id.imageView_lists_row_edit_task);
         	TextView txtTaskName 		= (TextView)row.findViewById(R.id.textView_lists_row_task_name);
         	TextView txtTaskContexts 	= (TextView)row.findViewById(R.id.textView_lists_row_task_contexts);
         	
-        	
-
+        	gPos		= position;
+        	id			= getItemParts(localArray.get(position), 0);
         	name 		= getItemParts(localArray.get(position), 1);
         	contexts 	= getItemParts(localArray.get(position), 2);
+        	
         	txtTaskName.setText(name);
         	txtTaskContexts.setText(contexts);
-
+        	
+        	icon.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					Toast.makeText(ListTest.this, getItemParts(localArray.get(gPos), 1),
+		                    Toast.LENGTH_SHORT).show();
+					callTaskEditorActivity(Integer.parseInt(getItemParts(localArray.get(gPos), 0)));
+				}
+			});
+        	
         	return(row);
         }
         
         private String getItemParts(String pOriginal, int i) {
-        	int iPos = 0;
-        	String name = "";
-        	String contexts = "";
+        	String [] res = null;
+        	        	
+        	res = pOriginal.split("##");
         	
-        	iPos = pOriginal.indexOf("##");
-        	if (iPos > 0) {
-        		name 		= pOriginal.substring(0, iPos - 1);
-        		contexts 	= pOriginal.substring(iPos + 2);
+        	if (i < res.length) {
+        		return res[i];
         	}
         	else {
-        		name 		= pOriginal;
-        		contexts 	= "";
-        	}
-        	
-        	if (i == 1) {
-        		return name;
-        	}
-        	else {
-        		return contexts;
+        		return "";
         	}
         }
     }

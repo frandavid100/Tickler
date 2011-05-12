@@ -36,6 +36,10 @@ public class Task {
 	private static Context 			mCtx;
 	private static TicklerDBAdapter tck;
 	
+	static final int SMART 	= 1;
+	static final int FULL 	= 2;
+	
+
 	/**
 	 * The order when this task is a child of another task
 	 */
@@ -356,9 +360,9 @@ public class Task {
 		
 		Task_helper();
 		Cursor c = null;
-		if (flipView == 1)
+		if (flipView == SMART)
 			c = tck.selectTasks_Smart();
-		if (flipView == 2)
+		if (flipView == FULL)
 			c = tck.selectTasks_Full();
 		
 		c.moveToFirst();

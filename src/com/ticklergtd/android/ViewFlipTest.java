@@ -32,6 +32,9 @@ public class ViewFlipTest extends Activity implements OnClickListener {
 	private TextView txtView;
 	private View addNewTask;
 	
+	static final int SMART 	= 1;
+	static final int FULL 	= 2;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -96,8 +99,8 @@ public class ViewFlipTest extends Activity implements OnClickListener {
 	 * **************************************/
 	
 	private void findViews() {
-		lvSmart = (ListView) findViewById(R.id.list_smart);
 		lvFull 	= (ListView) findViewById(R.id.list_full);
+		lvSmart = (ListView) findViewById(R.id.list_smart);
 		listsViewFlipper = (ViewFlipper) findViewById(R.id.viewFlipper_Lists_Container);
 		txtView = (TextView)findViewById(R.id.textView_View_Title);
 		addNewTask = findViewById(R.id.button_Title_Bar_Add_New_Task);
@@ -105,20 +108,20 @@ public class ViewFlipTest extends Activity implements OnClickListener {
 	
 	private void initViews() {
         // Recupera una lista de tareas
-        tsk_full = Task.getTasks(ViewFlipTest.this,1);
-        tsk_smart = Task.getTasks(ViewFlipTest.this,2);
+		tsk_full = Task.getTasks(ViewFlipTest.this,FULL);
+        tsk_smart = Task.getTasks(ViewFlipTest.this,SMART);
 
         // Y ya en una función local, compongo los strings como se necesite
         mStrings_full = getStringsFromTasks(tsk_full);
         mStrings_smart = getStringsFromTasks(tsk_smart);
         
-        lvSmart.setAdapter(new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, mStrings_smart));
-        lvSmart.setTextFilterEnabled(true);
-        
         lvFull.setAdapter(new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, mStrings_full));
         lvFull.setTextFilterEnabled(true);
+        
+        lvSmart.setAdapter(new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, mStrings_smart));
+        lvSmart.setTextFilterEnabled(true);
         
         txtView.setText(R.string.smart_list_view_title);
 	}

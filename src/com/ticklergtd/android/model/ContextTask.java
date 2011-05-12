@@ -145,6 +145,32 @@ public class ContextTask {
 		c.close();
 		return aux;		
 	}
+
+	public static ArrayList<ContextTask> getAllContextsTask(Context ctx) {
+		mCtx = ctx;
+		ArrayList<ContextTask> aux = new ArrayList<ContextTask>();
+		
+		ContextTask_helper();
+		Cursor c = tck.getContextTasksList();
+		
+		c.moveToFirst();
+		while (!c.isAfterLast()) {
+			ContextTask t = new ContextTask(mCtx);
+			t.setId(c.getLong(0));
+			t.setName(c.getString(1));
+			//t.setIcon(c.getInt(2) == 1);
+			//t.setNotifications(c.getInt(3) == 1);
+			aux.add(t);
+			
+			c.moveToNext();
+		}
+		c.close();
+		return aux;		
+	}
+
+	public boolean applyContext() {
+		return true;
+	}
 	
 	private static void ContextTask_helper() {
 		tck = new TicklerDBAdapter(mCtx);

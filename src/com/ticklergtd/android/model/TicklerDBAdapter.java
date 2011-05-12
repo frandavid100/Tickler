@@ -126,7 +126,7 @@ public class TicklerDBAdapter {
 	}
 
 	// TAREAS
-	public Cursor selectTasks_Full(){
+	public Cursor selectTasks_Smart(){
 		return mDb.query(
 				Tasks.DATABASE_TABLE_TASKS,
 				new String[] { Tasks.KEY_TASKS_ID, Tasks.KEY_TASKS_NAME,
@@ -136,7 +136,7 @@ public class TicklerDBAdapter {
 						Tasks.KEY_TASKS_DATE_COMPLETED, Tasks.KEY_TASKS_DATE_ABANDONED,
 						Tasks.KEY_TASKS_REPEAT, Tasks.KEY_TASKS_REPEAT_UNITS,
 						Tasks.KEY_TASKS_REPEAT_FROM, Tasks.KEY_TASKS_SIMULTANEOUS},
-				Tasks.KEY_TASKS_ID + " IN (1,2)",
+				Tasks.KEY_TASKS_ID + " IN (" + getActiveContexts() + ")",
 				null,
 				null,
 				null,
@@ -144,7 +144,7 @@ public class TicklerDBAdapter {
 		);
 	}
 	
-	public Cursor selectTasks_Smart(){
+	public Cursor selectTasks_Full(){
 		return mDb.query(
 				Tasks.DATABASE_TABLE_TASKS,
 				new String[] { Tasks.KEY_TASKS_ID, Tasks.KEY_TASKS_NAME,
@@ -254,6 +254,24 @@ public class TicklerDBAdapter {
 		}
 	}
 	
+	private String getActiveContexts() {
+		String lsRes = "";
+		
+		ArrayList<ContextTask> tcs = ContextTask.getAllContextsTask(this.mCtx);
+		
+		for (int i=0; i<tcs.size(); i++) {
+			if (tcs.get(i).applyContext()) {
+				lsRes += "," + tcs.get(i).getId();
+			}
+		}
+
+		if (lsRes.charAt(0) == ',') {
+			lsRes = lsRes.substring(1);
+		}
+
+		return lsRes;
+	}
+
 	public void beginTransaction() {
 		mDb.execSQL("BEGIN");
 	}
@@ -271,5 +289,14 @@ public class TicklerDBAdapter {
 				" where ContextsTasks.task_id=" + task_id;
 		return mDb.rawQuery(sSql, null);
 	}
+
+	public Cursor getContextTasksList(){
+		String sSql = "";
+		
+		sSql = "select Contexts.id, Contexts.name, Contexts.icon, Contexts.name , Contexts.notifications " + 
+				" from Tickler_Contexts as Contexts ";
+		return mDb.rawQuery(sSql, null);
+	}
 	
+
 }
