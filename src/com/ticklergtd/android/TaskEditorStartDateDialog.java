@@ -3,18 +3,26 @@ package com.ticklergtd.android;
 import java.util.Date;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
-public class TaskEditorStartDateDialog extends Activity {
+public class TaskEditorStartDateDialog extends Activity  implements OnClickListener {
 	RadioGroup startDateOptions;
 	DatePicker specificDate;
 	String startDate;
 	int someday;
 	Date formatDate;
+	Button btnCancel;
+	Button btnOK;
+	TaskEditorActivity tskAct = new TaskEditorActivity();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +36,7 @@ public class TaskEditorStartDateDialog extends Activity {
 
 		findViews();
 		initViews();
+		setListeners();
 	}
 	/*@Override
 	public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -43,10 +52,27 @@ public class TaskEditorStartDateDialog extends Activity {
 		
 	}
 	*/
+	
+	public void onClick(View v) {
+		switch (v.getId()) {
+			case R.id.button_cancel:
+				setResult(RESULT_CANCELED,null);
+				finish();
+				break;
+				
+			case R.id.button_set:
+				saveScreenData();
+				setResult(RESULT_OK,null);
+				finish();
+				break;
+		}
+	}
+	
 	private void findViews() {
 		specificDate 		= (DatePicker) findViewById(R.id.datePicker_specific);
 		startDateOptions 	= (RadioGroup) findViewById(R.id.radioGroup_startDate_options);
-		//dejarstartDateOptions.setOnCheckedChangeListener(this);
+		btnCancel			= (Button) findViewById(R.id.button_cancel);
+		btnOK				= (Button) findViewById(R.id.button_set);
 	}
 	
 	private void initViews() {
@@ -62,7 +88,20 @@ public class TaskEditorStartDateDialog extends Activity {
 			RadioButton rb = (RadioButton)startDateOptions.getChildAt(2);
 			rb.setChecked(true);
 			
-			specificDate.updateDate(formatDate.getYear() + 1900,formatDate.getMonth() + 1,formatDate.getDate());
-		}
+			specificDate.updateDate(formatDate.getYear() + 1900,formatDate.getMonth() ,formatDate.getDate());
+		}		
+	}
+	
+	private void setListeners() {
+		btnCancel.setOnClickListener(this);	
+		btnOK.setOnClickListener(this);	
+	}
+
+	private void saveScreenData() {
+		String res;
+		Date auxDate = new Date(specificDate.getYear()-1900,specificDate.getMonth(),specificDate.getDayOfMonth());
+		SharedPreferences.Editor editor = getSharedPreferences("task",0).edit();
+		editor.putString("task_startdate", Utilities.date2String(auxDate, 1));
+        editor.commit();
 	}
 }

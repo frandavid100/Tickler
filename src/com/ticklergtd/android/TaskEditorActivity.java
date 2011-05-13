@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
@@ -23,7 +24,7 @@ public class TaskEditorActivity extends Activity {
 	// Dialog identifiers
 	private static final int STARTDATE_DIALOG = 1000, DEADLINE_DIALOG = 1001, RECURRENCE_DIALOG = 1002;
 	private long task_id;
-	private Task tsk;
+	Task tsk;
 	
 	private AutoCompleteTextView txtTaskName; 
 	private AutoCompleteTextView txtTaskContexts; 
@@ -47,6 +48,17 @@ public class TaskEditorActivity extends Activity {
 		initViews();
 	}
 	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if(requestCode == STARTDATE_DIALOG){
+			if(resultCode==RESULT_OK) {
+				loadScreenData();
+			}
+			else if(resultCode==RESULT_CANCELED){
+			}
+		}
+	}
+	
 	// Event handlers for optional settings buttons OnClick method, defined in task_editor.xml
 	
 	public void startDateOptionsListener(View v){
@@ -68,6 +80,7 @@ public class TaskEditorActivity extends Activity {
 		Intent intent = new Intent(this,TaskEditorStartDateDialog.class);
 		intent.putExtra("dateStart", Utilities.date2String(tsk.getStartDate(),1));
 		intent.putExtra("Someday", tsk.getSomeday());
+		saveScreenData();
 		startActivityForResult(intent, STARTDATE_DIALOG);
 	}
 	
@@ -99,7 +112,7 @@ public class TaskEditorActivity extends Activity {
 		
 		txtTaskName.setText(tsk.getName());
 		txtTaskContexts.setText(getNameContexts(tsk));
-		txtTaskNotes.setText("PRUEBA");
+		txtTaskNotes.setText(tsk.getNote());
 		
 		if (tsk.getPriority() == 1)
 			rbPriority1.setBackgroundDrawable(getResources().getDrawable(R.drawable.titlebar_item_pressed));
@@ -145,4 +158,37 @@ public class TaskEditorActivity extends Activity {
     	
     	return res;
     }
+
+	private void saveScreenData() {
+		SharedPreferences.Editor editor = getSharedPreferences("task",0).edit();
+        editor.putString("task_name", txtTaskName.getText().toString());
+        editor.putString("task_note", txtTaskNotes.getText().toString());
+        editor.putString("task_startdate", btnStart.getText().toString());
+        editor.commit();
+	}
+	
+	private void loadScreenData() {
+		SharedPreferences prefs = getSharedPreferences("task",0); 
+        String restoredText;
+        
+        restoredText = prefs.getString("tasḱ_name", null);
+        if (restoredText != null) {
+        	tsk.setName(restoredText);
+        }
+        
+        restoredText = prefs.getString("task_note", null);
+        if (restoredText != null) {
+        	tsk.setNote(restoredText);
+        }
+        
+        restoredText = prefs.getString("task_startdate", null);
+        if (restoredText != null) {
+        	tsk.setStartDate(Utilities.string2Date(restoredText,"dd/MM/yyyy"));
+        }
+        
+        initViews();
+	}
+
 }
+
+
