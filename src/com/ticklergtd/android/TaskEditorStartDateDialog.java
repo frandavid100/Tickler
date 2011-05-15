@@ -12,18 +12,18 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
+import android.widget.RadioGroup.OnCheckedChangeListener;
 
 public class TaskEditorStartDateDialog extends Activity  implements OnClickListener {
-	RadioGroup startDateOptions;
-	DatePicker specificDate;
-	String startDate;
-	int someday;
-	Date formatDate;
-	Button btnCancel;
-	Button btnOK;
-	TaskEditorActivity tskAct = new TaskEditorActivity();
-	
+	private RadioGroup startDateOptions;
+	private DatePicker specificDate;
+	private String startDate;
+	private int someday;
+	private int anytime;
+	private Date formatDate;
+	private Button btnCancel;
+	private Button btnOK;
+		
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -32,26 +32,12 @@ public class TaskEditorStartDateDialog extends Activity  implements OnClickListe
 		
 		startDate 	= getIntent().getStringExtra("dateStart");
 		formatDate	= Utilities.string2Date(startDate,"dd/MM/yyyy");
-		someday		= getIntent().getIntExtra("Someday",0);
+		someday		= getIntent().getIntExtra("someday",0);
 
 		findViews();
 		initViews();
 		setListeners();
 	}
-	/*@Override
-	public void onCheckedChanged(RadioGroup group, int checkedId) {
-		switch (checkedId) {
-		case R.id.radio_specific:
-			specificDate.setEnabled(true);
-			break;
-			
-		default:
-			specificDate.setEnabled(false);
-			break;
-		}
-		
-	}
-	*/
 	
 	public void onClick(View v) {
 		switch (v.getId()) {
@@ -79,14 +65,22 @@ public class TaskEditorStartDateDialog extends Activity  implements OnClickListe
 		if (someday == 1) {
 			RadioButton rb = (RadioButton)startDateOptions.getChildAt(1);
 			rb.setChecked(true);
+			anytime = 0;
+			specificDate.setEnabled(false);
 		}
 		else if (startDate.equals("")) {
-				RadioButton rb = (RadioButton)startDateOptions.getChildAt(0);
-				rb.setChecked(true);
+			RadioButton rb = (RadioButton)startDateOptions.getChildAt(0);
+			rb.setChecked(true);
+			anytime = 1;
+			someday = 0;
+			specificDate.setEnabled(false);
 		}
-		else{
+		else {
 			RadioButton rb = (RadioButton)startDateOptions.getChildAt(2);
 			rb.setChecked(true);
+			anytime = 0;
+			someday = 0;
+			specificDate.setEnabled(true);
 			
 			specificDate.updateDate(formatDate.getYear() + 1900,formatDate.getMonth() ,formatDate.getDate());
 		}		
@@ -95,13 +89,40 @@ public class TaskEditorStartDateDialog extends Activity  implements OnClickListe
 	private void setListeners() {
 		btnCancel.setOnClickListener(this);	
 		btnOK.setOnClickListener(this);	
+		startDateOptions.setOnCheckedChangeListener( new OnCheckedChangeListener() {
+ 														@Override
+														public void onCheckedChanged(
+																RadioGroup group,
+																int checkedId) {
+															// TODO Auto-generated method stub
+ 															RadioButton rb = (RadioButton)startDateOptions.getChildAt(2);
+ 															if (rb.isChecked()) {
+ 																specificDate.setEnabled(true);
+ 															}
+ 															else {
+ 																specificDate.setEnabled(false);
+ 															}
+														}
+													});
 	}
 
 	private void saveScreenData() {
-		String res;
 		Date auxDate = new Date(specificDate.getYear()-1900,specificDate.getMonth(),specificDate.getDayOfMonth());
+		RadioButton rbAnyTime = (RadioButton)startDateOptions.getChildAt(0);
+		RadioButton rbSomeDay = (RadioButton)startDateOptions.getChildAt(1);
+		
+		anytime = rbAnyTime.isChecked()?1:0;
+		someday = rbSomeDay.isChecked()?1:0;
+		
 		SharedPreferences.Editor editor = getSharedPreferences("task",0).edit();
-		editor.putString("task_startdate", Utilities.date2String(auxDate, 1));
+		if (anytime == 0) {
+			editor.putString("task_startdate", Utilities.date2String(auxDate, 1));
+		}
+		else {
+			editor.putString("task_startdate", "");
+		}
+		editor.putInt("task_someday", someday);
+			
         editor.commit();
 	}
 }

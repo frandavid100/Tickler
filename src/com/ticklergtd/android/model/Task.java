@@ -179,7 +179,7 @@ public class Task {
 	 * @param mStartDate the mStartDate to set
 	 */
 	public void setStartDate(Date mStartDate) {
-		if (mStartDate != null)
+		//if (mStartDate != null)
 			this.mStartDate = mStartDate;
 	}
 
@@ -194,7 +194,7 @@ public class Task {
 	 * @param mDeadline the mDeadline to set
 	 */
 	public void setDeadline(Date mDeadline) {
-		if (mDeadline != null)
+		//if (mDeadline != null)
 			this.mDeadline = mDeadline;
 	}
 
