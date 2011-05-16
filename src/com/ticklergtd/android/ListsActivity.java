@@ -3,7 +3,6 @@ package com.ticklergtd.android;
 import java.util.ArrayList;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
@@ -39,7 +38,6 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
 	private ListView lvFull;
 	private TextView txtView;
 	private View addNewTask;
-	private ProgressDialog pd;
 
 	static final int SMART 	= 1;
 	static final int FULL 	= 2;
@@ -51,7 +49,7 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
 		
         findViews();
         initDataset();
-		setListeners();
+        setListeners();
 		
 	}
 	
@@ -92,6 +90,7 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
 	
 	@Override
 	public void run() {
+		listsViewFlipper.setDisplayedChild(2);
 		tsk_full = Task.getTasks(ListsActivity.this,FULL);
         tsk_smart = Task.getTasks(ListsActivity.this,SMART);
         handler.sendEmptyMessage(0);
@@ -110,7 +109,6 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
 	}
 	
 	private void initDataset() {
-        pd = ProgressDialog.show(this, "Loading data", "Please wait");
 		// Recupera una lista de tareas
         Thread workerThread =new Thread(this);
 		workerThread.start();
@@ -119,7 +117,9 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
 	private Handler handler = new Handler() {
     	@Override
     	public void handleMessage(Message msg) {
-    		pd.dismiss();
+    		
+    		listsViewFlipper.setDisplayedChild(0);
+    		//listsViewFlipper.setDisplayedChild(1);
     		tsk_current = tsk_smart;
 
             // Y ya en una función local, compongo los strings como se necesite

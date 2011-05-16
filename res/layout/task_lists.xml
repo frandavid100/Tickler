@@ -18,14 +18,13 @@
 				android:layout_height="fill_parent"
 				android:drawSelectorOnTop="false"/>
 	        </LinearLayout>
-        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:id="@+id/LinearLayout_Full_List_View">
-            <!-- <TextView android:id="@+id/TextView01" android:textSize="40dip" android:gravity="center_vertical|center_horizontal" android:layout_height="match_parent" android:layout_width="match_parent" android:text="Full List"></TextView> -->
-            <ListView
-				android:id="@+id/list_full"
-				android:layout_width="fill_parent"
-				android:layout_height="fill_parent"
-				android:drawSelectorOnTop="false"/>
-	        </LinearLayout>
+        <LinearLayout android:id="@+id/LinearLayout_Full_List_View" android:layout_height="match_parent" android:layout_width="match_parent">
+            <ListView android:layout_width="fill_parent" android:id="@+id/list_full" android:drawSelectorOnTop="false" android:layout_height="fill_parent"></ListView>
+        </LinearLayout>
+        <RelativeLayout android:layout_height="match_parent" android:layout_width="match_parent" android:id="@+id/relativeLayout_Loading_Data">
+            <ProgressBar android:layout_centerVertical="true" android:visibility="visible" android:layout_centerHorizontal="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/progressBar1" android:indeterminate="true"></ProgressBar>
+            <TextView android:layout_below="@+id/progressBar1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/textView1" android:layout_centerHorizontal="true" android:text="Loading data ..."></TextView>
+        </RelativeLayout>
     </ViewFlipper>
 </LinearLayout>
 
