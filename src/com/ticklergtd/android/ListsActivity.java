@@ -3,10 +3,13 @@ package com.ticklergtd.android;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -24,7 +27,7 @@ import android.widget.ViewFlipper;
 import com.ticklergtd.android.model.ContextTask;
 import com.ticklergtd.android.model.Task;
 
-public class ListsActivity extends Activity implements OnClickListener {
+public class ListsActivity extends Activity implements OnClickListener,Runnable {
 	
 	private ArrayList<String> mStrings_full;
 	private ArrayList<String> mStrings_smart;
@@ -36,6 +39,7 @@ public class ListsActivity extends Activity implements OnClickListener {
 	private ListView lvFull;
 	private TextView txtView;
 	private View addNewTask;
+	private ProgressDialog pd;
 
 	static final int SMART 	= 1;
 	static final int FULL 	= 2;
@@ -46,7 +50,7 @@ public class ListsActivity extends Activity implements OnClickListener {
 		setContentView(R.layout.task_lists);
 		
         findViews();
-		initViews();
+        initDataset();
 		setListeners();
 		
 	}
@@ -86,24 +90,13 @@ public class ListsActivity extends Activity implements OnClickListener {
         }
     }
 	
-	/* 
-	public void onListItemClick(View v, int position) {
-		
-		long lTaskId = 0;
-		
-		switch (v.getId()) {
-			case R.id.list_full:
-				lTaskId = getTaskIdFromList(tsk_full, position);
-				break;
-			case R.id.list_smart:
-				lTaskId = getTaskIdFromList(tsk_smart, position);
-				break;
-		}
-		
-		callTaskEditorActivity(lTaskId);
+	@Override
+	public void run() {
+		tsk_full = Task.getTasks(ListsActivity.this,FULL);
+        tsk_smart = Task.getTasks(ListsActivity.this,SMART);
+        handler.sendEmptyMessage(0);
 	}
-	*/
-
+	
 	/* **************************************
 	 * PRIVATE FUNCTIONS 
 	 * **************************************/
@@ -116,58 +109,36 @@ public class ListsActivity extends Activity implements OnClickListener {
 		addNewTask = findViewById(R.id.button_Title_Bar_Add_New_Task);
 	}
 	
-	private void initViews() {
-        // Recupera una lista de tareas
-        tsk_full = Task.getTasks(ListsActivity.this,FULL);
-        tsk_smart = Task.getTasks(ListsActivity.this,SMART);
-        
-        tsk_current = tsk_smart;
-
-        // Y ya en una función local, compongo los strings como se necesite
-        mStrings_full = getStringsFromTasks(tsk_full);
-        mStrings_smart = getStringsFromTasks(tsk_smart);
-        
-        lvSmart.setAdapter(new IconicAdapter(mStrings_smart));
-        lvSmart.setTextFilterEnabled(true);
-        
-        lvFull.setAdapter(new IconicAdapter(mStrings_full));
-        lvFull.setTextFilterEnabled(true);
-        
-        txtView.setText(R.string.smart_list_view_title);
+	private void initDataset() {
+        pd = ProgressDialog.show(this, "Loading data", "Please wait");
+		// Recupera una lista de tareas
+        Thread workerThread =new Thread(this);
+		workerThread.start();
 	}
 	
+	private Handler handler = new Handler() {
+    	@Override
+    	public void handleMessage(Message msg) {
+    		pd.dismiss();
+    		tsk_current = tsk_smart;
+
+            // Y ya en una función local, compongo los strings como se necesite
+            mStrings_full = getStringsFromTasks(tsk_full);
+            mStrings_smart = getStringsFromTasks(tsk_smart);
+            
+            lvSmart.setAdapter(new IconicAdapter(mStrings_smart));
+            lvSmart.setTextFilterEnabled(true);
+            
+            lvFull.setAdapter(new IconicAdapter(mStrings_full));
+            lvFull.setTextFilterEnabled(true);
+            
+            txtView.setText(R.string.smart_list_view_title);
+    	}
+    };
+    
 	private void setListeners() {
 		txtView.setOnClickListener(this);
 		addNewTask.setOnClickListener(this);
-		/*lvSmart.setOnClickListener(this);
-		lvFull.setOnClickListener(this);
-		
-		lvSmart.setOnItemClickListener(new ListView.OnItemClickListener() {
-	        @Override
-	        public void onItemClick(AdapterView<?> a, View v, int i, long l) {
-	            try {
-	                // Remembers the selected Index
-	            	onListItemClick(lvSmart,i);
-	            }
-	            catch(Exception e) {
-	                System.out.println("Nay, cannot get the selected index");
-	            }
-	        }
-		});
-
-		lvFull.setOnItemClickListener(new ListView.OnItemClickListener() {
-	        @Override
-	        public void onItemClick(AdapterView<?> a, View v, int i, long l) {
-	            try {
-	                // Remembers the selected Index
-	            	onListItemClick(lvFull,i);
-	            }
-	            catch(Exception e) {
-	                System.out.println("Nay, cannot get the selected index");
-	            }
-	        }
-		});
-	*/
 	}
 	
 	// Calls to each optional settings dialog.
@@ -255,11 +226,8 @@ public class ListsActivity extends Activity implements OnClickListener {
     }
     
     class IconicAdapter extends ArrayAdapter<String> {
-    	private ArrayList<String> localArray;
-    	private int rowpos;
     	IconicAdapter(ArrayList<String> mStrings) {
         	super(ListsActivity.this, R.layout.task_lists_row, R.id.textView_lists_row_task_name, mStrings);
-        	localArray = mStrings;
         }
         
         public View getView(int position, View convertView, ViewGroup parent) {
@@ -276,8 +244,6 @@ public class ListsActivity extends Activity implements OnClickListener {
         	sName 		= tsk_current.get(position).getName();
         	sContexts 	= getNameContexts(tsk_current.get(position));
         	
-        	
-        	// TODO: Set "imageView_lists_row_priority_level" background color depending on task priority;
         	ColorDrawable cd = new ColorDrawable(getPriorityColor(iPriority));
         	ImageView priorityLevel 	= (ImageView)row.findViewById(R.id.imageView_lists_row_priority_level);
         	CheckBox chkTaskCompleted 	= (CheckBox)row.findViewById(R.id.checkBox_lists_row_task_completed);
@@ -379,4 +345,6 @@ public class ListsActivity extends Activity implements OnClickListener {
         	}
         }
     }
+    
+	
 }

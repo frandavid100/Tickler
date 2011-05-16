@@ -297,6 +297,4 @@ public class TicklerDBAdapter {
 				" from Tickler_Contexts as Contexts ";
 		return mDb.rawQuery(sSql, null);
 	}
-	
-
 }
