@@ -181,7 +181,7 @@ public class TicklerDBAdapter {
 	}
 	
 	public long addTask(Task task) {
-		long rowId = addTask(task.getName(), task.getPriority(), task.getNote(), task.getCreationDate(), task.getSomeday(), task.getStartDate(), task.getDeadline(),
+		long rowId = addTask(task.getId(),task.getName(), task.getPriority(), task.getNote(), task.getCreationDate(), task.getSomeday(), task.getStartDate(), task.getDeadline(),
 				task.getCompleted(), task.getAbandoned(), task.getRepeat(), task.getRepeatUnits(), task.getRepeatFrom(), task.isSimultaneous());
 		task.setId(rowId); //TODO: Check if addTask's returned rowId is the correct table's row id
 		
@@ -201,7 +201,7 @@ public class TicklerDBAdapter {
 		return rowId;
 	}
 
-	private long addTask(String name, int priority, String note, Date date_creation, int someday, Date date_start, Date date_deadline, Date date_completed,
+	private long addTask(long id, String name, int priority, String note, Date date_creation, int someday, Date date_start, Date date_deadline, Date date_completed,
 			Date date_abandoned, int repeat, int repeat_units, int repeat_from, int simultaneous) {
 		
 		ContentValues initialValues = new ContentValues();
@@ -216,12 +216,16 @@ public class TicklerDBAdapter {
 		initialValues.put(Tasks.KEY_TASKS_REPEAT_UNITS, repeat_units);
 		initialValues.put(Tasks.KEY_TASKS_REPEAT_FROM, repeat_from);
 		initialValues.put(Tasks.KEY_TASKS_SIMULTANEOUS, simultaneous);
-		initialValues.put(Tasks.KEY_TASKS_DATE_START, Utilities.date2String(date_start,1));
-		try{
-			return mDb.insert(Tasks.DATABASE_TABLE_TASKS, null, initialValues);
-		}catch (Exception ex) {
-			return -1;
+
+		long lRes = -1;
+		if (id > 0) {
+			lRes = mDb.update(Tasks.DATABASE_TABLE_TASKS, initialValues, "id=" + id, null);
 		}
+		else {
+			lRes = mDb.insert(Tasks.DATABASE_TABLE_TASKS, null, initialValues);
+		}
+		return lRes;
+
 	}
 	
 	public void addTaskChild(Task parent, Task child) {

@@ -1,6 +1,7 @@
 package com.ticklergtd.android.model;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import android.content.Context;
@@ -69,6 +70,19 @@ public class Task {
 			this.setDeadline(Utilities.string2Date(c.getString(7)));
 			this.setCompleted(Utilities.string2Date(c.getString(8)));
 			this.setAbandoned(Utilities.string2Date(c.getString(9)));			
+			this.setContexts(ContextTask.getContextsTask(this.getId(),mCtx));
+		}
+		else {
+			this.setId(-1);
+			this.setName("");
+			this.setPriority(2);
+			this.setNote("");
+			this.setSomeday(0);
+			this.setCreationDate(new Date());
+			this.setStartDate(new Date());
+			this.setDeadline(null);
+			this.setCompleted(null);
+			this.setAbandoned(null);			
 			this.setContexts(ContextTask.getContextsTask(this.getId(),mCtx));
 		}
 		c.close();

@@ -84,6 +84,9 @@ public class TaskEditorActivity extends Activity {
 		callRecurrenceOptionsDialog();
 	}
 
+	public void taskEditorDoneListener(View v) {
+		callEditorDone();
+	}
 
 	// Calls to optional settings dialogues. 
 	// TODO: Dialog initialization data should be passed into the extras Bundle.
@@ -106,6 +109,10 @@ public class TaskEditorActivity extends Activity {
 	private void callRecurrenceOptionsDialog() {
 		Intent intent = new Intent(this,TaskEditorRecurrenceDialog.class);
 		startActivityForResult(intent, RECURRENCE_DIALOG);
+	}
+	
+	private void callEditorDone() {
+		long lRes = tsk.save();
 	}
 	
 	private void findViews() {
@@ -212,6 +219,7 @@ public class TaskEditorActivity extends Activity {
         editor.putString("task_startdate", Utilities.date2String(tsk.getStartDate(),1));
         editor.putString("task_deadline", Utilities.date2String(tsk.getDeadline(),1));
         editor.putInt("task_someday", tsk.getSomeday());
+        editor.putInt("task_priority", tsk.getPriority());
         editor.commit();
 	}
 	
@@ -253,6 +261,9 @@ public class TaskEditorActivity extends Activity {
         
         restoredInt = prefs.getInt("task_someday", 0);
         tsk.setSomeday(restoredInt);
+        
+        restoredInt = prefs.getInt("task_priority", 2);
+        tsk.setPriority(restoredInt);
         
         initViews();
 	}
