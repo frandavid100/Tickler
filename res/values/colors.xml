@@ -11,5 +11,8 @@
     <color name="background2">#ffd5ddeb</color>
     <color name="background3">#ffffcccc</color>
     <color name="lists_row_contexts_text">#FFBABABA</color>
+    <color name="priority1">#ff73b0cd</color>
+    <color name="priority2">#ffd200</color>
+    <color name="priority3">#ffff3535</color>
 
 </resources>

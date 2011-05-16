@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Paint;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -266,22 +267,25 @@ public class ListsActivity extends Activity implements OnClickListener {
         	String sName		= "";
         	String sContexts	= "";
         	int iPriority		= 2;
-        	
         	int currentListID;
+        	
         	View row=super.getView(position, convertView, parent);
-        	currentListID=parent.getId();
+        	
+        	currentListID = parent.getId();
+        	iPriority	= tsk_current.get(position).getPriority();
+        	sName 		= tsk_current.get(position).getName();
+        	sContexts 	= getNameContexts(tsk_current.get(position));
+        	
         	
         	// TODO: Set "imageView_lists_row_priority_level" background color depending on task priority;
+        	ColorDrawable cd = new ColorDrawable(getPriorityColor(iPriority));
         	ImageView priorityLevel 	= (ImageView)row.findViewById(R.id.imageView_lists_row_priority_level);
         	CheckBox chkTaskCompleted 	= (CheckBox)row.findViewById(R.id.checkBox_lists_row_task_completed);
         	TextView txtTaskName 		= (TextView)row.findViewById(R.id.textView_lists_row_task_name);
         	TextView txtTaskContexts 	= (TextView)row.findViewById(R.id.textView_lists_row_task_contexts);
         	ImageView icon				= (ImageView)row.findViewById(R.id.imageView_lists_row_edit_task);
         	
-        	sName 		= tsk_current.get(position).getName();
-        	sContexts 	= getNameContexts(tsk_current.get(position));
-        	iPriority	= tsk_current.get(position).getPriority();
-        	
+        	priorityLevel.setBackgroundDrawable(cd);
         	txtTaskName.setText(sName);
         	txtTaskContexts.setText(sContexts);
         	
@@ -293,7 +297,24 @@ public class ListsActivity extends Activity implements OnClickListener {
         	return(row);       	
         }
         
-        class chkCompletedListener implements OnCheckedChangeListener{
+        private int getPriorityColor(int iPriority) {
+			int color=0;
+        	switch(iPriority) {
+			case 1:
+				color = getResources().getInteger(R.color.priority1);
+				break;
+			case 2:
+				color = getResources().getInteger(R.color.priority2);
+				break;
+			case 3:
+				color = getResources().getInteger(R.color.priority3);
+				break;
+			}
+        	return color;
+        }
+        
+
+		class chkCompletedListener implements OnCheckedChangeListener{
         	private TextView txtTask;
 			public chkCompletedListener(TextView txtTaskName) {
 				this.txtTask = txtTaskName;
