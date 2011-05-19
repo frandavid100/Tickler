@@ -6,27 +6,30 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.RadioGroup.OnCheckedChangeListener;
+import android.widget.TextView;
 
+import com.ticklergtd.android.ListsActivity.IconicAdapter;
 import com.ticklergtd.android.model.ContextTask;
 import com.ticklergtd.android.model.Task;
 
 
 // TODO: Check if code adheres to Code Style Guidelines as per http://source.android.com/source/code-style.html
 
-public class TaskEditorActivity extends Activity {
+public class TaskEditorActivity extends Activity implements Runnable{
 	
 	// Dialog identifiers
 	private static final int STARTDATE_DIALOG = 1000, DEADLINE_DIALOG = 1001, RECURRENCE_DIALOG = 1002;
 	private long task_id;
 	Task tsk;
+	private Thread workerThread =new Thread(this);
 	
 	private AutoCompleteTextView txtTaskName; 
 	private AutoCompleteTextView txtTaskContexts; 
@@ -38,19 +41,34 @@ public class TaskEditorActivity extends Activity {
 	private Button btnStart;
 	private Button btnDeadline;
 	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.task_editor);
 		
-		task_id = getIntent().getLongExtra("task_id", -1);
-		
-		tsk = new Task(task_id, TaskEditorActivity.this);
-		
 		findViews();
-		initViews();
 		setListeners();
+		initDataSet();
 	}
+	
+	private void initDataSet() {
+		workerThread.start();
+	}
+
+	@Override
+	public void run() {
+		task_id = getIntent().getLongExtra("task_id", -1);
+		tsk = new Task(task_id, TaskEditorActivity.this);
+		handler.sendEmptyMessage(0);
+	}
+	
+	private Handler handler = new Handler() {
+		@Override
+    	public void handleMessage(Message msg) {
+			initViews();
+    	}
+	};
 	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -135,17 +153,23 @@ public class TaskEditorActivity extends Activity {
 		txtTaskContexts.setText(getNameContexts(tsk));
 		txtTaskNotes.setText(tsk.getNote());
 		
-		if (tsk.getPriority() == 1)
+		switch (tsk.getPriority()){
+		case 1:
 			rbPriority1.setBackgroundDrawable(getResources().getDrawable(R.drawable.titlebar_item_pressed));
-		if (tsk.getPriority() == 2)
+			rbPriority1.setChecked(true);
+			break;
+		case 2:
 			rbPriority2.setBackgroundDrawable(getResources().getDrawable(R.drawable.titlebar_item_pressed));
-		if (tsk.getPriority() == 3)
+			rbPriority2.setChecked(true);
+			break;
+		case 3:
 			rbPriority3.setBackgroundDrawable(getResources().getDrawable(R.drawable.titlebar_item_pressed));
-		
-		//Set priority checkbox
-		rbPriority1.setChecked(tsk.getPriority() == 1);
-		rbPriority2.setChecked(tsk.getPriority() == 2);
-		rbPriority3.setChecked(tsk.getPriority() == 3);
+			rbPriority3.setChecked(true);
+			break;
+		default:
+			rbPriority2.setChecked(true);
+			break;
+		}
 		
 		// START DATE
 		if (tsk.getSomeday() == 1) // Someday
@@ -162,7 +186,7 @@ public class TaskEditorActivity extends Activity {
 			txtBtnDeadline = getResources().getStringArray(R.array.task_editor_deadline_button_texts)[0];
 		
 		btnStart.setText((CharSequence)txtBtnStart);
-		btnDeadline.setText((CharSequence)txtBtnDeadline);
+		btnDeadline.setText((CharSequence)txtBtnDeadline);	
 	}
 	
 	private void setListeners() {
@@ -267,7 +291,6 @@ public class TaskEditorActivity extends Activity {
         
         initViews();
 	}
-
 }
 
 

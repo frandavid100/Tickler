@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:background="@color/body_background" android:orientation="vertical">
+	<LinearLayout style="@style/TitleBar">
+		<AutoCompleteTextView 	android:layout_weight="1" 
+								android:layout_height="wrap_content" 
+								android:layout_width="wrap_content" 
+								android:textColor="@color/text_edit"
+								android:text="@string/task_editor_task_default_text" android:id="@+id/autoCompleteTextView_task_name">
+		</AutoCompleteTextView>
+		<ImageView 	android:layout_width="wrap_content" 
+					android:layout_height="wrap_content" 
+					style="@style/TitleBarSeparator" 
+					android:layout_marginLeft="3dip" 
+					android:layout_marginRight="3dip" android:id="@+id/imageView_separator">
+		</ImageView>
+		<RadioGroup android:layout_width="wrap_content" 
+					android:orientation="horizontal" 
+					android:layout_height="wrap_content" 
+					android:layout_gravity="center_vertical"
+					android:checkedButton="@+id/radio_priority_2" android:id="@+id/radioGroup_task_priority">
+						<RadioButton 	android:layout_height="wrap_content" 
+										android:checked="true" 
+										android:button="@drawable/priority1" 
+										android:layout_width="wrap_content" 
+										android:id="@+id/radio_priority_1" 
+										android:gravity="center_vertical|center_horizontal">
+						</RadioButton>
+						<RadioButton 	android:layout_height="wrap_content" 
+										android:layout_width="wrap_content" 
+										android:button="@drawable/priority2" 
+										android:id="@id/radio_priority_2">
+						</RadioButton>
+						<RadioButton 	android:layout_height="wrap_content" 
+										android:layout_width="wrap_content" 
+										android:button="@drawable/priority3" 
+										android:id="@+id/radio_priority_3">
+						</RadioButton>
+		</RadioGroup>
+    </LinearLayout>
+	<MultiAutoCompleteTextView 	android:layout_height="wrap_content" 
+								android:layout_width="match_parent"
+								android:textColor="@color/text_edit"
+								android:text="@string/task_editor_task_context_default_text" android:id="@+id/multiAutoCompleteTextView_contexts">
+	</MultiAutoCompleteTextView>
+	<TextView 	android:layout_height="wrap_content" 
+				android:layout_width="wrap_content" 
+				android:textColor="@color/text_edit"
+				android:text="@string/task_editor_optional_settings_label" android:id="@+id/textView_label_optional_settings">
+	</TextView>
+	<Button android:layout_height="wrap_content" 
+			android:layout_width="match_parent" 
+			android:text="Start" 
+			android:onClick="startDateOptionsListener" android:id="@+id/button_task_startdate_options">
+	</Button>
+	<Button android:layout_height="wrap_content" 
+			android:layout_width="match_parent" 
+			android:text="Deadline" 
+			android:onClick="deadlineOptionsListener" android:id="@+id/button_task_deadline_options">
+	</Button>
+	<Button android:layout_height="wrap_content" 
+			android:layout_width="match_parent" 
+			android:text="Recurrence" 
+			android:onClick="recurrenceOptionsListener" android:id="@+id/button_task_repetition_options">
+	</Button>
+	<EditText 	android:layout_height="wrap_content" 
+				android:layout_width="match_parent" 
+				android:lines="5" 
+				android:textColor="@color/text_edit"
+				android:text="@string/task_editor_task_notes_default_text" android:id="@+id/editText_task_notes">
+	</EditText>
+	<LinearLayout 	android:id="@+id/LinearLayout" 
+					android:layout_height="wrap_content" 
+					android:layout_width="match_parent">
+		<Button android:layout_height="wrap_content" 
+				android:layout_width="wrap_content" 
+				android:text="@string/app_buttons_done" 
+				android:layout_weight="1" 
+				android:onClick="taskEditorDoneListener" android:id="@+id/button_done">
+		</Button>
+		<Button android:layout_weight="1" 
+				android:layout_height="wrap_content" 
+				android:layout_width="wrap_content" 
+				android:text="@string/app_buttons_revert" android:id="@+id/button_revert">
+		</Button>
+	</LinearLayout>
+</LinearLayout>

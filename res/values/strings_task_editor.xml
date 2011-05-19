@@ -3,7 +3,7 @@
 	<string name="task_editor_task_default_text">What to do?</string>
     <string name="task_editor_task_context_default_text">In which context? (One or more)</string>
     <string name="task_editor_optional_settings_label">Optional settings</string>
-    <string name="task_editor_task_notes_default_text">Notes</string>
+    <string name="task_editor_task_notes_default_text">You can enter notes here</string>
     <string name="task_editor_startdate_dialog_title">I can start this ...</string>
 	<string name="task_editor_startdate_dialog_option_anytime">Anytime</string>
     <string name="task_editor_startdate_dialog_option_sometime">Someday, hopefully</string>

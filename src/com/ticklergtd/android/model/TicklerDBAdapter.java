@@ -114,9 +114,9 @@ public class TicklerDBAdapter {
 			mDbHelper = new DatabaseHelper(mCtx);
 			mDb = mDbHelper.getWritableDatabase();
 			mDbHelper.loadTest(mDb);
+			
 		}
 		isOpen = true;
-		
 		return this;
 	}
 
@@ -291,7 +291,9 @@ public class TicklerDBAdapter {
 		sSql = "select ContextsTasks.task_id, ContextsTasks.context_id, Contexts.name " + 
 				" from Tickler_ContextsTasks as ContextsTasks inner join Tickler_Contexts as Contexts on ContextsTasks.context_id = Contexts.id " +
 				" where ContextsTasks.task_id=" + task_id;
+		
 		return mDb.rawQuery(sSql, null);
+		
 	}
 
 	public Cursor getContextTasksList(){
