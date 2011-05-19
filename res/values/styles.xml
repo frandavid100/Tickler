@@ -22,7 +22,7 @@
     </style>
 
     <style name="TitleBar">
-        <item name="android:id">@id/title_container</item>
+        <item name="android:id">@+id/title_container</item>
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">@dimen/title_height</item>
         <item name="android:orientation">horizontal</item>
@@ -32,18 +32,18 @@
 
     <style name="TitleBarAction">
         <item name="android:layout_width">@dimen/title_height</item>
-        <item name="android:layout_height">fill_parent</item>
+        <item name="android:layout_height">@dimen/title_height</item>
         <item name="android:background">@drawable/title_button</item>
     </style>
 
     <style name="TitleBarSeparator">
         <item name="android:layout_width">1px</item>
-        <item name="android:layout_height">fill_parent</item>
+        <item name="android:layout_height">@dimen/title_height</item>
         <item name="android:background">@drawable/actionbar_separator</item>
     </style>
 
     <style name="TitleBarLogo">
-        <item name="android:id">@id/title_logo</item>
+        <item name="android:id">@+id/title_logo</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:clickable">true</item>
@@ -56,9 +56,9 @@
     </style>
 
     <style name="TitleBarText">
-        <item name="android:id">@id/title_text</item>
+        <item name="android:id">@+id/title_text</item>
         <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">fill_parent</item>
+        <item name="android:layout_height">@dimen/title_height</item>
         <item name="android:layout_weight">1</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:textSize">@dimen/text_size_large</item>

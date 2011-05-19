@@ -2,4 +2,11 @@
 <resources>
     <string name="smart_list_view_title">Smart List</string>
     <string name="full_list_view_title">Full List</string>
+    <string name="smart_list_inbox_label">Process tasks in inbox</string>
+    <string name="lists_inbox_tasks">You have %1$d tasks to process</string>
+    <string name="full_list_inbox_label">Inbox</string>
+    <string name="full_list_someday_label">Someday</string>
+    <string name="full_list_someday_tasks">%1$d things you would like to do</string>
+    <string name="full_list_logbook_tasks">%1$d tasks completed today</string>
+    <string name="full_list_logbook_label">Logbook</string>
 </resources>

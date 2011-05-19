@@ -19,6 +19,7 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ViewAnimator;
 import android.widget.ViewFlipper;
@@ -33,12 +34,14 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
 	private ArrayList<Task> tsk_full 		= new ArrayList<Task>();
 	private ArrayList<Task> tsk_smart 		= new ArrayList<Task>();
 	private ArrayList<Task> tsk_current 	= new ArrayList<Task>();
+	private RelativeLayout listsLayout;
 	private ViewFlipper listsViewFlipper 	= null;
 	private ListView lvSmart;
 	private ListView lvFull;
 	private TextView txtView;
 	private View addNewTask;
-
+	private Thread workerThread =new Thread(this);
+	
 	static final int SMART 	= 1;
 	static final int FULL 	= 2;
 	
@@ -48,8 +51,8 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
 		setContentView(R.layout.task_lists);
 		
         findViews();
-        initDataset();
         setListeners();
+        initDataset();     
 		
 	}
 	
@@ -90,7 +93,6 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
 	
 	@Override
 	public void run() {
-		listsViewFlipper.setDisplayedChild(2);
 		tsk_full = Task.getTasks(ListsActivity.this,FULL);
         tsk_smart = Task.getTasks(ListsActivity.this,SMART);
         handler.sendEmptyMessage(0);
@@ -104,13 +106,13 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
 		lvSmart = (ListView) findViewById(R.id.list_smart);
 		lvFull 	= (ListView) findViewById(R.id.list_full);
 		listsViewFlipper = (ViewFlipper) findViewById(R.id.viewFlipper_Lists_Container);
+		listsViewFlipper.setDisplayedChild(2);
 		txtView = (TextView)findViewById(R.id.textView_View_Title);
 		addNewTask = findViewById(R.id.button_Title_Bar_Add_New_Task);
 	}
 	
 	private void initDataset() {
-		// Recupera una lista de tareas
-        Thread workerThread =new Thread(this);
+		// Recupera una lista de tareas 
 		workerThread.start();
 	}
 	
@@ -279,6 +281,9 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
         	return color;
         }
         
+        private void getContextIcons(String context){
+        	
+        }
 
 		class chkCompletedListener implements OnCheckedChangeListener{
         	private TextView txtTask;
