@@ -40,6 +40,8 @@ public class TaskEditorActivity extends Activity implements Runnable{
 	private RadioButton rbPriority3;
 	private Button btnStart;
 	private Button btnDeadline;
+	private Button btnDone;
+	private Button btnRevert;
 	
 	
 	@Override
@@ -89,6 +91,10 @@ public class TaskEditorActivity extends Activity implements Runnable{
 	}
 	
 	// Event handlers for optional settings buttons OnClick method, defined in task_editor.xml
+	
+	public void revertListener(View v){
+		//
+	}
 	
 	public void startDateOptionsListener(View v){
 		callStartDateOptionsDialog();
@@ -143,6 +149,8 @@ public class TaskEditorActivity extends Activity implements Runnable{
 		rbPriority3		= (RadioButton) findViewById(R.id.radio_priority_3);
 		btnStart		= (Button) findViewById(R.id.button_task_startdate_options);
 		btnDeadline		= (Button) findViewById(R.id.button_task_deadline_options);
+		btnDone			= (Button) findViewById(R.id.button_done);
+		btnRevert		= (Button) findViewById(R.id.button_revert);
 	}
 	
 	private void initViews() {
@@ -154,21 +162,21 @@ public class TaskEditorActivity extends Activity implements Runnable{
 		txtTaskNotes.setText(tsk.getNote());
 		
 		switch (tsk.getPriority()){
-		case 1:
-			rbPriority1.setBackgroundDrawable(getResources().getDrawable(R.drawable.titlebar_item_pressed));
-			rbPriority1.setChecked(true);
-			break;
-		case 2:
-			rbPriority2.setBackgroundDrawable(getResources().getDrawable(R.drawable.titlebar_item_pressed));
-			rbPriority2.setChecked(true);
-			break;
-		case 3:
-			rbPriority3.setBackgroundDrawable(getResources().getDrawable(R.drawable.titlebar_item_pressed));
-			rbPriority3.setChecked(true);
-			break;
-		default:
-			rbPriority2.setChecked(true);
-			break;
+			case 1:
+				rbPriority1.setBackgroundDrawable(getResources().getDrawable(R.drawable.titlebar_item_pressed));
+				rbPriority1.setChecked(true);
+				break;
+			case 2:
+				rbPriority2.setBackgroundDrawable(getResources().getDrawable(R.drawable.titlebar_item_pressed));
+				rbPriority2.setChecked(true);
+				break;
+			case 3:
+				rbPriority3.setBackgroundDrawable(getResources().getDrawable(R.drawable.titlebar_item_pressed));
+				rbPriority3.setChecked(true);
+				break;
+			default:
+				rbPriority2.setChecked(true);
+				break;
 		}
 		
 		// START DATE

@@ -205,7 +205,7 @@ public class TicklerDBAdapter {
 			Date date_abandoned, int repeat, int repeat_units, int repeat_from, int simultaneous) {
 		
 		ContentValues initialValues = new ContentValues();
-		initialValues.put(Tasks.KEY_TASKS_NAME, name);
+		initialValues.put(Tasks.KEY_TASKS_NAME, name + "-1");
 		initialValues.put(Tasks.KEY_TASKS_PRIORITY, priority);
 		initialValues.put(Tasks.KEY_TASKS_DATE_CREATION, Utilities.date2String(date_creation,1));
 		initialValues.put(Tasks.KEY_TASKS_SOMEDAY, someday);
@@ -219,7 +219,7 @@ public class TicklerDBAdapter {
 
 		long lRes = -1;
 		if (id > 0) {
-			lRes = mDb.update(Tasks.DATABASE_TABLE_TASKS, initialValues, "id=" + id, null);
+			lRes = mDb.update(Tasks.DATABASE_TABLE_TASKS, initialValues, "ID=" + id, null);
 		}
 		else {
 			lRes = mDb.insert(Tasks.DATABASE_TABLE_TASKS, null, initialValues);

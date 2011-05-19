@@ -143,6 +143,7 @@ public class ContextTask {
 			c.moveToNext();
 		}
 		c.close();
+		ContextTask_helper_close();
 		return aux;		
 	}
 
@@ -165,6 +166,7 @@ public class ContextTask {
 			c.moveToNext();
 		}
 		c.close();
+		ContextTask_helper_close();
 		return aux;		
 	}
 
@@ -175,6 +177,15 @@ public class ContextTask {
 	private static void ContextTask_helper() {
 		tck = new TicklerDBAdapter(mCtx);
 		tck.open();
+	}
+		
+	private static void ContextTask_helper_close() {
+		try {
+			tck.close();
+		}
+		catch (Exception e) {
+			
+		}
 	}
 		
 }
