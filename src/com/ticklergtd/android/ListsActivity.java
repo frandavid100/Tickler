@@ -39,6 +39,8 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
 	private ListView lvSmart;
 	private ListView lvFull;
 	private TextView txtView;
+	private TextView lbInboxLabel;
+	private TextView txtInboxLabel;
 	private View addNewTask;
 	private Thread workerThread =new Thread(this);
 	
@@ -60,6 +62,8 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
 	// TODO: Remove this code and upgrade to something similar to Launcher. Drag and slide views by using gestures.
 	@Override
 	public void onClick(View v) {
+		String sLabel1 = "";
+		String sLabel2 = "";
         switch (v.getId())
         {
             case R.id.textView_View_Title:
@@ -70,7 +74,8 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
                     
                     tsk_current = tsk_smart;
                     
-                    txtView.setText(R.string.smart_list_view_title);
+                    txtView.setText(R.string.smart_list_view_title);        
+                    sLabel1 = getResources().getString(R.string.smart_list_inbox_label);                    
                 }
             	else if (isSmartList()) {
             		listsViewFlipper.setAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_in_right));
@@ -79,8 +84,16 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
                     tsk_current = tsk_full;
                     
                     txtView.setText(R.string.full_list_view_title);
+                    sLabel1 = getResources().getString(R.string.full_list_inbox_label);
                 }
-
+            	
+            	// Número de registros
+            	/*String sLabel = String.format(,tsk_current.size());*/
+                lbInboxLabel.setText(sLabel1);
+                
+            	sLabel2 = String.format(getResources().getString(R.string.lists_inbox_tasks,tsk_current.size()));
+            	txtInboxLabel.setText(sLabel2);
+            	
                 break;
             }
             case R.id.button_Title_Bar_Add_New_Task:
@@ -109,6 +122,8 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
 		listsViewFlipper.setDisplayedChild(2);
 		txtView = (TextView)findViewById(R.id.textView_View_Title);
 		addNewTask = findViewById(R.id.button_Title_Bar_Add_New_Task);
+		lbInboxLabel = (TextView)findViewById(R.id.textView_Smart_List_Inbox_Label);
+		txtInboxLabel = (TextView)findViewById(R.id.textView_Smart_List_Inbox_Tasks);
 	}
 	
 	private void initDataset() {
@@ -326,29 +341,6 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
 				callTaskEditorActivity((int)taskID);
 			}
     	}
-
-		private String getItemParts(String pOriginal, int i) {
-        	int iPos = 0;
-        	String name = "";
-        	String contexts = "";
-        	
-        	iPos = pOriginal.indexOf("##");
-        	if (iPos > 0) {
-        		name 		= pOriginal.substring(0, iPos - 1);
-        		contexts 	= pOriginal.substring(iPos + 2);
-        	}
-        	else {
-        		name 		= pOriginal;
-        		contexts 	= "";
-        	}
-        	
-        	if (i == 1) {
-        		return name;
-        	}
-        	else {
-        		return contexts;
-        	}
-        }
     }
     
 	

@@ -54,6 +54,11 @@ public class TaskEditorActivity extends Activity implements Runnable{
 		initDataSet();
 	}
 	
+	protected void onResume(Bundle savedInstanceState) {
+		super.onResume();
+		initDataSet();
+	}
+	
 	private void initDataSet() {
 		workerThread.start();
 	}
@@ -136,6 +141,8 @@ public class TaskEditorActivity extends Activity implements Runnable{
 	}
 	
 	private void callEditorDone() {
+		tsk.setName(txtTaskName.getText().toString());
+		tsk.setNote(txtTaskNotes.getText().toString());
 		long lRes = tsk.save();
 	}
 	

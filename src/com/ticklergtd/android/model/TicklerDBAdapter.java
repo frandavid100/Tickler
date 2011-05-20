@@ -42,14 +42,7 @@ public class TicklerDBAdapter {
 
 		@Override
 		public void onCreate(SQLiteDatabase db) {
-			db.execSQL(ActiveRegions.DATABASE_CREATE_ACTIVEREGIONS);
-			db.execSQL(ActiveTimes.DATABASE_CREATE_ACTIVETIMES);
-			db.execSQL(ContextRegions.DATABASE_CREATE_CONTEXTREGIONS);
-			db.execSQL(Contexts.DATABASE_CREATE_CONTEXTS);
-			db.execSQL(ContextTimes.DATABASE_CREATE_CONTEXTTIMES);
-			db.execSQL(Families.DATABASE_CREATE_FAMILIES); 
-			db.execSQL(ContextsTasks.DATABASE_CREATE_TASKCONTEXTS);
-			db.execSQL(Tasks.DATABASE_CREATE_TASKS);
+			
 			//TODO: Create needed indexes
 		}
 
@@ -59,7 +52,18 @@ public class TicklerDBAdapter {
 			//TODO: Add updgrade script
 		}
 		
-		public void loadTest(SQLiteDatabase db) {
+		public void loadTestDB(SQLiteDatabase db) {
+			db.execSQL(ActiveRegions.DATABASE_CREATE_ACTIVEREGIONS);
+			db.execSQL(ActiveTimes.DATABASE_CREATE_ACTIVETIMES);
+			db.execSQL(ContextRegions.DATABASE_CREATE_CONTEXTREGIONS);
+			db.execSQL(Contexts.DATABASE_CREATE_CONTEXTS);
+			db.execSQL(ContextTimes.DATABASE_CREATE_CONTEXTTIMES);
+			db.execSQL(Families.DATABASE_CREATE_FAMILIES); 
+			db.execSQL(ContextsTasks.DATABASE_CREATE_TASKCONTEXTS);
+			db.execSQL(Tasks.DATABASE_CREATE_TASKS);
+		}
+		
+		public void loadTestRecords(SQLiteDatabase db) {
 			String sSql = "";
 			
 			sSql = "DELETE FROM Tickler_ContextsTasks";
@@ -113,8 +117,9 @@ public class TicklerDBAdapter {
 		if(!isOpen) {
 			mDbHelper = new DatabaseHelper(mCtx);
 			mDb = mDbHelper.getWritableDatabase();
-			mDbHelper.loadTest(mDb);
-			
+/*			mDbHelper.loadTestDB(mDb);
+			mDbHelper.loadTestRecords(mDb);
+*/			
 		}
 		isOpen = true;
 		return this;
@@ -205,7 +210,7 @@ public class TicklerDBAdapter {
 			Date date_abandoned, int repeat, int repeat_units, int repeat_from, int simultaneous) {
 		
 		ContentValues initialValues = new ContentValues();
-		initialValues.put(Tasks.KEY_TASKS_NAME, name + "-1");
+		initialValues.put(Tasks.KEY_TASKS_NAME, name);
 		initialValues.put(Tasks.KEY_TASKS_PRIORITY, priority);
 		initialValues.put(Tasks.KEY_TASKS_DATE_CREATION, Utilities.date2String(date_creation,1));
 		initialValues.put(Tasks.KEY_TASKS_SOMEDAY, someday);
@@ -216,10 +221,16 @@ public class TicklerDBAdapter {
 		initialValues.put(Tasks.KEY_TASKS_REPEAT_UNITS, repeat_units);
 		initialValues.put(Tasks.KEY_TASKS_REPEAT_FROM, repeat_from);
 		initialValues.put(Tasks.KEY_TASKS_SIMULTANEOUS, simultaneous);
+		initialValues.put(Tasks.KEY_TASKS_NOTE, note);
 
 		long lRes = -1;
 		if (id > 0) {
-			lRes = mDb.update(Tasks.DATABASE_TABLE_TASKS, initialValues, "ID=" + id, null);
+			try {
+				lRes = mDb.update(Tasks.DATABASE_TABLE_TASKS, initialValues, Tasks.KEY_TASKS_ID + "=" + id, null);
+			}
+			catch (Exception ex) {
+				Log.d("UPDATING", ex.getMessage());
+			}
 		}
 		else {
 			lRes = mDb.insert(Tasks.DATABASE_TABLE_TASKS, null, initialValues);

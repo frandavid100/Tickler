@@ -4,7 +4,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+
 public class Utilities {
+	static final String FORMAT_BD = "yyyy-MM-dd HH:mm:ss";
+	
 	public static Date string2Date(String pString) {
 		if (pString != null) {
 			SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
