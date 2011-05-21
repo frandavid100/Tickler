@@ -39,8 +39,10 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
 	private ListView lvSmart;
 	private ListView lvFull;
 	private TextView txtView;
-	private TextView lbInboxLabel;
-	private TextView txtInboxLabel;
+	private TextView lbInboxSmartLabel;
+	private TextView txtInboxSmartLabel;
+	private TextView lbInboxFullLabel;
+	private TextView txtInboxFullLabel;
 	private View addNewTask;
 	private Thread workerThread =new Thread(this);
 	
@@ -56,6 +58,24 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
         setListeners();
         initDataset();     
 		
+	}
+	
+	protected void onResume(Bundle savedInstanceState) {
+		super.onResume();
+		
+        initDataset();     
+	}
+	
+	protected void onStart(Bundle savedInstanceState) {
+		super.onStart();
+		
+        initDataset();     
+	}
+	
+	protected void onRestart(Bundle savedInstanceState) {
+		super.onRestart();
+		
+        initDataset();     
 	}
 	
 	// Some tests with viewFlipper in order to switch between Smart List and Full List
@@ -75,7 +95,12 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
                     tsk_current = tsk_smart;
                     
                     txtView.setText(R.string.smart_list_view_title);        
-                    sLabel1 = getResources().getString(R.string.smart_list_inbox_label);                    
+                    sLabel1 = getResources().getString(R.string.smart_list_inbox_label);
+                    
+                    lbInboxSmartLabel.setText(sLabel1);
+                    
+                	sLabel2 = String.format(getResources().getString(R.string.lists_inbox_tasks,tsk_current.size()));
+                	txtInboxSmartLabel.setText(sLabel2);
                 }
             	else if (isSmartList()) {
             		listsViewFlipper.setAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_in_right));
@@ -85,14 +110,16 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
                     
                     txtView.setText(R.string.full_list_view_title);
                     sLabel1 = getResources().getString(R.string.full_list_inbox_label);
+                    
+                    lbInboxFullLabel.setText(sLabel1);
+                    
+                	sLabel2 = String.format(getResources().getString(R.string.lists_inbox_tasks,tsk_current.size()));
+                	txtInboxFullLabel.setText(sLabel2);
                 }
             	
             	// Número de registros
             	/*String sLabel = String.format(,tsk_current.size());*/
-                lbInboxLabel.setText(sLabel1);
-                
-            	sLabel2 = String.format(getResources().getString(R.string.lists_inbox_tasks,tsk_current.size()));
-            	txtInboxLabel.setText(sLabel2);
+            	
             	
                 break;
             }
@@ -122,8 +149,10 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
 		listsViewFlipper.setDisplayedChild(2);
 		txtView = (TextView)findViewById(R.id.textView_View_Title);
 		addNewTask = findViewById(R.id.button_Title_Bar_Add_New_Task);
-		lbInboxLabel = (TextView)findViewById(R.id.textView_Smart_List_Inbox_Label);
-		txtInboxLabel = (TextView)findViewById(R.id.textView_Smart_List_Inbox_Tasks);
+		lbInboxSmartLabel = (TextView)findViewById(R.id.textView_Smart_List_Inbox_Label);
+		txtInboxSmartLabel = (TextView)findViewById(R.id.textView_Smart_List_Inbox_Tasks);
+		lbInboxFullLabel = (TextView)findViewById(R.id.textView_Full_List_Inbox_Label);
+		txtInboxFullLabel = (TextView)findViewById(R.id.textView_Full_List_Inbox_Tasks);
 	}
 	
 	private void initDataset() {
@@ -134,6 +163,8 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
 	private Handler handler = new Handler() {
     	@Override
     	public void handleMessage(Message msg) {
+    		String sLabel1 = "";
+    		String sLabel2 = "";
     		
     		listsViewFlipper.setDisplayedChild(0);
     		//listsViewFlipper.setDisplayedChild(1);
@@ -150,6 +181,12 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
             lvFull.setTextFilterEnabled(true);
             
             txtView.setText(R.string.smart_list_view_title);
+            
+            sLabel1 = getResources().getString(R.string.smart_list_inbox_label);
+            lbInboxSmartLabel.setText(sLabel1);
+            
+        	sLabel2 = String.format(getResources().getString(R.string.lists_inbox_tasks,tsk_current.size()));
+        	txtInboxSmartLabel.setText(sLabel2);
     	}
     };
     

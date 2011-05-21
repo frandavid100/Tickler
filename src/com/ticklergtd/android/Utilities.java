@@ -57,6 +57,11 @@ public class Utilities {
 				ftAux = new SimpleDateFormat("dd/MM/yyyy");
 			}
 			
+			if (pFormat == 3) {
+				ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				ftAux = new SimpleDateFormat("yyyy-MM-dd");
+			}
+			
 			try {
 				return ft.format(pDate);	
 			} catch (Exception e) {

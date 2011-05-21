@@ -212,11 +212,11 @@ public class TicklerDBAdapter {
 		ContentValues initialValues = new ContentValues();
 		initialValues.put(Tasks.KEY_TASKS_NAME, name);
 		initialValues.put(Tasks.KEY_TASKS_PRIORITY, priority);
-		initialValues.put(Tasks.KEY_TASKS_DATE_CREATION, Utilities.date2String(date_creation,1));
+		initialValues.put(Tasks.KEY_TASKS_DATE_CREATION, Utilities.date2String(date_creation,3));
 		initialValues.put(Tasks.KEY_TASKS_SOMEDAY, someday);
-		initialValues.put(Tasks.KEY_TASKS_DATE_START, Utilities.date2String(date_start,1));
-		initialValues.put(Tasks.KEY_TASKS_DATE_COMPLETED, Utilities.date2String(date_completed,1));
-		initialValues.put(Tasks.KEY_TASKS_DATE_ABANDONED, Utilities.date2String(date_abandoned,1));
+		initialValues.put(Tasks.KEY_TASKS_DATE_START, Utilities.date2String(date_start,3));
+		initialValues.put(Tasks.KEY_TASKS_DATE_COMPLETED, Utilities.date2String(date_completed,3));
+		initialValues.put(Tasks.KEY_TASKS_DATE_ABANDONED, Utilities.date2String(date_abandoned,3));
 		initialValues.put(Tasks.KEY_TASKS_REPEAT, repeat);
 		initialValues.put(Tasks.KEY_TASKS_REPEAT_UNITS, repeat_units);
 		initialValues.put(Tasks.KEY_TASKS_REPEAT_FROM, repeat_from);
