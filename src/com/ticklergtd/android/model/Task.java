@@ -37,9 +37,9 @@ public class Task {
 	private static Context 			mCtx;
 	private static TicklerDBAdapter tck;
 	
-	static final int SMART 	= 1;
-	static final int FULL 	= 2;
-	
+	static final int SMART 		= 1;
+	static final int FULL 		= 2;
+	static final int SOMEDAY	= 3;
 
 	/**
 	 * The order when this task is a child of another task
@@ -378,6 +378,8 @@ public class Task {
 			c = tck.selectTasks_Smart();
 		if (flipView == FULL)
 			c = tck.selectTasks_Full();
+		if (flipView == SOMEDAY)
+			c = tck.selectTasks_Someday();
 		
 		c.moveToFirst();
 		while (!c.isAfterLast()) {

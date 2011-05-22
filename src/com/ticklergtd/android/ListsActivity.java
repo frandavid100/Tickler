@@ -9,6 +9,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -33,6 +34,7 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
 	private ArrayList<String> mStrings_smart;
 	private ArrayList<Task> tsk_full 		= new ArrayList<Task>();
 	private ArrayList<Task> tsk_smart 		= new ArrayList<Task>();
+	private ArrayList<Task> tsk_someday		= new ArrayList<Task>();
 	private ArrayList<Task> tsk_current 	= new ArrayList<Task>();
 	private RelativeLayout listsLayout;
 	private ViewFlipper listsViewFlipper 	= null;
@@ -43,11 +45,13 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
 	private TextView txtInboxSmartLabel;
 	private TextView lbInboxFullLabel;
 	private TextView txtInboxFullLabel;
+	private TextView txtSomedayLabel;
 	private View addNewTask;
 	private Thread workerThread =new Thread(this);
 	
-	static final int SMART 	= 1;
-	static final int FULL 	= 2;
+	static final int SMART 		= 1;
+	static final int FULL 		= 2;
+	static final int SOMEDAY	= 3;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +61,6 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
         findViews();
         setListeners();
         initDataset();     
-		
 	}
 	
 	protected void onResume(Bundle savedInstanceState) {
@@ -66,6 +69,22 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
         initDataset();     
 	}
 	
+	@Override
+	public void onDetachedFromWindow() {
+        Log.d("Dash","OnDetachedFromWindow()");
+
+        try {
+	        super.onDetachedFromWindow();
+	    }
+	    catch (Exception e) {
+	        ViewFlipper v = (ViewFlipper)findViewById(R.id.viewFlipper_Lists_Container);
+	        if (v != null) {
+	                Log.d("Dash","De-Bug hit. e=" + e.getMessage());
+	                v.stopFlipping();
+	        }
+	    }
+	}
+
 	protected void onStart(Bundle savedInstanceState) {
 		super.onStart();
 		
@@ -84,6 +103,8 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
 	public void onClick(View v) {
 		String sLabel1 = "";
 		String sLabel2 = "";
+		String sLabel3 = "";
+		
         switch (v.getId())
         {
             case R.id.textView_View_Title:
@@ -115,11 +136,10 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
                     
                 	sLabel2 = String.format(getResources().getString(R.string.lists_inbox_tasks,tsk_current.size()));
                 	txtInboxFullLabel.setText(sLabel2);
-                }
-            	
-            	// Número de registros
-            	/*String sLabel = String.format(,tsk_current.size());*/
-            	
+
+                	sLabel3 = String.format(getResources().getString(R.string.full_list_someday_tasks,tsk_someday.size()));
+                	txtSomedayLabel.setText(sLabel3);
+                }           	
             	
                 break;
             }
@@ -133,8 +153,10 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
 	
 	@Override
 	public void run() {
-		tsk_full = Task.getTasks(ListsActivity.this,FULL);
-        tsk_smart = Task.getTasks(ListsActivity.this,SMART);
+		
+		tsk_full 	= Task.getTasks(ListsActivity.this,FULL);
+        tsk_smart 	= Task.getTasks(ListsActivity.this,SMART);
+        tsk_someday	= Task.getTasks(ListsActivity.this,SOMEDAY);
         handler.sendEmptyMessage(0);
 	}
 	
@@ -143,16 +165,17 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
 	 * **************************************/
 	
 	private void findViews() {
-		lvSmart = (ListView) findViewById(R.id.list_smart);
-		lvFull 	= (ListView) findViewById(R.id.list_full);
-		listsViewFlipper = (ViewFlipper) findViewById(R.id.viewFlipper_Lists_Container);
+		lvSmart 			= (ListView) findViewById(R.id.list_smart);
+		lvFull 				= (ListView) findViewById(R.id.list_full);
+		listsViewFlipper 	= (ViewFlipper) findViewById(R.id.viewFlipper_Lists_Container);
 		listsViewFlipper.setDisplayedChild(2);
-		txtView = (TextView)findViewById(R.id.textView_View_Title);
-		addNewTask = findViewById(R.id.button_Title_Bar_Add_New_Task);
-		lbInboxSmartLabel = (TextView)findViewById(R.id.textView_Smart_List_Inbox_Label);
-		txtInboxSmartLabel = (TextView)findViewById(R.id.textView_Smart_List_Inbox_Tasks);
-		lbInboxFullLabel = (TextView)findViewById(R.id.textView_Full_List_Inbox_Label);
-		txtInboxFullLabel = (TextView)findViewById(R.id.textView_Full_List_Inbox_Tasks);
+		txtView 			= (TextView)findViewById(R.id.textView_View_Title);
+		addNewTask 			= findViewById(R.id.button_Title_Bar_Add_New_Task);
+		lbInboxSmartLabel 	= (TextView)findViewById(R.id.textView_Smart_List_Inbox_Label);
+		txtInboxSmartLabel 	= (TextView)findViewById(R.id.textView_Smart_List_Inbox_Tasks);
+		lbInboxFullLabel 	= (TextView)findViewById(R.id.textView_Full_List_Inbox_Label);
+		txtInboxFullLabel 	= (TextView)findViewById(R.id.textView_Full_List_Inbox_Tasks);
+		txtSomedayLabel 	= (TextView)findViewById(R.id.TextView_Full_List_Someday_Tasks);
 	}
 	
 	private void initDataset() {

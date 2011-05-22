@@ -37,13 +37,14 @@ public class TicklerDBAdapter {
 	private static class DatabaseHelper extends SQLiteOpenHelper {
 
 		DatabaseHelper(Context context) {
-			super(context, DATABASE_NAME, null, DATABASE_VERSION);
+			super(context, DATABASE_NAME, null, DATABASE_VERSION);		
 		}
 
 		@Override
 		public void onCreate(SQLiteDatabase db) {
 			
 			//TODO: Create needed indexes
+			
 		}
 
 		@Override
@@ -118,8 +119,8 @@ public class TicklerDBAdapter {
 			mDbHelper = new DatabaseHelper(mCtx);
 			mDb = mDbHelper.getWritableDatabase();
 /*			mDbHelper.loadTestDB(mDb);
-			mDbHelper.loadTestRecords(mDb);
-*/			
+			mDbHelper.loadTestRecords(mDb);*/
+			
 		}
 		isOpen = true;
 		return this;
@@ -160,6 +161,24 @@ public class TicklerDBAdapter {
 						Tasks.KEY_TASKS_REPEAT, Tasks.KEY_TASKS_REPEAT_UNITS,
 						Tasks.KEY_TASKS_REPEAT_FROM, Tasks.KEY_TASKS_SIMULTANEOUS},
 				null,
+				null,
+				null,
+				null,
+				Tasks.KEY_TASKS_DATE_START + " ASC"
+		);
+	}
+	
+	public Cursor selectTasks_Someday(){
+		return mDb.query(
+				Tasks.DATABASE_TABLE_TASKS,
+				new String[] { Tasks.KEY_TASKS_ID, Tasks.KEY_TASKS_NAME,
+						Tasks.KEY_TASKS_PRIORITY, Tasks.KEY_TASKS_NOTE,
+						Tasks.KEY_TASKS_DATE_CREATION, Tasks.KEY_TASKS_SOMEDAY,
+						Tasks.KEY_TASKS_DATE_START, Tasks.KEY_TASKS_DATE_DEADLINE,
+						Tasks.KEY_TASKS_DATE_COMPLETED, Tasks.KEY_TASKS_DATE_ABANDONED,
+						Tasks.KEY_TASKS_REPEAT, Tasks.KEY_TASKS_REPEAT_UNITS,
+						Tasks.KEY_TASKS_REPEAT_FROM, Tasks.KEY_TASKS_SIMULTANEOUS},
+				Tasks.KEY_TASKS_SOMEDAY + "=1",
 				null,
 				null,
 				null,

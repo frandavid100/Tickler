@@ -1,12 +1,12 @@
 package com.ticklergtd.android.model;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import android.content.Context;
 import android.database.Cursor;
 
-import com.ticklergtd.android.Utilities;
+import com.ticklergtd.android.model.table.ContextRegions;
+import com.ticklergtd.android.model.table.ContextTimes;
 
 public class ContextTask {
 	public static final long NEW_CONTEXT = -1;
@@ -15,12 +15,12 @@ public class ContextTask {
 	private String mName;
 	private int mIcon 				= 1;
 	private int mNotifications		= 0;
-	private ArrayList<ContextTask> mContexts;
+	private ArrayList<ContextTimes> 	mContextsTimes;
+	private ArrayList<ContextRegions> 	mContextsRegions;
 
 	private static Context 			mCtx;
 	private static TicklerDBAdapter tck;
 	
-
 	/**
 	 * @param mId
 	 * @param mName
@@ -36,19 +36,21 @@ public class ContextTask {
 	}
 	
 	public ContextTask() {
-		this.mId = 0;
-		this.mName = "";
-		this.mIcon = 0;
-		this.mNotifications = 0;
-		this.mContexts = null;
+		this.mId 				= 0;
+		this.mName 				= "";
+		this.mIcon 				= 0;
+		this.mNotifications 	= 0;
+		this.mContextsTimes 	= null;
+		this.mContextsRegions	= null;
 	}
 
 	public ContextTask(Context ctx) {
-		this.mId = 0;
-		this.mName = "";
-		this.mIcon = 0;
-		this.mNotifications = 0;
-		this.mContexts = null;
+		this.mId 				= 0;
+		this.mName 				= "";
+		this.mIcon 				= 0;
+		this.mNotifications 	= 0;
+		this.mContextsTimes		= null;
+		this.mContextsRegions	= null;
 		mCtx = ctx;
 	}
 
@@ -111,15 +113,29 @@ public class ContextTask {
 	/**
 	 * @return the mContexts
 	 */
-	public ArrayList<ContextTask> getContexts() {
-		return mContexts;
+	public ArrayList<ContextTimes> getContextsTimes() {
+		return mContextsTimes;
 	}
 
 	/**
-	 * @param mContexts the mContexts to set
+	 * @return the mContexts
 	 */
-	public void setContexts(ArrayList<ContextTask> mContexts) {
-		this.mContexts = mContexts;
+	public ArrayList<ContextRegions> getContextsRegions() {
+		return mContextsRegions;
+	}
+
+	/**
+	 * @param mContexts the mContextsTimes to set
+	 */
+	public void setContextsTimes(ArrayList<ContextTimes> mContexts) {
+		this.mContextsTimes = mContexts;
+	}
+	
+	/**
+	 * @param mContexts the mContextsRegions to set
+	 */
+	public void setContextsRegions(ArrayList<ContextRegions> mContexts) {
+		this.mContextsRegions = mContexts;
 	}
 	
 	public void Context(int context_id) {
@@ -171,7 +187,35 @@ public class ContextTask {
 	}
 
 	public boolean applyContext() {
-		return true;
+		boolean bTimes 		= false;
+		boolean bRegions 	= false;
+		
+		if (mContextsTimes != null) {
+			for (int i=0; i<mContextsTimes.size(); i++) {
+				if (applyContextTimes(mContextsTimes.get(i))) {
+					bTimes = true;
+				}
+			}
+		}
+		
+		if (mContextsRegions != null) {
+			for (int i=0; i<mContextsRegions.size(); i++) {
+				if (applyContextRegions(mContextsRegions.get(i))) {
+					bTimes = true;
+				}
+			}
+		}
+		
+		// return bTimes or bRegions
+		return true; // TODO: CAMBIAR CUANDO SE TERMINE LA LOGICA DE NEGOCIO
+	}
+	
+	public boolean applyContextTimes(ContextTimes ct) {
+		return true; // TODO: CAMBIAR CUANDO SE TERMINE LA LOGICA DE NEGOCIO
+	}
+	
+	public boolean applyContextRegions(ContextRegions ct) {
+		return true; // TODO: CAMBIAR CUANDO SE TERMINE LA LOGICA DE NEGOCIO
 	}
 	
 	private static void ContextTask_helper() {
