@@ -215,6 +215,7 @@ public class TicklerDBAdapter {
 		initialValues.put(Tasks.KEY_TASKS_DATE_CREATION, Utilities.date2String(date_creation,3));
 		initialValues.put(Tasks.KEY_TASKS_SOMEDAY, someday);
 		initialValues.put(Tasks.KEY_TASKS_DATE_START, Utilities.date2String(date_start,3));
+		initialValues.put(Tasks.KEY_TASKS_DATE_DEADLINE, Utilities.date2String(date_deadline,3));
 		initialValues.put(Tasks.KEY_TASKS_DATE_COMPLETED, Utilities.date2String(date_completed,3));
 		initialValues.put(Tasks.KEY_TASKS_DATE_ABANDONED, Utilities.date2String(date_abandoned,3));
 		initialValues.put(Tasks.KEY_TASKS_REPEAT, repeat);

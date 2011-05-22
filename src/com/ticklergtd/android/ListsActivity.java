@@ -261,7 +261,9 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
     		res += ct.getName() + "-";
     	}
     	
-    	res = res.substring(0,res.length() - 1);
+    	if (res.length() > 0) {
+    		res = res.substring(0,res.length() - 1);
+    	}
     	
     	return res;
     }
