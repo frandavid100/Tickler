@@ -4,11 +4,13 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewAnimator;
 import android.widget.ViewFlipper;
 
@@ -47,7 +50,9 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
 	private TextView txtInboxFullLabel;
 	private TextView txtSomedayLabel;
 	private View addNewTask;
-	private Thread workerThread =new Thread(this);
+	
+	IconicAdapter fullListAdapter = null;
+	IconicAdapter smartListAdapter = null;
 	
 	static final int SMART 		= 1;
 	static final int FULL 		= 2;
@@ -58,18 +63,26 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.task_lists);
 		
+		if (checkFirstRun()){
+			setPrefsFirstRun(false);
+		}
         findViews();
         setListeners();
         initDataset();     
 	}
 	
-	protected void onResume(Bundle savedInstanceState) {
-		super.onResume();
-		
-        initDataset();     
+	private boolean checkFirstRun() {
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+		return prefs.getBoolean("app_first_run", true);	
 	}
 	
-	@Override
+	private void setPrefsFirstRun(boolean isFirstRun){
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+		prefs.edit().putBoolean("app_first_run", isFirstRun).commit();
+	}
+	
+	
+	/*@Override
 	public void onDetachedFromWindow() {
         Log.d("Dash","OnDetachedFromWindow()");
 
@@ -83,18 +96,14 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
 	                v.stopFlipping();
 	        }
 	    }
-	}
-
-	protected void onStart(Bundle savedInstanceState) {
-		super.onStart();
-		
-        initDataset();     
-	}
+	}*/
 	
-	protected void onRestart(Bundle savedInstanceState) {
+	@Override
+	protected void onRestart() {
 		super.onRestart();
-		
-        initDataset();     
+		smartListAdapter.notifyDataSetChanged();
+        fullListAdapter.notifyDataSetChanged();
+        initDataset();
 	}
 	
 	// Some tests with viewFlipper in order to switch between Smart List and Full List
@@ -179,7 +188,8 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
 	}
 	
 	private void initDataset() {
-		// Recupera una lista de tareas 
+		// Recupera una lista de tareas
+		Thread workerThread =new Thread(this);
 		workerThread.start();
 	}
 	
@@ -197,10 +207,12 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
             mStrings_full = getStringsFromTasks(tsk_full);
             mStrings_smart = getStringsFromTasks(tsk_smart);
             
-            lvSmart.setAdapter(new IconicAdapter(mStrings_smart));
+            smartListAdapter = new IconicAdapter(mStrings_smart);
+            lvSmart.setAdapter(smartListAdapter);
             lvSmart.setTextFilterEnabled(true);
             
-            lvFull.setAdapter(new IconicAdapter(mStrings_full));
+            fullListAdapter = new IconicAdapter(mStrings_full);
+            lvFull.setAdapter(fullListAdapter);
             lvFull.setTextFilterEnabled(true);
             
             txtView.setText(R.string.smart_list_view_title);

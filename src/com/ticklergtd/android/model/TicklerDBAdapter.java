@@ -5,10 +5,12 @@ import java.util.Date;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.ticklergtd.android.Utilities;
@@ -33,6 +35,7 @@ public class TicklerDBAdapter {
 	private static final int DATABASE_VERSION = 1;
 
 	private Context mCtx;
+	private boolean mFirstRun;
 
 	private static class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -118,12 +121,22 @@ public class TicklerDBAdapter {
 		if(!isOpen) {
 			mDbHelper = new DatabaseHelper(mCtx);
 			mDb = mDbHelper.getWritableDatabase();
-/*			mDbHelper.loadTestDB(mDb);
-			mDbHelper.loadTestRecords(mDb);*/
-			
+			if (getPrefsFirstRun()){
+			mDbHelper.loadTestDB(mDb);
+			mDbHelper.loadTestRecords(mDb);
+			}
 		}
 		isOpen = true;
 		return this;
+	}
+
+	private boolean getPrefsFirstRun() {
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mCtx);
+		boolean valor = prefs.getBoolean("app_first_run", true);
+		if (valor) { 
+			return true;
+		}
+		return false;
 	}
 
 	public void close() {
