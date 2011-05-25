@@ -11,11 +11,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
+import android.view.LayoutInflater;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -24,7 +24,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ViewAnimator;
 import android.widget.ViewFlipper;
 
@@ -51,8 +50,8 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
 	private TextView txtSomedayLabel;
 	private View addNewTask;
 	
-	IconicAdapter fullListAdapter = null;
 	IconicAdapter smartListAdapter = null;
+	IconicAdapter fullListAdapter = null;
 	
 	static final int SMART 		= 1;
 	static final int FULL 		= 2;
@@ -315,7 +314,7 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
     	
     	return lRes;
     }
-    
+   
     class IconicAdapter extends ArrayAdapter<String> {
     	IconicAdapter(ArrayList<String> mStrings) {
         	super(ListsActivity.this, R.layout.task_lists_row, R.id.textView_lists_row_task_name, mStrings);
@@ -327,11 +326,13 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
         	String sContexts	= "";
         	int iPriority		= 2;
         	int currentListID;
+        	boolean bIsChecked;
         	
         	View row=super.getView(position, convertView, parent);
         	
         	currentListID = parent.getId();
         	iPriority	= tsk_current.get(position).getPriority();
+        	bIsChecked = tsk_current.get(position).isCheckedInList();
         	sName 		= tsk_current.get(position).getName();
         	sContexts 	= getNameContexts(tsk_current.get(position));
         	
@@ -345,9 +346,10 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
         	priorityLevel.setBackgroundDrawable(cd);
         	txtTaskName.setText(sName);
         	txtTaskContexts.setText(sContexts);
+        	chkTaskCompleted.setChecked(bIsChecked);
         	
         	//Checkbox listener. Strikestrough this task name when checked.
-        	chkTaskCompleted.setOnCheckedChangeListener(new chkCompletedListener(txtTaskName));
+        	chkTaskCompleted.setOnCheckedChangeListener(new chkCompletedListener(txtTaskName, position));
         	
         	//ImageView listener. Calls task editor passing this task ID through extras. 
         	icon.setOnClickListener(new iconClickListener(currentListID,position));
@@ -376,8 +378,10 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
 
 		class chkCompletedListener implements OnCheckedChangeListener{
         	private TextView txtTask;
-			public chkCompletedListener(TextView txtTaskName) {
+        	int position;
+			public chkCompletedListener(TextView txtTaskName, int position) {
 				this.txtTask = txtTaskName;
+				this.position = position;
 			}
 
 			@Override
@@ -389,6 +393,7 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
 				else{
 					txtTask.setPaintFlags(0);
 				}
+				tsk_current.get(position).setCheckedInList(!isChecked);
 			}
         	
         }
@@ -415,7 +420,5 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
 				callTaskEditorActivity((int)taskID);
 			}
     	}
-    }
-    
-	
+    }   
 }

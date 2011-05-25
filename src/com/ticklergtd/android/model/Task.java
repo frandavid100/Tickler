@@ -47,6 +47,11 @@ public class Task {
 	private int 					mOrder;
 	private ArrayList<ContextTask> 	mContexts;
 	
+	/**
+	 * Current Task List CheckBox state
+	 */
+	private boolean mIsCheckedInList;
+	
 	public Task(Context ctx) {
 		mCtx = ctx;
 	}
@@ -211,7 +216,22 @@ public class Task {
 		//if (mDeadline != null)
 			this.mDeadline = mDeadline;
 	}
-
+	
+	/**
+	 * 
+	 * @return the mIsCheckedInList
+	 */
+	public boolean isCheckedInList() {
+		return mIsCheckedInList;
+	}
+	/**
+	 * 
+	 * @param mIsCheckedInList. Whether the corresponding Tasks list CheckBox is checked or not.
+	 */
+	public void setCheckedInList(boolean mIsCheckedInList) {
+		this.mIsCheckedInList = mIsCheckedInList;
+	}
+	
 	/**
 	 * @return the mCompleted
 	 */
