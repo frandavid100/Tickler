@@ -3,6 +3,7 @@ package com.ticklergtd.android;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -15,8 +16,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.ticklergtd.android.ListsActivity.IconicAdapter;
 import com.ticklergtd.android.model.ContextTask;
 import com.ticklergtd.android.model.Task;
 
@@ -102,21 +103,31 @@ public class TaskEditorActivity extends Activity implements Runnable{
 	}
 	
 	public void startDateOptionsListener(View v){
+		setTexts();
 		callStartDateOptionsDialog();
 	}
 	
 	public void deadlineOptionsListener(View v){
+		setTexts();
 		callDeadlineOptionsDialog();
 	}
 
 	public void recurrenceOptionsListener(View v){
+		setTexts();
 		callRecurrenceOptionsDialog();
 	}
 
 	public void taskEditorDoneListener(View v) {
+		setTexts();
 		callEditorDone();
 	}
 
+	
+	private void setTexts() {
+		tsk.setName(txtTaskName.getText().toString());
+		tsk.setNote(txtTaskName.getText().toString());
+	}
+	
 	// Calls to optional settings dialogues. 
 	// TODO: Dialog initialization data should be passed into the extras Bundle.
 	
@@ -141,9 +152,21 @@ public class TaskEditorActivity extends Activity implements Runnable{
 	}
 	
 	private void callEditorDone() {
-		tsk.setName(txtTaskName.getText().toString());
-		tsk.setNote(txtTaskNotes.getText().toString());
+		CharSequence text = "";
+		
+		setTexts();
 		long lRes = tsk.save();
+		
+		if (lRes >= 0) {
+			text = getResources().getText(R.string.task_editor_save_success);
+		}
+		else {
+			text = getResources().getText(R.string.task_editor_save_fail);
+		}
+		int duration = Toast.LENGTH_SHORT;
+
+		Toast toast = Toast.makeText(TaskEditorActivity.this, text, duration);
+		toast.show();
 	}
 	
 	private void findViews() {

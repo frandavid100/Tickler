@@ -146,7 +146,7 @@ public class TicklerDBAdapter {
 
 	// TAREAS
 	public Cursor selectTasks_Smart(){
-		return mDb.query(
+/*		return mDb.query(
 				Tasks.DATABASE_TABLE_TASKS,
 				new String[] { Tasks.KEY_TASKS_ID, Tasks.KEY_TASKS_NAME,
 						Tasks.KEY_TASKS_PRIORITY, Tasks.KEY_TASKS_NOTE,
@@ -155,12 +155,19 @@ public class TicklerDBAdapter {
 						Tasks.KEY_TASKS_DATE_COMPLETED, Tasks.KEY_TASKS_DATE_ABANDONED,
 						Tasks.KEY_TASKS_REPEAT, Tasks.KEY_TASKS_REPEAT_UNITS,
 						Tasks.KEY_TASKS_REPEAT_FROM, Tasks.KEY_TASKS_SIMULTANEOUS},
-				Tasks.KEY_TASKS_ID + " IN (" + getActiveContexts() + ")",
+						"(" + Tasks.KEY_TASKS_ID + " IS NULL OR " + Tasks.KEY_TASKS_ID + " IN (" + getActiveContexts() + "))",
 				null,
 				null,
 				null,
 				Tasks.KEY_TASKS_DATE_START + " ASC"
 		);
+		
+*/		
+		String lsSql = "SELECT distinct  Tasks.* " + 
+						" FROM Tickler_Tasks Tasks left join Tickler_ContextsTasks Contexts on Tasks.ID=Contexts.task_id " + 
+						" WHERE (Contexts.task_id is null or Contexts.task_id IN (" + getActiveContexts() + "))";
+		
+		return mDb.rawQuery(lsSql, null);
 	}
 	
 	public Cursor selectTasks_Full(){
@@ -317,6 +324,7 @@ public class TicklerDBAdapter {
 			lsRes = lsRes.substring(1);
 		}
 
+		lsRes = "2";
 		return lsRes;
 	}
 

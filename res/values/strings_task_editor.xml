@@ -34,4 +34,6 @@
         <item>I hope i can do this someday</item>
         <item>I can\'t work on this until  %1$s</item>
     </string-array>
+    <string name="task_editor_save_success">Saved succesfully.</string>
+    <string name="task_editor_save_fail">Saved unsuccesfully. Try again, please.</string>
 </resources>

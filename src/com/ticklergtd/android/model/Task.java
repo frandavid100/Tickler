@@ -391,6 +391,7 @@ public class Task {
 	public static ArrayList<Task> getTasks(Context ctx, int flipView) {
 		mCtx = ctx;
 		ArrayList<Task> aux = new ArrayList<Task>();
+		ArrayList<ContextTask> cts = new ArrayList<ContextTask>();
 		
 		Task_helper();
 		Cursor c = null;
@@ -400,7 +401,7 @@ public class Task {
 			c = tck.selectTasks_Full();
 		if (flipView == SOMEDAY)
 			c = tck.selectTasks_Someday();
-		
+			
 		c.moveToFirst();
 		while (!c.isAfterLast()) {
 			Task t = new Task(mCtx);
