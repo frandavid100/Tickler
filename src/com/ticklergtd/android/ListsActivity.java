@@ -3,6 +3,7 @@ package com.ticklergtd.android;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.Application;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Paint;
@@ -11,11 +12,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
-import android.view.LayoutInflater;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -24,6 +27,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewAnimator;
 import android.widget.ViewFlipper;
 
@@ -102,7 +106,7 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
 		super.onRestart();
 		smartListAdapter.notifyDataSetChanged();
         fullListAdapter.notifyDataSetChanged();
-        initDataset();
+		initDataset();
 	}
 	
 	// Some tests with viewFlipper in order to switch between Smart List and Full List
@@ -420,5 +424,38 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
 				callTaskEditorActivity((int)taskID);
 			}
     	}
-    }   
+    }
+    
+    
+	/**
+	* Inflate Menu from XML
+	*/
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    super.onCreateOptionsMenu(menu);
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.lists_menu, menu);
+	    return true;
+	}
+
+	/** 
+	 * Define menu action
+	 * 
+	 * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
+	 */
+	public boolean onOptionsItemSelected(MenuItem item) {  
+	    switch (item.getItemId()) {  
+	        case R.id.reset_db_test_data:  
+	        	 setPrefsFirstRun(true);
+	        	 initDataset();
+	        	 Toast resetMessage = Toast.makeText(getApplicationContext(), "Test DB restored. Please relaunch Tickler.", Toast.LENGTH_SHORT);
+	        	 resetMessage.show();
+	        	 finish();
+	        	break;
+	        
+		  default:
+			
+	    }  
+	    return false;  
+	}
+	
 }

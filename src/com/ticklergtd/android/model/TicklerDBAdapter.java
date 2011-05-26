@@ -132,8 +132,8 @@ public class TicklerDBAdapter {
 
 	private boolean getPrefsFirstRun() {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mCtx);
-		boolean valor = prefs.getBoolean("app_first_run", true);
-		if (valor) { 
+		boolean firstRun = prefs.getBoolean("app_first_run", true);
+		if (firstRun) { 
 			return true;
 		}
 		return false;
