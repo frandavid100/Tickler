@@ -36,10 +36,6 @@ public class Task {
 	
 	private static Context 			mCtx;
 	private static TicklerDBAdapter tck;
-	
-	static final int SMART 		= 1;
-	static final int FULL 		= 2;
-	static final int SOMEDAY	= 3;
 
 	/**
 	 * The order when this task is a child of another task
@@ -84,7 +80,7 @@ public class Task {
 			this.setNote("");
 			this.setSomeday(0);
 			this.setCreationDate(new Date());
-			this.setStartDate(new Date());
+			this.setStartDate(null);
 			this.setDeadline(null);
 			this.setCompleted(null);
 			this.setAbandoned(null);			
@@ -388,19 +384,27 @@ public class Task {
 		}
 	}
 	
-	public static ArrayList<Task> getTasks(Context ctx, int flipView) {
+	public Cursor getTasksInbox() {
+		return null;
+	}
+
+	public static ArrayList<Task> getTasks(Context ctx, int context) {
 		mCtx = ctx;
 		ArrayList<Task> aux = new ArrayList<Task>();
 		ArrayList<ContextTask> cts = new ArrayList<ContextTask>();
 		
 		Task_helper();
 		Cursor c = null;
-		if (flipView == SMART)
+		if (context == Utilities.SMART)
 			c = tck.selectTasks_Smart();
-		if (flipView == FULL)
+		else if (context == Utilities.FULL)
 			c = tck.selectTasks_Full();
-		if (flipView == SOMEDAY)
+		else if (context == Utilities.SOMEDAY)
 			c = tck.selectTasks_Someday();
+		else if (context == Utilities.INBOX)
+			c = tck.selectTasks_Inbox();
+		else
+			c = tck.selectTasks_Context(context);
 			
 		c.moveToFirst();
 		while (!c.isAfterLast()) {

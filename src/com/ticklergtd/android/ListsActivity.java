@@ -34,10 +34,11 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
 	
 	private ArrayList<String> mStrings_full;
 	private ArrayList<String> mStrings_smart;
-	private ArrayList<Task> tsk_full 		= new ArrayList<Task>();
+	//private ArrayList<Task> tsk_full 		= new ArrayList<Task>();
 	private ArrayList<Task> tsk_smart 		= new ArrayList<Task>();
 	private ArrayList<Task> tsk_someday		= new ArrayList<Task>();
 	private ArrayList<Task> tsk_current 	= new ArrayList<Task>();
+	private ArrayList<Task> tsk_inbox		= new ArrayList<Task>();
 	private RelativeLayout listsLayout;
 	private ViewFlipper listsViewFlipper 	= null;
 	private ListView lvSmart;
@@ -52,10 +53,6 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
 	
 	IconicAdapter smartListAdapter = null;
 	IconicAdapter fullListAdapter = null;
-	
-	static final int SMART 		= 1;
-	static final int FULL 		= 2;
-	static final int SOMEDAY	= 3;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -79,23 +76,6 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		prefs.edit().putBoolean("app_first_run", isFirstRun).commit();
 	}
-	
-	
-	/*@Override
-	public void onDetachedFromWindow() {
-        Log.d("Dash","OnDetachedFromWindow()");
-
-        try {
-	        super.onDetachedFromWindow();
-	    }
-	    catch (Exception e) {
-	        ViewFlipper v = (ViewFlipper)findViewById(R.id.viewFlipper_Lists_Container);
-	        if (v != null) {
-	                Log.d("Dash","De-Bug hit. e=" + e.getMessage());
-	                v.stopFlipping();
-	        }
-	    }
-	}*/
 	
 	@Override
 	protected void onRestart() {
@@ -122,6 +102,10 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
                     ((ViewAnimator) listsViewFlipper).showPrevious();
                     
                     tsk_current = tsk_smart;
+                    mStrings_smart = getStringsFromTasks(tsk_smart);                    
+                    smartListAdapter = new IconicAdapter(mStrings_smart);
+                    lvSmart.setAdapter(smartListAdapter);
+                    lvSmart.setTextFilterEnabled(true);
                     
                     txtView.setText(R.string.smart_list_view_title);        
                     sLabel1 = getResources().getString(R.string.smart_list_inbox_label);
@@ -135,14 +119,20 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
             		listsViewFlipper.setAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_in_right));
                     ((ViewAnimator) listsViewFlipper).showNext();
                     
-                    tsk_current = tsk_full;
+                    tsk_current = tsk_inbox;
+                    mStrings_full = getStringsFromTasks(tsk_current);
+
+                    fullListAdapter = new IconicAdapter(mStrings_full);
+                    lvFull.setAdapter(fullListAdapter);
+                    lvFull.setTextFilterEnabled(true);
+                    
                     
                     txtView.setText(R.string.full_list_view_title);
                     sLabel1 = getResources().getString(R.string.full_list_inbox_label);
                     
                     lbInboxFullLabel.setText(sLabel1);
                     
-                	sLabel2 = String.format(getResources().getString(R.string.lists_inbox_tasks,tsk_current.size()));
+                	sLabel2 = String.format(getResources().getString(R.string.lists_inbox_tasks,tsk_inbox.size()));
                 	txtInboxFullLabel.setText(sLabel2);
 
                 	sLabel3 = String.format(getResources().getString(R.string.full_list_someday_tasks,tsk_someday.size()));
@@ -162,9 +152,11 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
 	@Override
 	public void run() {
 		
-		tsk_full 	= Task.getTasks(ListsActivity.this,FULL);
-        tsk_smart 	= Task.getTasks(ListsActivity.this,SMART);
-        tsk_someday	= Task.getTasks(ListsActivity.this,SOMEDAY);
+		//tsk_full 	= Task.getTasks(ListsActivity.this,Utilities.FULL);
+		//tsk_full 	= null;
+        tsk_smart 	= Task.getTasks(ListsActivity.this,Utilities.SMART);
+        tsk_someday	= Task.getTasks(ListsActivity.this,Utilities.SOMEDAY);
+        tsk_inbox	= Task.getTasks(ListsActivity.this,Utilities.INBOX);
         handler.sendEmptyMessage(0);
 	}
 	
@@ -203,7 +195,7 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
     		tsk_current = tsk_smart;
 
             // Y ya en una función local, compongo los strings como se necesite
-            mStrings_full = getStringsFromTasks(tsk_full);
+            mStrings_full = getStringsFromTasks(tsk_current);
             mStrings_smart = getStringsFromTasks(tsk_smart);
             
             smartListAdapter = new IconicAdapter(mStrings_smart);
@@ -219,7 +211,7 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
             sLabel1 = getResources().getString(R.string.smart_list_inbox_label);
             lbInboxSmartLabel.setText(sLabel1);
             
-        	sLabel2 = String.format(getResources().getString(R.string.lists_inbox_tasks,tsk_current.size()));
+        	sLabel2 = String.format(getResources().getString(R.string.lists_inbox_tasks,tsk_inbox.size()));
         	txtInboxSmartLabel.setText(sLabel2);
     	}
     };
@@ -330,11 +322,11 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
         	
         	View row=super.getView(position, convertView, parent);
         	
-        	currentListID = parent.getId();
-        	iPriority	= tsk_current.get(position).getPriority();
-        	bIsChecked = tsk_current.get(position).isCheckedInList();
-        	sName 		= tsk_current.get(position).getName();
-        	sContexts 	= getNameContexts(tsk_current.get(position));
+        	currentListID	= parent.getId();
+        	iPriority		= tsk_current.get(position).getPriority();
+        	bIsChecked 		= tsk_current.get(position).isCheckedInList();
+        	sName 			= tsk_current.get(position).getName();
+        	sContexts 		= getNameContexts(tsk_current.get(position));
         	
         	ColorDrawable cd = new ColorDrawable(getPriorityColor(iPriority));
         	ImageView priorityLevel 	= (ImageView)row.findViewById(R.id.imageView_lists_row_priority_level);
@@ -411,7 +403,7 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
 			public void onClick(View v) { 					
 				switch (currentlist) {
 					case R.id.list_full:
-						taskID = getTaskIdFromList(tsk_full, position);
+						taskID = getTaskIdFromList(tsk_current, position);
 						break;
 					case R.id.list_smart:
 						taskID = getTaskIdFromList(tsk_smart, position);

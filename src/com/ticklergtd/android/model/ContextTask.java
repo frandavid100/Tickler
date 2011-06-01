@@ -15,6 +15,7 @@ public class ContextTask {
 	private String mName;
 	private int mIcon 				= 1;
 	private int mNotifications		= 0;
+	private long mUsedNTasks		= 0;
 	private ArrayList<ContextTimes> 	mContextsTimes;
 	private ArrayList<ContextRegions> 	mContextsRegions;
 
@@ -29,12 +30,29 @@ public class ContextTask {
 	 * @param mContexts
 	 */
 	public ContextTask(long mId, String mName, int mIcon, int mNotifications) {
-		this.mId = mId;
-		this.mName = mName;
-		this.mIcon = mIcon;
+		this.mId 			= mId;
+		this.mName 			= mName;
+		this.mIcon 			= mIcon;
 		this.mNotifications = mNotifications;
+		this.mUsedNTasks 	= 0;
 	}
 	
+	/**
+	 * @param mId
+	 * @param mName
+	 * @param mIcon
+	 * @param mNotifications
+	 * @param mContexts
+	 * @param mUsedNTasks
+	 */
+	public ContextTask(long mId, String mName, int mIcon, int mNotifications, long mUsedNTasks) {
+		this.mId 			= mId;
+		this.mName 			= mName;
+		this.mIcon 			= mIcon;
+		this.mNotifications = mNotifications;
+		this.mUsedNTasks 	= mUsedNTasks;
+	}
+
 	public ContextTask() {
 		this.mId 				= 0;
 		this.mName 				= "";
@@ -42,6 +60,7 @@ public class ContextTask {
 		this.mNotifications 	= 0;
 		this.mContextsTimes 	= null;
 		this.mContextsRegions	= null;
+		this.mUsedNTasks		= 0;
 	}
 
 	public ContextTask(Context ctx) {
@@ -49,6 +68,7 @@ public class ContextTask {
 		this.mName 				= "";
 		this.mIcon 				= 0;
 		this.mNotifications 	= 0;
+		this.mUsedNTasks		= 0;
 		this.mContextsTimes		= null;
 		this.mContextsRegions	= null;
 		mCtx = ctx;
@@ -109,6 +129,21 @@ public class ContextTask {
 	public void setNotifications(boolean mNotifications) {
 		this.mNotifications = (mNotifications==true?1:0);
 	}
+
+	/**
+	 * @return the mUsedNTasks
+	 */
+	public long getUsedNTasks() {
+		return mUsedNTasks;
+	}
+
+	/**
+	 * @param mUsedNTasks the mUsedNTasks to set
+	 */
+	public void setUsedNTasks(long mUsedNTasks) {
+		this.mUsedNTasks = mUsedNTasks;
+	}
+
 
 	/**
 	 * @return the mContexts
@@ -177,6 +212,29 @@ public class ContextTask {
 			t.setName(c.getString(1));
 			//t.setIcon(c.getInt(2) == 1);
 			//t.setNotifications(c.getInt(3) == 1);
+			aux.add(t);
+			
+			c.moveToNext();
+		}
+		c.close();
+		ContextTask_helper_close();
+		return aux;		
+	}
+
+	public static ArrayList<ContextTask> getContextsTaskCount(Context ctx) {
+		mCtx = ctx;
+		ArrayList<ContextTask> aux = new ArrayList<ContextTask>();
+		
+		ContextTask_helper();
+		Cursor c = tck.getContextsTasksCount();
+		
+		c.moveToFirst();
+		while (!c.isAfterLast()) {
+			ContextTask t = new ContextTask(mCtx);
+			t.setId(c.getLong(0));
+			t.setName(c.getString(1));
+			t.setIcon(c.getInt(2) == 1);
+			t.setUsedNTasks(c.getInt(3));
 			aux.add(t);
 			
 			c.moveToNext();

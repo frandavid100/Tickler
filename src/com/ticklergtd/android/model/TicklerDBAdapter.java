@@ -146,30 +146,37 @@ public class TicklerDBAdapter {
 
 	// TAREAS
 	public Cursor selectTasks_Smart(){
-/*		return mDb.query(
-				Tasks.DATABASE_TABLE_TASKS,
-				new String[] { Tasks.KEY_TASKS_ID, Tasks.KEY_TASKS_NAME,
-						Tasks.KEY_TASKS_PRIORITY, Tasks.KEY_TASKS_NOTE,
-						Tasks.KEY_TASKS_DATE_CREATION, Tasks.KEY_TASKS_SOMEDAY,
-						Tasks.KEY_TASKS_DATE_START, Tasks.KEY_TASKS_DATE_DEADLINE,
-						Tasks.KEY_TASKS_DATE_COMPLETED, Tasks.KEY_TASKS_DATE_ABANDONED,
-						Tasks.KEY_TASKS_REPEAT, Tasks.KEY_TASKS_REPEAT_UNITS,
-						Tasks.KEY_TASKS_REPEAT_FROM, Tasks.KEY_TASKS_SIMULTANEOUS},
-						"(" + Tasks.KEY_TASKS_ID + " IS NULL OR " + Tasks.KEY_TASKS_ID + " IN (" + getActiveContexts() + "))",
-				null,
-				null,
-				null,
-				Tasks.KEY_TASKS_DATE_START + " ASC"
-		);
-		
-*/		
 		String lsSql = "SELECT distinct  Tasks.* " + 
 						" FROM Tickler_Tasks Tasks left join Tickler_ContextsTasks Contexts on Tasks.ID=Contexts.task_id " + 
-						" WHERE (Contexts.task_id is null or Contexts.task_id IN (" + getActiveContexts() + "))";
+						" WHERE (Contexts.task_id IN (" + getActiveContexts() + "))";
 		
 		return mDb.rawQuery(lsSql, null);
 	}
-	
+
+	public Cursor selectTasks_Inbox(){
+		String lsSql = "SELECT distinct  Tasks.* " + 
+						" FROM Tickler_Tasks Tasks left join Tickler_ContextsTasks Contexts on Tasks.ID=Contexts.task_id " + 
+						" WHERE (Contexts.context_id is null)";
+		
+		return mDb.rawQuery(lsSql, null);
+	}
+				
+	public Cursor selectTasks_Context(long context_id) {
+		String lsSql = "SELECT distinct  Tasks.* " + 
+						" FROM Tickler_Tasks Tasks left join Tickler_ContextsTasks Contexts on Tasks.ID=Contexts.task_id " + 
+						" WHERE (Contexts.task_id = " + context_id + ")";
+		
+		return mDb.rawQuery(lsSql, null);
+	}
+
+	public Cursor selectTasks_Logbook() {
+		String lsSql = "SELECT distinct  Tasks.* " + 
+						" FROM Tickler_Tasks Tasks left join Tickler_ContextsTasks Contexts on Tasks.ID=Contexts.task_id " + 
+						" WHERE (Contexts.task_id = " + context_id + ")";
+		
+		return mDb.rawQuery(lsSql, null);
+	}
+
 	public Cursor selectTasks_Full(){
 		return mDb.query(
 				Tasks.DATABASE_TABLE_TASKS,
@@ -351,8 +358,18 @@ public class TicklerDBAdapter {
 	public Cursor getContextTasksList(){
 		String sSql = "";
 		
-		sSql = "select Contexts.id, Contexts.name, Contexts.icon, Contexts.name , Contexts.notifications " + 
+		sSql = "select Contexts.id, Contexts.name, Contexts.icon, Contexts.notifications " + 
 				" from Tickler_Contexts as Contexts ";
 		return mDb.rawQuery(sSql, null);
 	}
+	
+	public Cursor getContextsTasksCount() {
+		String sSql = "";
+		
+		sSql = "SELECT context_id, Tickler_Contexts.name, Tickler_Contexts.icon, count(task_id) " +  
+				" FROM Tickler_ContextsTasks INNER JOIN Tickler_Contexts ON Tickler_ContextsTasks.context_id = Tickler_Contexts.ID " + 
+				" GROUP BY context_id, Tickler_Contexts.name, Tickler_Contexts.icon";
+		return mDb.rawQuery(sSql, null);
+	}
+
 }

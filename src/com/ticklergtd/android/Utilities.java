@@ -8,6 +8,11 @@ import java.util.Date;
 public class Utilities {
 	static final String FORMAT_BD = "yyyy-MM-dd HH:mm:ss";
 	
+	public static final int INBOX		= -2;
+	public static final int SOMEDAY		= -1;
+	public static final int FULL 		=  0;
+	public static final int SMART 		=  1;
+	
 	public static Date string2Date(String pString) {
 		if (pString != null) {
 			SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
