@@ -172,7 +172,7 @@ public class TicklerDBAdapter {
 	public Cursor selectTasks_Logbook() {
 		String lsSql = "SELECT distinct  Tasks.* " + 
 						" FROM Tickler_Tasks Tasks left join Tickler_ContextsTasks Contexts on Tasks.ID=Contexts.task_id " + 
-						" WHERE (Contexts.task_id = " + context_id + ")";
+						" WHERE (Contexts.task_id = 0)";
 		
 		return mDb.rawQuery(lsSql, null);
 	}
