@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent" android:background="@color/body_background" android:layout_height="@dimen/lists_row_height">
+    <ImageView android:layout_alignParentLeft="true" android:id="@+id/imageView_lists_row_priority_level" android:layout_height="@dimen/lists_row_height" android:layout_width="6dip"></ImageView>
+    <TextView android:layout_toRightOf="@id/imageView_lists_row_priority_level" android:layout_height="wrap_content" android:text="Task Name" android:id="@+id/textView_lists_row_task_name" android:textStyle="bold" android:layout_width="match_parent" android:layout_toLeftOf="@+id/imageView_lists_row_separator" android:paddingTop="3dip"></TextView>
+    <TextView android:id="@+id/textView_lists_row_task_contexts" android:layout_toRightOf="@id/imageView_lists_row_priority_level" android:layout_height="wrap_content" android:text="Contexts" android:layout_width="wrap_content" android:layout_toLeftOf="@id/imageView_lists_row_separator" android:textColor="@color/lists_row_contexts_text" android:layout_alignParentBottom="true" android:paddingBottom="3dip"></TextView>
+    <ImageView android:layout_height="wrap_content" android:layout_width="wrap_content" style="@style/TitleBarSeparator" android:id="@+id/imageView_lists_row_separator" android:layout_toLeftOf="@+id/imageView_lists_row_edit_task"></ImageView>
+    <ImageView android:layout_height="wrap_content" android:layout_centerVertical="true" android:layout_alignParentRight="true" android:id="@id/imageView_lists_row_edit_task" android:src="@android:drawable/ic_menu_edit" android:layout_width="@dimen/title_height" android:background="@color/body_background" android:clickable="true"></ImageView>
+</RelativeLayout>

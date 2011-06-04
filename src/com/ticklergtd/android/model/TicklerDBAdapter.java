@@ -104,7 +104,6 @@ public class TicklerDBAdapter {
 			sSql = "INSERT INTO Tickler_ContextsTasks (task_id,context_id) values (4,1)";
 			db.execSQL(sSql);
 		}
-
 	}
 
 	/**
@@ -122,8 +121,8 @@ public class TicklerDBAdapter {
 			mDbHelper = new DatabaseHelper(mCtx);
 			mDb = mDbHelper.getWritableDatabase();
 			if (getPrefsFirstRun()){
-			mDbHelper.loadTestDB(mDb);
-			mDbHelper.loadTestRecords(mDb);
+				mDbHelper.loadTestDB(mDb);
+				mDbHelper.loadTestRecords(mDb);
 			}
 		}
 		isOpen = true;
@@ -148,7 +147,7 @@ public class TicklerDBAdapter {
 	public Cursor selectTasks_Smart(){
 		String lsSql = "SELECT distinct  Tasks.* " + 
 						" FROM Tickler_Tasks Tasks left join Tickler_ContextsTasks Contexts on Tasks.ID=Contexts.task_id " + 
-						" WHERE (Contexts.task_id IN (" + getActiveContexts() + "))";
+						" WHERE (Contexts.context_id IN (" + getActiveContexts() + "))";
 		
 		return mDb.rawQuery(lsSql, null);
 	}
@@ -172,7 +171,7 @@ public class TicklerDBAdapter {
 	public Cursor selectTasks_Logbook() {
 		String lsSql = "SELECT distinct  Tasks.* " + 
 						" FROM Tickler_Tasks Tasks left join Tickler_ContextsTasks Contexts on Tasks.ID=Contexts.task_id " + 
-						" WHERE (Contexts.task_id = 0)";
+						" WHERE (dt_completed <> '') or (dt_abandoned <> '')";
 		
 		return mDb.rawQuery(lsSql, null);
 	}

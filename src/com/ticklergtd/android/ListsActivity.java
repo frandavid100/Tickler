@@ -3,7 +3,6 @@ package com.ticklergtd.android;
 import java.util.ArrayList;
 
 import android.app.Activity;
-import android.app.Application;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Paint;
@@ -38,11 +37,12 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
 	
 	private ArrayList<String> mStrings_full;
 	private ArrayList<String> mStrings_smart;
-	//private ArrayList<Task> tsk_full 		= new ArrayList<Task>();
 	private ArrayList<Task> tsk_smart 		= new ArrayList<Task>();
 	private ArrayList<Task> tsk_someday		= new ArrayList<Task>();
 	private ArrayList<Task> tsk_current 	= new ArrayList<Task>();
 	private ArrayList<Task> tsk_inbox		= new ArrayList<Task>();
+	private ArrayList<Task> tsk_logbook		= new ArrayList<Task>();
+	private ArrayList<ContextTask> cont_tsk	= new ArrayList<ContextTask>();
 	private RelativeLayout listsLayout;
 	private ViewFlipper listsViewFlipper 	= null;
 	private ListView lvSmart;
@@ -53,10 +53,11 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
 	private TextView lbInboxFullLabel;
 	private TextView txtInboxFullLabel;
 	private TextView txtSomedayLabel;
+	private TextView txtLogbookLabel;
 	private View addNewTask;
 	
-	IconicAdapter smartListAdapter = null;
-	IconicAdapter fullListAdapter = null;
+	IconicCheckAdapter 	smartListAdapter 	= null;
+	IconicAdapter 		fullListAdapter 	= null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +97,7 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
 		String sLabel1 = "";
 		String sLabel2 = "";
 		String sLabel3 = "";
+		String sLabel4 = "";
 		
         switch (v.getId())
         {
@@ -106,25 +108,24 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
                     ((ViewAnimator) listsViewFlipper).showPrevious();
                     
                     tsk_current = tsk_smart;
-                    mStrings_smart = getStringsFromTasks(tsk_smart);                    
-                    smartListAdapter = new IconicAdapter(mStrings_smart);
+                    mStrings_smart = getStringsFromTasks(tsk_current);                    
+                    smartListAdapter = new IconicCheckAdapter(mStrings_smart);
                     lvSmart.setAdapter(smartListAdapter);
                     lvSmart.setTextFilterEnabled(true);
                     
                     txtView.setText(R.string.smart_list_view_title);        
                     sLabel1 = getResources().getString(R.string.smart_list_inbox_label);
-                    
                     lbInboxSmartLabel.setText(sLabel1);
                     
-                	sLabel2 = String.format(getResources().getString(R.string.lists_inbox_tasks,tsk_current.size()));
+                    // sLabel2 => label para registros en Inbox
+                	sLabel2 = String.format(getResources().getString(R.string.lists_inbox_tasks,tsk_inbox.size()));
                 	txtInboxSmartLabel.setText(sLabel2);
                 }
             	else if (isSmartList()) {
             		listsViewFlipper.setAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_in_right));
                     ((ViewAnimator) listsViewFlipper).showNext();
                     
-                    tsk_current = tsk_inbox;
-                    mStrings_full = getStringsFromTasks(tsk_current);
+                    mStrings_full = getStringsFromContextTask(cont_tsk);
 
                     fullListAdapter = new IconicAdapter(mStrings_full);
                     lvFull.setAdapter(fullListAdapter);
@@ -141,6 +142,9 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
 
                 	sLabel3 = String.format(getResources().getString(R.string.full_list_someday_tasks,tsk_someday.size()));
                 	txtSomedayLabel.setText(sLabel3);
+                	
+                	sLabel4 = String.format(getResources().getString(R.string.full_list_logbook_tasks,tsk_logbook.size()));
+                	txtLogbookLabel.setText(sLabel4);
                 }           	
             	
                 break;
@@ -160,7 +164,9 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
 		//tsk_full 	= null;
         tsk_smart 	= Task.getTasks(ListsActivity.this,Utilities.SMART);
         tsk_someday	= Task.getTasks(ListsActivity.this,Utilities.SOMEDAY);
+        tsk_logbook	= Task.getTasks(ListsActivity.this,Utilities.LOGBOOK);
         tsk_inbox	= Task.getTasks(ListsActivity.this,Utilities.INBOX);
+        cont_tsk	= ContextTask.getContextsTaskCount(ListsActivity.this);
         handler.sendEmptyMessage(0);
 	}
 	
@@ -180,6 +186,7 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
 		lbInboxFullLabel 	= (TextView)findViewById(R.id.textView_Full_List_Inbox_Label);
 		txtInboxFullLabel 	= (TextView)findViewById(R.id.textView_Full_List_Inbox_Tasks);
 		txtSomedayLabel 	= (TextView)findViewById(R.id.TextView_Full_List_Someday_Tasks);
+		txtLogbookLabel 	= (TextView)findViewById(R.id.TextView_Full_List_Logbook_Tasks);
 	}
 	
 	private void initDataset() {
@@ -199,10 +206,10 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
     		tsk_current = tsk_smart;
 
             // Y ya en una función local, compongo los strings como se necesite
-            mStrings_full = getStringsFromTasks(tsk_current);
-            mStrings_smart = getStringsFromTasks(tsk_smart);
+            mStrings_full = getStringsFromContextTask(cont_tsk);
+            mStrings_smart = getStringsFromTasks(tsk_current);
             
-            smartListAdapter = new IconicAdapter(mStrings_smart);
+            smartListAdapter = new IconicCheckAdapter(mStrings_smart);
             lvSmart.setAdapter(smartListAdapter);
             lvSmart.setTextFilterEnabled(true);
             
@@ -266,6 +273,23 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
     	return res;
     }
     
+    // De una lista de contextos, genera una lista de strings con la información
+    // ... que necesitemos
+    private ArrayList<String> getStringsFromContextTask(ArrayList<ContextTask> al) {
+    	
+    	int len = al.size();
+    	ArrayList<String> res = new ArrayList<String>();
+    	
+    	for (int i = 0; i < len; i++) {
+    		ContextTask ctsk = al.get(i);
+    		
+    		String sItemList = ctsk.getName() + "##" + ctsk.getUsedNTasks() + " tasks"; 
+    		res.add(sItemList);
+    	}
+    	
+    	return res;
+    }
+    
     // Esta es la función que compone los strings en la forma necesaria. 
     private String getItemList(Task tsk) {
     	String res = "";
@@ -311,8 +335,8 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
     	return lRes;
     }
    
-    class IconicAdapter extends ArrayAdapter<String> {
-    	IconicAdapter(ArrayList<String> mStrings) {
+    class IconicCheckAdapter extends ArrayAdapter<String> {
+    	IconicCheckAdapter(ArrayList<String> mStrings) {
         	super(ListsActivity.this, R.layout.task_lists_row, R.id.textView_lists_row_task_name, mStrings);
         }
         
@@ -418,6 +442,83 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
     	}
     }
     
+    class IconicAdapter extends ArrayAdapter<String> {
+    	IconicAdapter(ArrayList<String> mStrings) {
+        	super(ListsActivity.this, R.layout.task_lists_contexts_row, R.id.textView_lists_row_task_name, mStrings);
+        }
+        
+        public View getView(int position, View convertView, ViewGroup parent) {
+        	
+        	String sName	= "";
+        	String sCounts	= "";
+        	int currentListID;
+        	
+        	View row=super.getView(position, convertView, parent);
+        	
+        	currentListID	= parent.getId();
+        	sName 			= cont_tsk.get(position).getName();
+        	sCounts			= cont_tsk.get(position).getUsedNTasks() + " task(s)";
+        	
+        	TextView txtName 	= (TextView)row.findViewById(R.id.textView_lists_row_task_name);
+        	TextView txtNTasks	= (TextView)row.findViewById(R.id.textView_lists_row_task_contexts);
+        	ImageView icon		= (ImageView)row.findViewById(R.id.imageView_lists_row_edit_task);
+        	
+        	txtName.setText(sName);
+        	txtNTasks.setText(sCounts);
+        	
+        	//ImageView listener. Calls task editor passing this task ID through extras. 
+        	icon.setOnClickListener(new iconClickListener(currentListID,position));
+        	return(row);       	
+        }
+                
+        private void getContextIcons(String context){
+        	
+        }
+
+		class chkCompletedListener implements OnCheckedChangeListener{
+        	private TextView txtTask;
+        	int position;
+			public chkCompletedListener(TextView txtTaskName, int position) {
+				this.txtTask = txtTaskName;
+				this.position = position;
+			}
+
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView,
+					boolean isChecked) {
+				if(isChecked){
+					txtTask.setPaintFlags(txtTask.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+				}
+				else{
+					txtTask.setPaintFlags(0);
+				}
+				tsk_current.get(position).setCheckedInList(!isChecked);
+			}
+        }
+        
+    	class iconClickListener implements OnClickListener {
+    		private int currentlist;
+    		private int position;
+    		private long taskID;
+    		public iconClickListener(int listID, int pos) {
+    			this.currentlist = listID;
+    			this.position = pos;
+    			this.taskID = 0;
+    		}
+			@Override
+			public void onClick(View v) { 					
+				switch (currentlist) {
+					case R.id.list_full:
+						taskID = getTaskIdFromList(tsk_current, position);
+						break;
+					case R.id.list_smart:
+						taskID = getTaskIdFromList(tsk_smart, position);
+						break;
+				}	
+				callTaskEditorActivity((int)taskID);
+			}
+    	}
+    }
     
 	/**
 	* Inflate Menu from XML

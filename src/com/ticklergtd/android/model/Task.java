@@ -391,24 +391,24 @@ public class Task {
 	public static ArrayList<Task> getTasks(Context ctx, int context) {
 		mCtx = ctx;
 		ArrayList<Task> aux = new ArrayList<Task>();
-		ArrayList<ContextTask> cts = new ArrayList<ContextTask>();
 		
 		Task_helper();
 		Cursor c = null;
 		if (context == Utilities.SMART)
 			c = tck.selectTasks_Smart();
-		else if (context == Utilities.FULL)
-			c = tck.selectTasks_Full();
 		else if (context == Utilities.SOMEDAY)
 			c = tck.selectTasks_Someday();
+		else if (context == Utilities.LOGBOOK)
+			c = tck.selectTasks_Logbook();
 		else if (context == Utilities.INBOX)
 			c = tck.selectTasks_Inbox();
 		else
-			c = tck.selectTasks_Context(context);
+			c = tck.selectTasks_Context(context);		
 			
 		c.moveToFirst();
 		while (!c.isAfterLast()) {
 			Task t = new Task(mCtx);
+			
 			t.setId(c.getLong(0));
 			t.setName(c.getString(1));
 			t.setPriority(c.getInt(2));
@@ -420,6 +420,7 @@ public class Task {
 			t.setCompleted(Utilities.string2Date(c.getString(8)));
 			t.setAbandoned(Utilities.string2Date(c.getString(9)));			
 			t.setContexts(ContextTask.getContextsTask(t.getId(),mCtx));
+
 			aux.add(t);
 			
 			c.moveToNext();
