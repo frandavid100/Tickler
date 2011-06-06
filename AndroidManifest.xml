@@ -12,7 +12,7 @@
         <activity android:name=".TaskEditorStartDateDialog" android:theme="@android:style/Theme.Dialog"/>
         <activity android:name=".TaskEditorDeadlineDialog" android:theme="@android:style/Theme.Dialog"/>
         <activity android:name=".TaskEditorRecurrenceDialog" android:theme="@android:style/Theme.Dialog"></activity>
-        <activity android:name=".TaskEditorActivity">
-        </activity>        
+        <activity android:name=".TaskEditorActivity"></activity>
+        <activity android:name=".ListContextActivity"></activity>       
     </application>
 </manifest>

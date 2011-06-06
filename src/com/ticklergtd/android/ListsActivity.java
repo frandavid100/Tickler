@@ -242,6 +242,14 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
 		startActivity(taskEditorIntent);	
 	}
 	
+	// Calls to each optional settings dialog.
+	private void callListContextActivity(long context_id) {
+		Intent listContextIntent = new Intent(this,ListContextActivity.class);
+		listContextIntent.putExtra("context_id", context_id);
+		
+		startActivity(listContextIntent);	
+	}
+	
 	private boolean isSmartList () {
 		boolean bRes = false;
 		
@@ -335,6 +343,50 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
     	return lRes;
     }
    
+    private long getContextIdFromList(ArrayList<ContextTask> ctsk, int position) {
+    	ContextTask auxCTask;
+    	long lRes = 0;
+    	
+    	auxCTask = ctsk.get(position);
+    	
+    	if (auxCTask != null) {
+    		lRes = auxCTask.getId();
+    	}
+    	
+    	return lRes;
+    }
+   
+	/**
+	* Inflate Menu from XML
+	*/
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    super.onCreateOptionsMenu(menu);
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.lists_menu, menu);
+	    return true;
+	}
+
+	/** 
+	 * Define menu action
+	 * 
+	 * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
+	 */
+	public boolean onOptionsItemSelected(MenuItem item) {  
+	    switch (item.getItemId()) {  
+	        case R.id.reset_db_test_data:  
+	        	 setPrefsFirstRun(true);
+	        	 initDataset();
+	        	 Toast resetMessage = Toast.makeText(getApplicationContext(), "Test DB restored. Please relaunch Tickler.", Toast.LENGTH_SHORT);
+	        	 resetMessage.show();
+	        	 finish();
+	        	break;
+	        
+		  default:
+			
+	    }  
+	    return false;  
+	}
+
     class IconicCheckAdapter extends ArrayAdapter<String> {
     	IconicCheckAdapter(ArrayList<String> mStrings) {
         	super(ListsActivity.this, R.layout.task_lists_row, R.id.textView_lists_row_task_name, mStrings);
@@ -475,80 +527,23 @@ public class ListsActivity extends Activity implements OnClickListener,Runnable 
         	
         }
 
-		class chkCompletedListener implements OnCheckedChangeListener{
-        	private TextView txtTask;
-        	int position;
-			public chkCompletedListener(TextView txtTaskName, int position) {
-				this.txtTask = txtTaskName;
-				this.position = position;
-			}
-
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView,
-					boolean isChecked) {
-				if(isChecked){
-					txtTask.setPaintFlags(txtTask.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-				}
-				else{
-					txtTask.setPaintFlags(0);
-				}
-				tsk_current.get(position).setCheckedInList(!isChecked);
-			}
-        }
-        
     	class iconClickListener implements OnClickListener {
     		private int currentlist;
     		private int position;
-    		private long taskID;
+    		private long contextID;
     		public iconClickListener(int listID, int pos) {
     			this.currentlist = listID;
     			this.position = pos;
-    			this.taskID = 0;
+    			this.contextID = 0;
     		}
 			@Override
 			public void onClick(View v) { 					
-				switch (currentlist) {
-					case R.id.list_full:
-						taskID = getTaskIdFromList(tsk_current, position);
-						break;
-					case R.id.list_smart:
-						taskID = getTaskIdFromList(tsk_smart, position);
-						break;
-				}	
-				callTaskEditorActivity((int)taskID);
+				contextID = getContextIdFromList(cont_tsk,position);
+				Toast.makeText(ListsActivity.this, "" + contextID,
+	                    Toast.LENGTH_SHORT).show();
+				callListContextActivity(contextID);
 			}
     	}
     }
     
-	/**
-	* Inflate Menu from XML
-	*/
-	public boolean onCreateOptionsMenu(Menu menu) {
-	    super.onCreateOptionsMenu(menu);
-	    MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.lists_menu, menu);
-	    return true;
-	}
-
-	/** 
-	 * Define menu action
-	 * 
-	 * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
-	 */
-	public boolean onOptionsItemSelected(MenuItem item) {  
-	    switch (item.getItemId()) {  
-	        case R.id.reset_db_test_data:  
-	        	 setPrefsFirstRun(true);
-	        	 initDataset();
-	        	 Toast resetMessage = Toast.makeText(getApplicationContext(), "Test DB restored. Please relaunch Tickler.", Toast.LENGTH_SHORT);
-	        	 resetMessage.show();
-	        	 finish();
-	        	break;
-	        
-		  default:
-			
-	    }  
-	    return false;  
-	}
-	
 }
