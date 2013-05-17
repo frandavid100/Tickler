@@ -2,14 +2,17 @@
 <LinearLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="match_parent"
-  android:orientation="vertical" android:layout_height="match_parent">
+  android:orientation="vertical"
+  android:layout_height="match_parent"
+  android:padding="5dip" >
     <LinearLayout 	android:layout_width="match_parent" 
     				android:id="@+id/linearLayout" 
     				android:layout_height="wrap_content">
         <ImageView 	android:layout_width="wrap_content" 
         			android:layout_height="wrap_content" 
         			android:id="@+id/dialogIcon" 
-        			android:src="@drawable/ic_dialog_time">
+        			android:src="@drawable/ic_dialog_time"
+        			android:paddingBottom="3dip" android:paddingRight="3dip" >
         </ImageView>
         <TextView 	android:layout_width="wrap_content" 
         			android:layout_height="match_parent" 

@@ -7,15 +7,15 @@
 		<AutoCompleteTextView 	android:layout_weight="1" 
 								android:layout_height="wrap_content" 
 								android:layout_width="wrap_content" 
-								android:text="@string/task_editor_task_default_text" 
-								android:id="@+id/autoCompleteTextView_task_name">
+								android:hint="@string/task_editor_task_default_text" 
+								android:id="@+id/autoCompleteTextView_task_name" >
 		</AutoCompleteTextView>
 		<ImageView 	android:layout_width="wrap_content" 
 					android:layout_height="wrap_content" 
 					style="@style/TitleBarSeparator" 
 					android:id="@+id/imageView_separator" 
 					android:layout_marginLeft="3dip" 
-					android:layout_marginRight="3dip">
+					android:layout_marginRight="3dip" >
 		</ImageView>
 		<RadioGroup android:layout_width="wrap_content" 
 					android:orientation="horizontal" 
@@ -44,7 +44,7 @@
     </LinearLayout>
 	<MultiAutoCompleteTextView 	android:layout_height="wrap_content" 
 								android:layout_width="match_parent" 
-								android:text="@string/task_editor_task_context_default_text" 
+								android:hint="@string/task_editor_task_context_default_text" 
 								android:id="@+id/multiAutoCompleteTextView_contexts">
 	</MultiAutoCompleteTextView>
 	<TextView 	android:layout_height="wrap_content" 
@@ -73,7 +73,7 @@
 	<EditText 	android:layout_height="wrap_content" 
 				android:layout_width="match_parent" 
 				android:lines="5" 
-				android:text="@string/task_editor_task_notes_default_text" 
+				android:hint="@string/task_editor_task_notes_default_text" 
 				android:id="@+id/editText_task_notes">
 	</EditText>
 	<LinearLayout 	android:id="@+id/LinearLayout" 
